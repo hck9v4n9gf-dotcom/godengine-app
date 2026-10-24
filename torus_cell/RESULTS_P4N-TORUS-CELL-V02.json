@@ -1,0 +1,3572 @@
+{
+ "prereg": "P4N-TORUS-CELL-V02",
+ "module": "torus_cell v2.0",
+ "atlantisTicks": 953,
+ "atlantisCycles": 14,
+ "main": {
+  "rows": [
+   {
+    "seed": 1,
+    "A": {
+     "seed": 1,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 3143,
+     "censored": false,
+     "survivalCycles": 47.145,
+     "F_cut": 0.999316,
+     "F_end": 0.190356,
+     "psiCutMean": -0.016723,
+     "psiRCutMean": -0.006836,
+     "chiCutMean": 0.022698,
+     "deltaCutMean": 0.028072,
+     "RcutMean": 0.74745,
+     "psiIntEnd": -0.063247,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.749375,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.754388,
+       "F_post": 0.70848,
+       "recovery": 0.939146
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.309014,
+       "F_post": 0.321351,
+       "recovery": 1.039922
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.184318,
+       "F_post": 0.202128,
+       "recovery": 1.096624
+      }
+     ],
+     "recoveryMean": 1.025231,
+     "resets": 95,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 1,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 4020,
+     "censored": false,
+     "survivalCycles": 60.3,
+     "F_cut": 0.999316,
+     "F_end": 0.268013,
+     "psiCutMean": -0.027473,
+     "psiRCutMean": -0.020714,
+     "chiCutMean": 0.016968,
+     "deltaCutMean": 0.035957,
+     "RcutMean": 0.580899,
+     "psiIntEnd": -0.063664,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.600375,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.797126,
+       "F_post": 0.64074,
+       "recovery": 0.803812
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.550804,
+       "F_post": 0.463566,
+       "recovery": 0.841617
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.299423,
+       "F_post": 0.268625,
+       "recovery": 0.897141
+      }
+     ],
+     "recoveryMean": 0.847523,
+     "resets": 132,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 1,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 322,
+     "censored": false,
+     "survivalCycles": 4.83,
+     "F_cut": 0.985755,
+     "F_end": 0.155992,
+     "psiCutMean": -0.086037,
+     "psiRCutMean": -0.066112,
+     "chiCutMean": 0.044292,
+     "deltaCutMean": 0.108183,
+     "RcutMean": 0.873349,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.243397,
+       "F_post": 0.070106,
+       "recovery": 0.288034
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.168521,
+       "F_post": 0.160554,
+       "recovery": 0.952727
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.098062,
+       "F_post": 0.211107,
+       "recovery": 2.152784
+      }
+     ],
+     "recoveryMean": 1.131182,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 1,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 3032,
+     "censored": false,
+     "survivalCycles": 45.48,
+     "F_cut": 0.999316,
+     "F_end": 0.212866,
+     "psiCutMean": 0.005437,
+     "psiRCutMean": 0.015098,
+     "chiCutMean": 0.021322,
+     "deltaCutMean": 0.005224,
+     "RcutMean": 0.759884,
+     "psiIntEnd": -0.063391,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.738375,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.740339,
+       "F_post": 0.626,
+       "recovery": 0.845558
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.347555,
+       "F_post": 0.307741,
+       "recovery": 0.885445
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.104241,
+       "F_post": 0.251825,
+       "recovery": 2.415789
+      }
+     ],
+     "recoveryMean": 1.382264,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 1,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 3086,
+     "censored": false,
+     "survivalCycles": 46.29,
+     "F_cut": 0.999316,
+     "F_end": 0.200919,
+     "psiCutMean": -0.021169,
+     "psiRCutMean": -0.011175,
+     "chiCutMean": 0.022934,
+     "deltaCutMean": 0.032636,
+     "RcutMean": 0.752338,
+     "psiIntEnd": -0.063255,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.758375,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.743029,
+       "F_post": 0.696789,
+       "recovery": 0.937767
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.29657,
+       "F_post": 0.29711,
+       "recovery": 1.001821
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.150976,
+       "F_post": 0.165473,
+       "recovery": 1.096026
+      }
+     ],
+     "recoveryMean": 1.011871,
+     "resets": 88,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 1,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 3264,
+     "censored": false,
+     "survivalCycles": 48.96,
+     "F_cut": 0.999376,
+     "F_end": 0.207889,
+     "psiCutMean": -0.019397,
+     "psiRCutMean": -0.00982,
+     "chiCutMean": 0.022069,
+     "deltaCutMean": 0.030431,
+     "RcutMean": 0.731907,
+     "psiIntEnd": 0.005018,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.76338,
+       "F_post": 0.739147,
+       "recovery": 0.968256
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.368932,
+       "F_post": 0.386342,
+       "recovery": 1.04719
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.190811,
+       "F_post": 0.215971,
+       "recovery": 1.131858
+      }
+     ],
+     "recoveryMean": 1.049101,
+     "resets": 75,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 9.76087,
+     "ratioVsAtlantis": 3.298006
+    },
+    "B_holds": true,
+    "E_holds": true,
+    "Alt_holds": true,
+    "synergyDelta": 57,
+    "recyclingDelta": 111,
+    "sha256": "4eb24f19e1338edfe42a96f282784266a670fa055e4aa81e5446a89084c6b873"
+   },
+   {
+    "seed": 2,
+    "A": {
+     "seed": 2,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 1616,
+     "censored": false,
+     "survivalCycles": 24.24,
+     "F_cut": 0.999127,
+     "F_end": 0.188424,
+     "psiCutMean": -0.0082,
+     "psiRCutMean": 0.005636,
+     "chiCutMean": 0.029494,
+     "deltaCutMean": 0.022947,
+     "RcutMean": 0.929103,
+     "psiIntEnd": -0.063328,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.96675,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.410473,
+       "F_post": 0.368686,
+       "recovery": 0.898199
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.199219,
+       "F_post": 0.271075,
+       "recovery": 1.360688
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.278889,
+       "F_post": 0.234782,
+       "recovery": 0.841848
+      }
+     ],
+     "recoveryMean": 1.033578,
+     "resets": 85,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 2,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 336,
+     "censored": false,
+     "survivalCycles": 5.04,
+     "F_cut": 0.999127,
+     "F_end": 0.303229,
+     "psiCutMean": -0.147599,
+     "psiRCutMean": -0.144962,
+     "chiCutMean": 0.00861,
+     "deltaCutMean": 0.151904,
+     "RcutMean": 0.316835,
+     "psiIntEnd": -0.116101,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.285625,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.37393,
+       "F_post": 0.678496,
+       "recovery": 1.8145
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.443991,
+       "F_post": 0.590922,
+       "recovery": 1.330933
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.82107,
+       "F_post": 0.760862,
+       "recovery": 0.926671
+      }
+     ],
+     "recoveryMean": 1.357368,
+     "resets": 1073,
+     "restarts": 30,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 2,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 261,
+     "censored": false,
+     "survivalCycles": 3.915,
+     "F_cut": 0.984613,
+     "F_end": 0.181156,
+     "psiCutMean": -0.079549,
+     "psiRCutMean": -0.058162,
+     "chiCutMean": 0.047344,
+     "deltaCutMean": 0.103221,
+     "RcutMean": 0.936931,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.154437,
+       "F_post": 0.115973,
+       "recovery": 0.750938
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.158713,
+       "F_post": 0.12048,
+       "recovery": 0.75911
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.159506,
+       "F_post": 0.206567,
+       "recovery": 1.295043
+      }
+     ],
+     "recoveryMean": 0.93503,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 2,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 1604,
+     "censored": false,
+     "survivalCycles": 24.06,
+     "F_cut": 0.999127,
+     "F_end": 0.187853,
+     "psiCutMean": 0.009203,
+     "psiRCutMean": 0.023141,
+     "chiCutMean": 0.028908,
+     "deltaCutMean": 0.005251,
+     "RcutMean": 0.94956,
+     "psiIntEnd": -0.063218,
+     "psiPosHeldTicks": 400,
+     "loopLawFrac": 0.971125,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.440335,
+       "F_post": 0.345786,
+       "recovery": 0.78528
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.235908,
+       "F_post": 0.224721,
+       "recovery": 0.952579
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.222791,
+       "F_post": 0.196155,
+       "recovery": 0.880445
+      }
+     ],
+     "recoveryMean": 0.872768,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 2,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 1528,
+     "censored": false,
+     "survivalCycles": 22.92,
+     "F_cut": 0.999127,
+     "F_end": 0.18825,
+     "psiCutMean": -0.013505,
+     "psiRCutMean": 0.000494,
+     "chiCutMean": 0.029781,
+     "deltaCutMean": 0.028396,
+     "RcutMean": 0.932983,
+     "psiIntEnd": -0.063342,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.96875,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.365733,
+       "F_post": 0.360153,
+       "recovery": 0.984742
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.171738,
+       "F_post": 0.211248,
+       "recovery": 1.230062
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.275451,
+       "F_post": 0.232426,
+       "recovery": 0.843802
+      }
+     ],
+     "recoveryMean": 1.019535,
+     "resets": 89,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 2,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 1740,
+     "censored": false,
+     "survivalCycles": 26.1,
+     "F_cut": 0.999133,
+     "F_end": 0.175542,
+     "psiCutMean": -0.00319,
+     "psiRCutMean": 0.010562,
+     "chiCutMean": 0.029065,
+     "deltaCutMean": 0.017723,
+     "RcutMean": 0.928635,
+     "psiIntEnd": 0.004997,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.438779,
+       "F_post": 0.427251,
+       "recovery": 0.973727
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.292677,
+       "F_post": 0.259534,
+       "recovery": 0.886759
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.289301,
+       "F_post": 0.204742,
+       "recovery": 0.707714
+      }
+     ],
+     "recoveryMean": 0.856067,
+     "resets": 80,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 6.191571,
+     "ratioVsAtlantis": 1.695698
+    },
+    "B_holds": false,
+    "E_holds": true,
+    "Alt_holds": true,
+    "synergyDelta": 88,
+    "recyclingDelta": 12,
+    "sha256": "b62c44dcf49f57e0733d32a7deee8712ed0c9e3ff984650c1aee176cc388a1d4"
+   },
+   {
+    "seed": 3,
+    "A": {
+     "seed": 3,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 2575,
+     "censored": false,
+     "survivalCycles": 38.625,
+     "F_cut": 0.999139,
+     "F_end": 0.155077,
+     "psiCutMean": -0.008271,
+     "psiRCutMean": 0.001946,
+     "chiCutMean": 0.023433,
+     "deltaCutMean": 0.019987,
+     "RcutMean": 0.797228,
+     "psiIntEnd": -0.063106,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.82425,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.66766,
+       "F_post": 0.664702,
+       "recovery": 0.995568
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.312712,
+       "F_post": 0.222915,
+       "recovery": 0.712845
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.27425,
+       "F_post": 0.301089,
+       "recovery": 1.097862
+      }
+     ],
+     "recoveryMean": 0.935425,
+     "resets": 50,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 3,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 1077,
+     "censored": false,
+     "survivalCycles": 16.155,
+     "F_cut": 0.999139,
+     "F_end": 0.284951,
+     "psiCutMean": -0.06636,
+     "psiRCutMean": -0.061051,
+     "chiCutMean": 0.012798,
+     "deltaCutMean": 0.072758,
+     "RcutMean": 0.437623,
+     "psiIntEnd": -0.064127,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.43125,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.918127,
+       "F_post": 0.681653,
+       "recovery": 0.742439
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.770385,
+       "F_post": 0.761313,
+       "recovery": 0.988224
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.242616,
+       "F_post": 0.257848,
+       "recovery": 1.062784
+      }
+     ],
+     "recoveryMean": 0.931149,
+     "resets": 400,
+     "restarts": 7,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 3,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 359,
+     "censored": false,
+     "survivalCycles": 5.385,
+     "F_cut": 0.983787,
+     "F_end": 0.206291,
+     "psiCutMean": -0.084707,
+     "psiRCutMean": -0.063428,
+     "chiCutMean": 0.04671,
+     "deltaCutMean": 0.108062,
+     "RcutMean": 0.909657,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.122374,
+       "F_post": 0.073904,
+       "recovery": 0.603922
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.217688,
+       "F_post": 0.186427,
+       "recovery": 0.856396
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.141477,
+       "F_post": 0.079698,
+       "recovery": 0.563329
+      }
+     ],
+     "recoveryMean": 0.674549,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 3,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 2013,
+     "censored": false,
+     "survivalCycles": 30.195,
+     "F_cut": 0.999139,
+     "F_end": 0.213804,
+     "psiCutMean": 0.006432,
+     "psiRCutMean": 0.017336,
+     "chiCutMean": 0.023956,
+     "deltaCutMean": 0.005546,
+     "RcutMean": 0.828924,
+     "psiIntEnd": -0.063201,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.839375,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.566825,
+       "F_post": 0.416178,
+       "recovery": 0.734227
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.345491,
+       "F_post": 0.21758,
+       "recovery": 0.62977
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.286137,
+       "F_post": 0.254718,
+       "recovery": 0.890199
+      }
+     ],
+     "recoveryMean": 0.751399,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 3,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 2503,
+     "censored": false,
+     "survivalCycles": 37.545,
+     "F_cut": 0.999139,
+     "F_end": 0.147166,
+     "psiCutMean": -0.003061,
+     "psiRCutMean": 0.007358,
+     "chiCutMean": 0.023624,
+     "deltaCutMean": 0.014873,
+     "RcutMean": 0.804812,
+     "psiIntEnd": -0.063095,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.8275,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.644751,
+       "F_post": 0.647737,
+       "recovery": 1.004631
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.334633,
+       "F_post": 0.27299,
+       "recovery": 0.815791
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.273588,
+       "F_post": 0.319339,
+       "recovery": 1.167225
+      }
+     ],
+     "recoveryMean": 0.995882,
+     "resets": 52,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 3,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 2375,
+     "censored": false,
+     "survivalCycles": 35.625,
+     "F_cut": 0.999207,
+     "F_end": 0.193053,
+     "psiCutMean": -0.003324,
+     "psiRCutMean": 0.007027,
+     "chiCutMean": 0.023578,
+     "deltaCutMean": 0.015113,
+     "RcutMean": 0.805271,
+     "psiIntEnd": 0.005086,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.641185,
+       "F_post": 0.663682,
+       "recovery": 1.035087
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.294187,
+       "F_post": 0.207582,
+       "recovery": 0.705614
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.269897,
+       "F_post": 0.345231,
+       "recovery": 1.279122
+      }
+     ],
+     "recoveryMean": 1.006607,
+     "resets": 43,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 7.172702,
+     "ratioVsAtlantis": 2.701994
+    },
+    "B_holds": false,
+    "E_holds": true,
+    "Alt_holds": true,
+    "synergyDelta": 72,
+    "recyclingDelta": 562,
+    "sha256": "1d6388c2556e6480b360631ef317b02e72aed23bff9a743e46484eb4487901bc"
+   },
+   {
+    "seed": 4,
+    "A": {
+     "seed": 4,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 1606,
+     "censored": false,
+     "survivalCycles": 24.09,
+     "F_cut": 0.999222,
+     "F_end": 0.156413,
+     "psiCutMean": -0.006316,
+     "psiRCutMean": 0.007346,
+     "chiCutMean": 0.029466,
+     "deltaCutMean": 0.021049,
+     "RcutMean": 0.93285,
+     "psiIntEnd": -0.063181,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.98725,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.379786,
+       "F_post": 0.395696,
+       "recovery": 1.041893
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.194909,
+       "F_post": 0.243802,
+       "recovery": 1.250852
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.134312,
+       "F_post": 0.225609,
+       "recovery": 1.679739
+      }
+     ],
+     "recoveryMean": 1.324161,
+     "resets": 87,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 4,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 65,
+     "censored": false,
+     "survivalCycles": 0.975,
+     "F_cut": 0.999222,
+     "F_end": 0.525056,
+     "psiCutMean": -0.214257,
+     "psiRCutMean": -0.21451,
+     "chiCutMean": 0.000646,
+     "deltaCutMean": 0.21458,
+     "RcutMean": 0.094951,
+     "psiIntEnd": -0.101398,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.454051,
+       "F_post": 0.407481,
+       "recovery": 0.897436
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.569155,
+       "F_post": 0.426235,
+       "recovery": 0.74889
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.411052,
+       "F_post": 0.325011,
+       "recovery": 0.790682
+      }
+     ],
+     "recoveryMean": 0.812336,
+     "resets": 1750,
+     "restarts": 60,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 4,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 253,
+     "censored": false,
+     "survivalCycles": 3.795,
+     "F_cut": 0.98332,
+     "F_end": 0.119625,
+     "psiCutMean": -0.088246,
+     "psiRCutMean": -0.070387,
+     "chiCutMean": 0.04152,
+     "deltaCutMean": 0.109006,
+     "RcutMean": 0.845074,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.156049,
+       "F_post": 0.095672,
+       "recovery": 0.61309
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.127268,
+       "F_post": 0.067115,
+       "recovery": 0.527348
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.223942,
+       "F_post": 0.331955,
+       "recovery": 1.482327
+      }
+     ],
+     "recoveryMean": 0.874255,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 4,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 980,
+     "censored": false,
+     "survivalCycles": 14.7,
+     "F_cut": 0.999222,
+     "F_end": 0.170784,
+     "psiCutMean": 0.009262,
+     "psiRCutMean": 0.023022,
+     "chiCutMean": 0.028967,
+     "deltaCutMean": 0.005221,
+     "RcutMean": 0.954891,
+     "psiIntEnd": -0.063208,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.986875,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.355199,
+       "F_post": 0.369797,
+       "recovery": 1.041098
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.228598,
+       "F_post": 0.291723,
+       "recovery": 1.276141
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.240025,
+       "F_post": 0.155703,
+       "recovery": 0.648695
+      }
+     ],
+     "recoveryMean": 0.988644,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 4,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 1514,
+     "censored": false,
+     "survivalCycles": 22.71,
+     "F_cut": 0.999222,
+     "F_end": 0.161482,
+     "psiCutMean": -0.015939,
+     "psiRCutMean": -0.001989,
+     "chiCutMean": 0.030251,
+     "deltaCutMean": 0.031065,
+     "RcutMean": 0.937876,
+     "psiIntEnd": -0.063197,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.98775,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.326291,
+       "F_post": 0.34412,
+       "recovery": 1.054642
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.184549,
+       "F_post": 0.298899,
+       "recovery": 1.619621
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.146566,
+       "F_post": 0.177646,
+       "recovery": 1.212049
+      }
+     ],
+     "recoveryMean": 1.295438,
+     "resets": 81,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 4,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 1672,
+     "censored": false,
+     "survivalCycles": 25.08,
+     "F_cut": 0.999258,
+     "F_end": 0.186238,
+     "psiCutMean": -0.013177,
+     "psiRCutMean": 0.000504,
+     "chiCutMean": 0.029561,
+     "deltaCutMean": 0.027958,
+     "RcutMean": 0.930743,
+     "psiIntEnd": 0.005103,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.463525,
+       "F_post": 0.446058,
+       "recovery": 0.962318
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.196531,
+       "F_post": 0.256921,
+       "recovery": 1.307282
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.208566,
+       "F_post": 0.254433,
+       "recovery": 1.219915
+      }
+     ],
+     "recoveryMean": 1.163172,
+     "resets": 78,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 6.347826,
+     "ratioVsAtlantis": 1.685205
+    },
+    "B_holds": false,
+    "E_holds": false,
+    "Alt_holds": true,
+    "synergyDelta": 92,
+    "recyclingDelta": 626,
+    "sha256": "c3bb2c5ce71fc4ce2c21b3b09856da8a49ef7310d570d07a573efffcf695fce4"
+   },
+   {
+    "seed": 5,
+    "A": {
+     "seed": 5,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 3043,
+     "censored": false,
+     "survivalCycles": 45.645,
+     "F_cut": 0.99925,
+     "F_end": 0.133002,
+     "psiCutMean": -0.020777,
+     "psiRCutMean": -0.010576,
+     "chiCutMean": 0.022855,
+     "deltaCutMean": 0.032204,
+     "RcutMean": 0.739684,
+     "psiIntEnd": -0.063152,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.748,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.80623,
+       "F_post": 0.725015,
+       "recovery": 0.899265
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.250056,
+       "F_post": 0.237574,
+       "recovery": 0.950084
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.183193,
+       "F_post": 0.252716,
+       "recovery": 1.379507
+      }
+     ],
+     "recoveryMean": 1.076285,
+     "resets": 88,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 5,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 3735,
+     "censored": false,
+     "survivalCycles": 56.025,
+     "F_cut": 0.99925,
+     "F_end": 0.1382,
+     "psiCutMean": -0.025602,
+     "psiRCutMean": -0.016512,
+     "chiCutMean": 0.020721,
+     "deltaCutMean": 0.035962,
+     "RcutMean": 0.667998,
+     "psiIntEnd": -0.063488,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.6525,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.755849,
+       "F_post": 0.723118,
+       "recovery": 0.956696
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.428182,
+       "F_post": 0.400249,
+       "recovery": 0.934764
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.298951,
+       "F_post": 0.228464,
+       "recovery": 0.764219
+      }
+     ],
+     "recoveryMean": 0.885226,
+     "resets": 132,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 5,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 247,
+     "censored": false,
+     "survivalCycles": 3.705,
+     "F_cut": 0.982283,
+     "F_end": 0.106847,
+     "psiCutMean": -0.085557,
+     "psiRCutMean": -0.064843,
+     "chiCutMean": 0.046332,
+     "deltaCutMean": 0.108723,
+     "RcutMean": 0.910128,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.137074,
+       "F_post": 0.129591,
+       "recovery": 0.945413
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.111819,
+       "F_post": 0.151672,
+       "recovery": 1.356402
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.171807,
+       "F_post": 0.25139,
+       "recovery": 1.463212
+      }
+     ],
+     "recoveryMean": 1.255009,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 5,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 2485,
+     "censored": false,
+     "survivalCycles": 37.275,
+     "F_cut": 0.99925,
+     "F_end": 0.125788,
+     "psiCutMean": 0.006039,
+     "psiRCutMean": 0.016944,
+     "chiCutMean": 0.023147,
+     "deltaCutMean": 0.005534,
+     "RcutMean": 0.790377,
+     "psiIntEnd": -0.063288,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.76325,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.792711,
+       "F_post": 0.691466,
+       "recovery": 0.87228
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.361602,
+       "F_post": 0.29644,
+       "recovery": 0.819797
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.196504,
+       "F_post": 0.239692,
+       "recovery": 1.219784
+      }
+     ],
+     "recoveryMean": 0.97062,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 5,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 2935,
+     "censored": false,
+     "survivalCycles": 44.025,
+     "F_cut": 0.99925,
+     "F_end": 0.134063,
+     "psiCutMean": -0.020506,
+     "psiRCutMean": -0.009965,
+     "chiCutMean": 0.023401,
+     "deltaCutMean": 0.032206,
+     "RcutMean": 0.750185,
+     "psiIntEnd": -0.063152,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.751625,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.800255,
+       "F_post": 0.734447,
+       "recovery": 0.917766
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.25264,
+       "F_post": 0.232605,
+       "recovery": 0.920699
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.210786,
+       "F_post": 0.139662,
+       "recovery": 0.662578
+      }
+     ],
+     "recoveryMean": 0.833681,
+     "resets": 89,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 5,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 2781,
+     "censored": false,
+     "survivalCycles": 41.715,
+     "F_cut": 0.999335,
+     "F_end": 0.153279,
+     "psiCutMean": -0.011332,
+     "psiRCutMean": -0.00067,
+     "chiCutMean": 0.023544,
+     "deltaCutMean": 0.023104,
+     "RcutMean": 0.772799,
+     "psiIntEnd": 0.005145,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.798854,
+       "F_post": 0.734846,
+       "recovery": 0.919875
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.322466,
+       "F_post": 0.257529,
+       "recovery": 0.798624
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.214331,
+       "F_post": 0.267645,
+       "recovery": 1.248744
+      }
+     ],
+     "recoveryMean": 0.989081,
+     "resets": 88,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 12.319838,
+     "ratioVsAtlantis": 3.193075
+    },
+    "B_holds": true,
+    "E_holds": true,
+    "Alt_holds": true,
+    "synergyDelta": 108,
+    "recyclingDelta": 558,
+    "sha256": "c08db030d227f686ef4c22fde7d4635d7992511adb56887e78c011621f9e8a52"
+   },
+   {
+    "seed": 6,
+    "A": {
+     "seed": 6,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 3425,
+     "censored": false,
+     "survivalCycles": 51.375,
+     "F_cut": 0.99931,
+     "F_end": 0.227982,
+     "psiCutMean": -0.010822,
+     "psiRCutMean": -0.001485,
+     "chiCutMean": 0.021834,
+     "deltaCutMean": 0.021739,
+     "RcutMean": 0.739649,
+     "psiIntEnd": -0.063486,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.751,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.793517,
+       "F_post": 0.553333,
+       "recovery": 0.697318
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.404848,
+       "F_post": 0.403329,
+       "recovery": 0.996248
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.278149,
+       "F_post": 0.17731,
+       "recovery": 0.637463
+      }
+     ],
+     "recoveryMean": 0.77701,
+     "resets": 71,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 6,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 2511,
+     "censored": false,
+     "survivalCycles": 37.665,
+     "F_cut": 0.99931,
+     "F_end": 0.165933,
+     "psiCutMean": -0.021556,
+     "psiRCutMean": -0.009855,
+     "chiCutMean": 0.026094,
+     "deltaCutMean": 0.034603,
+     "RcutMean": 0.831326,
+     "psiIntEnd": -0.063186,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.847125,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.666722,
+       "F_post": 0.662065,
+       "recovery": 0.993014
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.328713,
+       "F_post": 0.39737,
+       "recovery": 1.208864
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.279269,
+       "F_post": 0.210809,
+       "recovery": 0.75486
+      }
+     ],
+     "recoveryMean": 0.985579,
+     "resets": 158,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 6,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 243,
+     "censored": false,
+     "survivalCycles": 3.645,
+     "F_cut": 0.985673,
+     "F_end": 0.18102,
+     "psiCutMean": -0.083087,
+     "psiRCutMean": -0.062834,
+     "chiCutMean": 0.045417,
+     "deltaCutMean": 0.105796,
+     "RcutMean": 0.904112,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.170263,
+       "F_post": 0.125548,
+       "recovery": 0.737373
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.167058,
+       "F_post": 0.224677,
+       "recovery": 1.344907
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.102335,
+       "F_post": 0.132418,
+       "recovery": 1.293972
+      }
+     ],
+     "recoveryMean": 1.125417,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 6,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 2046,
+     "censored": false,
+     "survivalCycles": 30.69,
+     "F_cut": 0.99931,
+     "F_end": 0.210762,
+     "psiCutMean": 0.005575,
+     "psiRCutMean": 0.014588,
+     "chiCutMean": 0.020837,
+     "deltaCutMean": 0.004844,
+     "RcutMean": 0.752763,
+     "psiIntEnd": -0.063778,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.743875,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.798069,
+       "F_post": 0.486772,
+       "recovery": 0.609938
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.334344,
+       "F_post": 0.290969,
+       "recovery": 0.87027
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.235772,
+       "F_post": 0.109567,
+       "recovery": 0.464716
+      }
+     ],
+     "recoveryMean": 0.648308,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 6,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 3386,
+     "censored": false,
+     "survivalCycles": 50.79,
+     "F_cut": 0.99931,
+     "F_end": 0.223141,
+     "psiCutMean": -0.013004,
+     "psiRCutMean": -0.003434,
+     "chiCutMean": 0.022189,
+     "deltaCutMean": 0.024098,
+     "RcutMean": 0.747677,
+     "psiIntEnd": -0.063484,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.761625,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.784608,
+       "F_post": 0.541894,
+       "recovery": 0.690655
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.366949,
+       "F_post": 0.384998,
+       "recovery": 1.049187
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.266465,
+       "F_post": 0.154814,
+       "recovery": 0.580993
+      }
+     ],
+     "recoveryMean": 0.773612,
+     "resets": 72,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 6,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 3546,
+     "censored": false,
+     "survivalCycles": 53.19,
+     "F_cut": 0.999384,
+     "F_end": 0.270294,
+     "psiCutMean": -0.009432,
+     "psiRCutMean": -0.00054,
+     "chiCutMean": 0.020908,
+     "deltaCutMean": 0.019886,
+     "RcutMean": 0.72298,
+     "psiIntEnd": 0.004688,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.807539,
+       "F_post": 0.629201,
+       "recovery": 0.779159
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.454343,
+       "F_post": 0.500883,
+       "recovery": 1.102434
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.314154,
+       "F_post": 0.306237,
+       "recovery": 0.974801
+      }
+     ],
+     "recoveryMean": 0.952131,
+     "resets": 73,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 14.09465,
+     "ratioVsAtlantis": 3.593914
+    },
+    "B_holds": true,
+    "E_holds": true,
+    "Alt_holds": true,
+    "synergyDelta": 39,
+    "recyclingDelta": 1379,
+    "sha256": "895efb7477decddc04a5e234bc1757493ba7798d13ae2aec083c7593623c875f"
+   },
+   {
+    "seed": 7,
+    "A": {
+     "seed": 7,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 2036,
+     "censored": false,
+     "survivalCycles": 30.54,
+     "F_cut": 0.999407,
+     "F_end": 0.182007,
+     "psiCutMean": -0.015388,
+     "psiRCutMean": -0.002958,
+     "chiCutMean": 0.02714,
+     "deltaCutMean": 0.028958,
+     "RcutMean": 0.856655,
+     "psiIntEnd": -0.063354,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.873875,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.534754,
+       "F_post": 0.517657,
+       "recovery": 0.968029
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.258952,
+       "F_post": 0.288944,
+       "recovery": 1.115821
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.126522,
+       "F_post": 0.089753,
+       "recovery": 0.709391
+      }
+     ],
+     "recoveryMean": 0.93108,
+     "resets": 107,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 7,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 2672,
+     "censored": false,
+     "survivalCycles": 40.08,
+     "F_cut": 0.999407,
+     "F_end": 0.137165,
+     "psiCutMean": -0.025258,
+     "psiRCutMean": -0.013863,
+     "chiCutMean": 0.025026,
+     "deltaCutMean": 0.03777,
+     "RcutMean": 0.786291,
+     "psiIntEnd": -0.063487,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.80775,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.739874,
+       "F_post": 0.674999,
+       "recovery": 0.912317
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.277061,
+       "F_post": 0.260005,
+       "recovery": 0.938441
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.233624,
+       "F_post": 0.203661,
+       "recovery": 0.871747
+      }
+     ],
+     "recoveryMean": 0.907502,
+     "resets": 100,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 7,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 310,
+     "censored": false,
+     "survivalCycles": 4.65,
+     "F_cut": 0.984001,
+     "F_end": 0.132358,
+     "psiCutMean": -0.082728,
+     "psiRCutMean": -0.061331,
+     "chiCutMean": 0.047468,
+     "deltaCutMean": 0.106461,
+     "RcutMean": 0.930617,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.164519,
+       "F_post": 0.155021,
+       "recovery": 0.94227
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.125904,
+       "F_post": 0.198521,
+       "recovery": 1.576761
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.099909,
+       "F_post": 0.196274,
+       "recovery": 1.964519
+      }
+     ],
+     "recoveryMean": 1.494517,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 7,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 1989,
+     "censored": false,
+     "survivalCycles": 29.835,
+     "F_cut": 0.999407,
+     "F_end": 0.163712,
+     "psiCutMean": 0.007128,
+     "psiRCutMean": 0.019333,
+     "chiCutMean": 0.025782,
+     "deltaCutMean": 0.005763,
+     "RcutMean": 0.863296,
+     "psiIntEnd": -0.063316,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.86025,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.497778,
+       "F_post": 0.35078,
+       "recovery": 0.704691
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.220629,
+       "F_post": 0.178445,
+       "recovery": 0.808802
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.132003,
+       "F_post": 0.278957,
+       "recovery": 2.11326
+      }
+     ],
+     "recoveryMean": 1.208918,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 7,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 2010,
+     "censored": false,
+     "survivalCycles": 30.15,
+     "F_cut": 0.999407,
+     "F_end": 0.180252,
+     "psiCutMean": -0.018531,
+     "psiRCutMean": -0.005687,
+     "chiCutMean": 0.02778,
+     "deltaCutMean": 0.032421,
+     "RcutMean": 0.861617,
+     "psiIntEnd": -0.063368,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.87925,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.530826,
+       "F_post": 0.494468,
+       "recovery": 0.931508
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.212669,
+       "F_post": 0.222331,
+       "recovery": 1.045436
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.132863,
+       "F_post": 0.277993,
+       "recovery": 2.09232
+      }
+     ],
+     "recoveryMean": 1.356421,
+     "resets": 128,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 7,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 2179,
+     "censored": false,
+     "survivalCycles": 32.685,
+     "F_cut": 0.999496,
+     "F_end": 0.166883,
+     "psiCutMean": -0.014727,
+     "psiRCutMean": -0.00224,
+     "chiCutMean": 0.027002,
+     "deltaCutMean": 0.028228,
+     "RcutMean": 0.854004,
+     "psiIntEnd": 0.005036,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.537201,
+       "F_post": 0.570681,
+       "recovery": 1.062325
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.28854,
+       "F_post": 0.425814,
+       "recovery": 1.475753
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.117836,
+       "F_post": 0.177405,
+       "recovery": 1.505521
+      }
+     ],
+     "recoveryMean": 1.347866,
+     "resets": 105,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 6.567742,
+     "ratioVsAtlantis": 2.136411
+    },
+    "B_holds": true,
+    "E_holds": true,
+    "Alt_holds": true,
+    "synergyDelta": 26,
+    "recyclingDelta": 47,
+    "sha256": "2f04d3fc20d2241c58da171875e8e2ea53f5e83ece78b001a762db5fe335a911"
+   },
+   {
+    "seed": 8,
+    "A": {
+     "seed": 8,
+     "arm": "A cell+anchor",
+     "Pi": 0.076,
+     "survival": 1476,
+     "censored": false,
+     "survivalCycles": 22.14,
+     "F_cut": 0.999065,
+     "F_end": 0.092996,
+     "psiCutMean": -0.005751,
+     "psiRCutMean": 0.007728,
+     "chiCutMean": 0.029036,
+     "deltaCutMean": 0.020268,
+     "RcutMean": 0.931986,
+     "psiIntEnd": -0.063418,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.985,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.397623,
+       "F_post": 0.464118,
+       "recovery": 1.16723
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.246883,
+       "F_post": 0.243527,
+       "recovery": 0.986408
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.144286,
+       "F_post": 0.161447,
+       "recovery": 1.11894
+      }
+     ],
+     "recoveryMean": 1.090859,
+     "resets": 73,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "B": {
+     "seed": 8,
+     "arm": "B cell, anchor cut",
+     "Pi": 0.076,
+     "survival": 1548,
+     "censored": false,
+     "survivalCycles": 23.22,
+     "F_cut": 0.999065,
+     "F_end": 0.163668,
+     "psiCutMean": -0.008818,
+     "psiRCutMean": 0.00531,
+     "chiCutMean": 0.029891,
+     "deltaCutMean": 0.023764,
+     "RcutMean": 0.935926,
+     "psiIntEnd": -0.063404,
+     "psiPosHeldTicks": 100,
+     "loopLawFrac": 0.981875,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.405489,
+       "F_post": 0.340684,
+       "recovery": 0.84018
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.242281,
+       "F_post": 0.260982,
+       "recovery": 1.077187
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.177756,
+       "F_post": 0.146318,
+       "recovery": 0.823137
+      }
+     ],
+     "recoveryMean": 0.913502,
+     "resets": 73,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "C": {
+     "seed": 8,
+     "arm": "C no cell (Π=1)+anchor",
+     "Pi": 1,
+     "survival": 176,
+     "censored": false,
+     "survivalCycles": 2.64,
+     "F_cut": 0.987095,
+     "F_end": 0.130536,
+     "psiCutMean": -0.080666,
+     "psiRCutMean": -0.05893,
+     "chiCutMean": 0.047807,
+     "deltaCutMean": 0.10457,
+     "RcutMean": 0.938956,
+     "psiIntEnd": -1.005,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 1,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.121901,
+       "F_post": 0.137113,
+       "recovery": 1.124791
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.186024,
+       "F_post": 0.141431,
+       "recovery": 0.760286
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.177458,
+       "F_post": 0.122974,
+       "recovery": 0.692972
+      }
+     ],
+     "recoveryMean": 0.859349,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 0,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "E": {
+     "seed": 8,
+     "arm": "E cell, recycling off",
+     "Pi": 0.076,
+     "survival": 1424,
+     "censored": false,
+     "survivalCycles": 21.36,
+     "F_cut": 0.999065,
+     "F_end": 0.092252,
+     "psiCutMean": 0.009453,
+     "psiRCutMean": 0.023185,
+     "chiCutMean": 0.028877,
+     "deltaCutMean": 0.004985,
+     "RcutMean": 0.953654,
+     "psiIntEnd": -0.06348,
+     "psiPosHeldTicks": 200,
+     "loopLawFrac": 0.984375,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.392871,
+       "F_post": 0.29947,
+       "recovery": 0.762259
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.210241,
+       "F_post": 0.110355,
+       "recovery": 0.5249
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.132833,
+       "F_post": 0.183002,
+       "recovery": 1.377684
+      }
+     ],
+     "recoveryMean": 0.888281,
+     "resets": 0,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "F": {
+     "seed": 8,
+     "arm": "F cell, synergy off",
+     "Pi": 0.076,
+     "survival": 1421,
+     "censored": false,
+     "survivalCycles": 21.315,
+     "F_cut": 0.999065,
+     "F_end": 0.094453,
+     "psiCutMean": -0.011501,
+     "psiRCutMean": 0.002247,
+     "chiCutMean": 0.0296,
+     "deltaCutMean": 0.026301,
+     "RcutMean": 0.935557,
+     "psiIntEnd": -0.063438,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0.985375,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.45756,
+       "F_post": 0.320522,
+       "recovery": 0.700503
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.242246,
+       "F_post": 0.131015,
+       "recovery": 0.540834
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.142703,
+       "F_post": 0.198857,
+       "recovery": 1.393502
+      }
+     ],
+     "recoveryMean": 0.87828,
+     "resets": 73,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "Alt": {
+     "seed": 8,
+     "arm": "A′ cell+anchor, attenuation 0.99",
+     "Pi": 0.0095,
+     "survival": 1597,
+     "censored": false,
+     "survivalCycles": 23.955,
+     "F_cut": 0.999091,
+     "F_end": 0.117288,
+     "psiCutMean": -0.010542,
+     "psiRCutMean": 0.002755,
+     "chiCutMean": 0.028869,
+     "deltaCutMean": 0.024977,
+     "RcutMean": 0.928117,
+     "psiIntEnd": 0.004867,
+     "psiPosHeldTicks": 0,
+     "loopLawFrac": 0,
+     "recovery": [
+      {
+       "kick": 2000,
+       "F_pre": 0.424342,
+       "F_post": 0.29143,
+       "recovery": 0.686779
+      },
+      {
+       "kick": 4000,
+       "F_pre": 0.230201,
+       "F_post": 0.130513,
+       "recovery": 0.566953
+      },
+      {
+       "kick": 6000,
+       "F_pre": 0.137271,
+       "F_post": 0.205836,
+       "recovery": 1.499488
+      }
+     ],
+     "recoveryMean": 0.91774,
+     "resets": 69,
+     "restarts": 0,
+     "gapTicks": 800,
+     "seats": [
+      0,
+      5,
+      9,
+      14,
+      18,
+      23,
+      27
+     ]
+    },
+    "verdict": {
+     "atlantisTicks": 953,
+     "need": 1429.5,
+     "pass": true,
+     "ratioVsC": 8.386364,
+     "ratioVsAtlantis": 1.548793
+    },
+    "B_holds": true,
+    "E_holds": false,
+    "Alt_holds": true,
+    "synergyDelta": 55,
+    "recyclingDelta": 52,
+    "sha256": "8741e2dfe677e7920d40d31aea99156c2e829b44679c31ead15eece049d5de13"
+   }
+  ],
+  "passN": 8,
+  "need": 7,
+  "OVERALL": "PASS"
+ },
+ "predictionB": {
+  "B_holds_in": 5,
+  "canon_prediction_confirmed": false,
+  "note": "confirmed iff B fails in >=7/8"
+ },
+ "negativeControl": {
+  "C_survives_past_1p5xAtlantis_in": 0,
+  "passed": true
+ },
+ "recoveringCoordinate": {
+  "points": 72,
+  "failing": 14,
+  "found": true,
+  "failingPoints": [
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 492,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 548,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 631,
+    "C": 142,
+    "pass": false
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 624,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 514,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 489,
+    "C": 142,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 547,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 599,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1363,
+    "C": 97,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 533,
+    "C": 142,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 599,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1363,
+    "C": 375,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 533,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 368,
+    "C": 142,
+    "pass": false
+   }
+  ],
+  "sweep": [
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 1280,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3885,
+    "C": 681,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3465,
+    "C": 833,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1620,
+    "C": 373,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1439,
+    "C": 440,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 492,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 321,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3874,
+    "C": 275,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3264,
+    "C": 322,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1740,
+    "C": 261,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1465,
+    "C": 375,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 548,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 93,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3900,
+    "C": 132,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3192,
+    "C": 94,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1746,
+    "C": 134,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1509,
+    "C": 97,
+    "pass": true
+   },
+   {
+    "Pi": 0.0095,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 631,
+    "C": 142,
+    "pass": false
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 1280,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3883,
+    "C": 681,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3184,
+    "C": 833,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1744,
+    "C": 373,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1452,
+    "C": 440,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 624,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 321,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3768,
+    "C": 275,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3143,
+    "C": 322,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1616,
+    "C": 261,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1472,
+    "C": 375,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 514,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 7930,
+    "C": 93,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3499,
+    "C": 132,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 2978,
+    "C": 94,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1634,
+    "C": 134,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1483,
+    "C": 97,
+    "pass": true
+   },
+   {
+    "Pi": 0.076,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 489,
+    "C": 142,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 1280,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3729,
+    "C": 681,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3015,
+    "C": 833,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1623,
+    "C": 373,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1478,
+    "C": 440,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 547,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 321,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3282,
+    "C": 275,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3161,
+    "C": 322,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1465,
+    "C": 261,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1448,
+    "C": 375,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 599,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 7147,
+    "C": 93,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3159,
+    "C": 132,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3264,
+    "C": 94,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1586,
+    "C": 134,
+    "pass": true
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1363,
+    "C": 97,
+    "pass": false
+   },
+   {
+    "Pi": 0.25,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 533,
+    "C": 142,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 1280,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.25,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3282,
+    "C": 681,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3161,
+    "C": 833,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.25,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1465,
+    "C": 373,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1448,
+    "C": 440,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.25,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 599,
+    "C": 215,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 7147,
+    "C": 321,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 3159,
+    "C": 275,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 3264,
+    "C": 322,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1586,
+    "C": 261,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1363,
+    "C": 375,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 0.5,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 533,
+    "C": 187,
+    "pass": false
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 1,
+    "A": 8000,
+    "C": 93,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 1,
+    "Kscale": 0.5,
+    "seed": 2,
+    "A": 6679,
+    "C": 132,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 1,
+    "A": 5665,
+    "C": 94,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 1,
+    "Kscale": 1,
+    "seed": 2,
+    "A": 1820,
+    "C": 134,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 1,
+    "A": 1955,
+    "C": 97,
+    "pass": true
+   },
+   {
+    "Pi": 0.5,
+    "sigmaExt": 1,
+    "Kscale": 2,
+    "seed": 2,
+    "A": 368,
+    "C": 142,
+    "pass": false
+   }
+  ]
+ },
+ "scaleTopology": [
+  {
+   "name": "N33 nearest-neighbour {1}",
+   "N": 33,
+   "gens": [
+    1
+   ],
+   "rows": [
+    {
+     "seed": 1,
+     "A": 2007,
+     "C": 251,
+     "pass": true
+    },
+    {
+     "seed": 2,
+     "A": 3101,
+     "C": 266,
+     "pass": true
+    },
+    {
+     "seed": 3,
+     "A": 6011,
+     "C": 338,
+     "pass": true
+    },
+    {
+     "seed": 4,
+     "A": 2912,
+     "C": 250,
+     "pass": true
+    }
+   ],
+   "passN": 4,
+   "holds": true
+  },
+  {
+   "name": "N33 Cayley {5,8,13}",
+   "N": 33,
+   "gens": [
+    5,
+    8,
+    13
+   ],
+   "rows": [
+    {
+     "seed": 1,
+     "A": 1915,
+     "C": 264,
+     "pass": true
+    },
+    {
+     "seed": 2,
+     "A": 1625,
+     "C": 256,
+     "pass": true
+    },
+    {
+     "seed": 3,
+     "A": 4036,
+     "C": 439,
+     "pass": true
+    },
+    {
+     "seed": 4,
+     "A": 1920,
+     "C": 274,
+     "pass": true
+    }
+   ],
+   "passN": 4,
+   "holds": true
+  },
+  {
+   "name": "N33 V1 chord {1,2,3,5,8,13,21}",
+   "N": 33,
+   "gens": [
+    1,
+    2,
+    3,
+    5,
+    8,
+    13,
+    21
+   ],
+   "rows": [
+    {
+     "seed": 1,
+     "A": 1609,
+     "C": 287,
+     "pass": true
+    },
+    {
+     "seed": 2,
+     "A": 1217,
+     "C": 255,
+     "pass": false
+    },
+    {
+     "seed": 3,
+     "A": 2608,
+     "C": 370,
+     "pass": true
+    },
+    {
+     "seed": 4,
+     "A": 1351,
+     "C": 272,
+     "pass": false
+    }
+   ],
+   "passN": 2,
+   "holds": false
+  },
+  {
+   "name": "N21 Cayley {1,6,10}",
+   "N": 21,
+   "gens": [
+    1,
+    6,
+    10
+   ],
+   "rows": [
+    {
+     "seed": 1,
+     "A": 6012,
+     "C": 337,
+     "pass": true
+    },
+    {
+     "seed": 2,
+     "A": 2778,
+     "C": 227,
+     "pass": true
+    },
+    {
+     "seed": 3,
+     "A": 1259,
+     "C": 344,
+     "pass": false
+    },
+    {
+     "seed": 4,
+     "A": 1335,
+     "C": 246,
+     "pass": false
+    }
+   ],
+   "passN": 2,
+   "holds": false
+  },
+  {
+   "name": "N55 Cayley {1,17,25}",
+   "N": 55,
+   "gens": [
+    1,
+    17,
+    25
+   ],
+   "rows": [
+    {
+     "seed": 1,
+     "A": 2029,
+     "C": 338,
+     "pass": true
+    },
+    {
+     "seed": 2,
+     "A": 6007,
+     "C": 382,
+     "pass": true
+    },
+    {
+     "seed": 3,
+     "A": 2752,
+     "C": 407,
+     "pass": true
+    },
+    {
+     "seed": 4,
+     "A": 1623,
+     "C": 269,
+     "pass": true
+    }
+   ],
+   "passN": 4,
+   "holds": true
+  }
+ ],
+ "generalizes": false,
+ "results_sha256": "493997460fed4889ba4d31a2a27aad217e8b873ac9e674020fa7445123556454"
+}

@@ -1,0 +1,62 @@
+{
+ "id": "P4N-TORUS-CELL-V01",
+ "claim": "consciousness_claim=none",
+ "label": "pattern self-holding test",
+ "criterion": "PASS iff in >= 7 of 8 test seeds (1..8) BOTH: (P1) cell fidelity half-life >= 3x control half-life (cell censored value counts as a lower bound) AND (P2) canonical Psi (Omega=0.5 app drive) > 0 for >= 500 consecutive ticks during CUT in the cell arm WHILE the pattern is held (smoothed fidelity >= half-level), so a collapsed/synchronised ring cannot satisfy P2. Anything else = FAIL. Recovery, R, harness-Omega Psi are report-only.",
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "devSeeds": [
+  1001,
+  1002,
+  1003
+ ],
+ "params": {
+  "N": 33,
+  "dt": 0.05,
+  "alphaDeg": 1.00811,
+  "jitter": 0.02,
+  "omegaDrive": 0.5,
+  "reliefR": 0.88,
+  "tSup": 1000,
+  "tCut": 4000,
+  "kicks": [
+   1500,
+   2500,
+   3500
+  ],
+  "kickFrac": 0.3333333333333333,
+  "kickAmp": 1.5707963267948966,
+  "recoverWin": 400,
+  "spread": 3.141592653589793,
+  "kExt": 4,
+  "mem": 0.0005,
+  "pRecycle": 0.5,
+  "rho": 0.2,
+  "gap": 0.2,
+  "kSpark": 6,
+  "sparkCost": 0.01,
+  "leak": 0.001,
+  "psiEvery": 50,
+  "win": 64,
+  "sample": 10,
+  "smooth": 50
+ },
+ "module": "torus_cell v1.0",
+ "module_sha256": "1ae3a839883d8565f34132d1356ad7c4a8cff5b6ab1f13b5ece80f79153af23c",
+ "dev_note": "Parameters were chosen on dev seeds 1001-1003 only (dev result 2/3 pass). Test seeds 1-8 had never been run when this file was written.",
+ "measures": {
+  "fidelity": "centred complex correlation of e^{iθ} with e^{iP}, smoothed over 50 ticks",
+  "halfLife": "ticks after CUT until smoothed F <= floor + 0.5(F_cut - floor), floor=1/sqrt(N); measured until the first kick (1500 ticks), censored at 1500",
+  "psi": "canon Ψ=χₙΩ−Δ, 64-tick window, every 50 ticks, Ω=0.5",
+  "recovery": "smoothed F 400 ticks after each kick / F just before (report-only)"
+ },
+ "written_local": "Sat Oct 24 2026 10:44:57 GMT-0500 (Central Daylight Time)"
+}
