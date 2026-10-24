@@ -1,0 +1,783 @@
+{
+ "prereg": "P4N-TORUS-CELL-V01",
+ "module": "torus_cell v1.0",
+ "seeds": [
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 1,
+   "cell": {
+    "seed": 1,
+    "arm": "cell",
+    "F_cut": 0.972963,
+    "F_floor": 0.174078,
+    "F_end": 0.588828,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 1000,
+    "psiPosHeldLongestTicks": 1000,
+    "heldTicks": 4000,
+    "F_half": 0.57352,
+    "psiCutMean": -0.071529,
+    "psiCutMeanHarnessOmega": -0.044476,
+    "RcutMean": 0.916687,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.678094,
+      "F_min": 0.463592,
+      "F_post": 0.669019,
+      "recovery": 0.986617
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.647626,
+      "F_min": 0.12445,
+      "F_post": 0.63303,
+      "recovery": 0.977463
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.611554,
+      "F_min": 0.251775,
+      "F_post": 0.594302,
+      "recovery": 0.971791
+     }
+    ],
+    "recoveryMean": 0.978624,
+    "sparks": 5,
+    "recycled": 6213
+   },
+   "control": {
+    "seed": 1,
+    "arm": "control",
+    "F_cut": 0.972963,
+    "F_floor": 0.174078,
+    "F_end": 0.102515,
+    "halfLife": 34,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 850,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 34,
+    "F_half": 0.57352,
+    "psiCutMean": -0.002037,
+    "psiCutMeanHarnessOmega": 0.015237,
+    "RcutMean": 0.99481,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.100436,
+      "F_min": 0.038655,
+      "F_post": 0.105145,
+      "recovery": 1.046891
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.101415,
+      "F_min": 0.047486,
+      "F_post": 0.102337,
+      "recovery": 1.009082
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.108913,
+      "F_min": 0.044374,
+      "F_post": 0.103514,
+      "recovery": 0.950428
+     }
+    ],
+    "recoveryMean": 1.002134,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": true,
+    "pass": true,
+    "ratio": 44.117647
+   },
+   "sha256": "b2e2b7474ca5c8e6ee2675fe2499e2ed2b272ec8e06b7f0ba66a04d3774f3749"
+  },
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 2,
+   "cell": {
+    "seed": 2,
+    "arm": "cell",
+    "F_cut": 0.98333,
+    "F_floor": 0.174078,
+    "F_end": 0.538312,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 450,
+    "psiPosHeldLongestTicks": 250,
+    "heldTicks": 3415,
+    "F_half": 0.578704,
+    "psiCutMean": -0.144477,
+    "psiCutMeanHarnessOmega": -0.142446,
+    "RcutMean": 0.518738,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.940796,
+      "F_min": 0.600254,
+      "F_post": 0.872319,
+      "recovery": 0.927213
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.591323,
+      "F_min": 0.329514,
+      "F_post": 0.854681,
+      "recovery": 1.44537
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.564761,
+      "F_min": 0.377122,
+      "F_post": 0.543701,
+      "recovery": 0.962709
+     }
+    ],
+    "recoveryMean": 1.111764,
+    "sparks": 22,
+    "recycled": 4793
+   },
+   "control": {
+    "seed": 2,
+    "arm": "control",
+    "F_cut": 0.98333,
+    "F_floor": 0.174078,
+    "F_end": 0.172793,
+    "halfLife": 44,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 0,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 44,
+    "F_half": 0.578704,
+    "psiCutMean": -0.191513,
+    "psiCutMeanHarnessOmega": -0.127063,
+    "RcutMean": 0.992712,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.176309,
+      "F_min": 0.025647,
+      "F_post": 0.172205,
+      "recovery": 0.976722
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.176025,
+      "F_min": 0.009454,
+      "F_post": 0.177768,
+      "recovery": 1.009902
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.17819,
+      "F_min": 0.051228,
+      "F_post": 0.172782,
+      "recovery": 0.969647
+     }
+    ],
+    "recoveryMean": 0.985424,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": false,
+    "pass": false,
+    "ratio": 34.090909
+   },
+   "sha256": "828a9c857a0029a1fc63c479bc4c14508920c5609818222302d75c27b9c4aa38"
+  },
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 3,
+   "cell": {
+    "seed": 3,
+    "arm": "cell",
+    "F_cut": 0.957621,
+    "F_floor": 0.174078,
+    "F_end": 0.571009,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 1450,
+    "psiPosHeldLongestTicks": 1450,
+    "heldTicks": 4000,
+    "F_half": 0.565849,
+    "psiCutMean": 0.008926,
+    "psiCutMeanHarnessOmega": 0.023724,
+    "RcutMean": 0.985204,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.665369,
+      "F_min": 0.137241,
+      "F_post": 0.660894,
+      "recovery": 0.993274
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.643275,
+      "F_min": 0.195355,
+      "F_post": 0.628874,
+      "recovery": 0.977613
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.600087,
+      "F_min": 0.232756,
+      "F_post": 0.57853,
+      "recovery": 0.964076
+     }
+    ],
+    "recoveryMean": 0.978321,
+    "sparks": 1,
+    "recycled": 5941
+   },
+   "control": {
+    "seed": 3,
+    "arm": "control",
+    "F_cut": 0.957621,
+    "F_floor": 0.174078,
+    "F_end": 0.334501,
+    "halfLife": 36,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 1500,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 36,
+    "F_half": 0.565849,
+    "psiCutMean": 0.001571,
+    "psiCutMeanHarnessOmega": 0.017956,
+    "RcutMean": 0.996383,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.33421,
+      "F_min": 0.129947,
+      "F_post": 0.335837,
+      "recovery": 1.004869
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.339898,
+      "F_min": 0.049066,
+      "F_post": 0.333452,
+      "recovery": 0.981036
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.335363,
+      "F_min": 0.076931,
+      "F_post": 0.340323,
+      "recovery": 1.01479
+     }
+    ],
+    "recoveryMean": 1.000232,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": true,
+    "pass": true,
+    "ratio": 41.666667
+   },
+   "sha256": "97f3bb00fbd989294fe6198db384ad3f3acdf0c8a66010583c95578398e26985"
+  },
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 4,
+   "cell": {
+    "seed": 4,
+    "arm": "cell",
+    "F_cut": 0.969152,
+    "F_floor": 0.174078,
+    "F_end": 0.513891,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 1000,
+    "psiPosHeldLongestTicks": 1000,
+    "heldTicks": 3095,
+    "F_half": 0.571615,
+    "psiCutMean": -0.000473,
+    "psiCutMeanHarnessOmega": 0.01635,
+    "RcutMean": 0.976999,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.66321,
+      "F_min": 0.44013,
+      "F_post": 0.642713,
+      "recovery": 0.969094
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.610779,
+      "F_min": 0.067895,
+      "F_post": 0.586949,
+      "recovery": 0.960983
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.54873,
+      "F_min": 0.25139,
+      "F_post": 0.52289,
+      "recovery": 0.952909
+     }
+    ],
+    "recoveryMean": 0.960995,
+    "sparks": 1,
+    "recycled": 6350
+   },
+   "control": {
+    "seed": 4,
+    "arm": "control",
+    "F_cut": 0.969152,
+    "F_floor": 0.174078,
+    "F_end": 0.129901,
+    "halfLife": 32,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 1450,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 32,
+    "F_half": 0.571615,
+    "psiCutMean": 0.003521,
+    "psiCutMeanHarnessOmega": 0.019148,
+    "RcutMean": 0.993934,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.130735,
+      "F_min": 0.080907,
+      "F_post": 0.128396,
+      "recovery": 0.98211
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.129469,
+      "F_min": 0.002763,
+      "F_post": 0.128006,
+      "recovery": 0.988694
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.125724,
+      "F_min": 0.08104,
+      "F_post": 0.126862,
+      "recovery": 1.009054
+     }
+    ],
+    "recoveryMean": 0.993286,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": true,
+    "pass": true,
+    "ratio": 46.875
+   },
+   "sha256": "41c22f6ae478103bfbce994a439d8e378e452262aab45fc3dd78391c8b29db08"
+  },
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 5,
+   "cell": {
+    "seed": 5,
+    "arm": "cell",
+    "F_cut": 0.983891,
+    "F_floor": 0.174078,
+    "F_end": 0.79282,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 0,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 4000,
+    "F_half": 0.578984,
+    "psiCutMean": -0.062242,
+    "psiCutMeanHarnessOmega": -0.06292,
+    "RcutMean": 0.294781,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.913856,
+      "F_min": 0.67567,
+      "F_post": 0.862595,
+      "recovery": 0.943907
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.868285,
+      "F_min": 0.611919,
+      "F_post": 0.838738,
+      "recovery": 0.965971
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.805889,
+      "F_min": 0.484806,
+      "F_post": 0.780604,
+      "recovery": 0.968625
+     }
+    ],
+    "recoveryMean": 0.959501,
+    "sparks": 61,
+    "recycled": 654
+   },
+   "control": {
+    "seed": 5,
+    "arm": "control",
+    "F_cut": 0.983891,
+    "F_floor": 0.174078,
+    "F_end": 0.080489,
+    "halfLife": 51,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 100,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 51,
+    "F_half": 0.578984,
+    "psiCutMean": -0.009335,
+    "psiCutMeanHarnessOmega": 0.008448,
+    "RcutMean": 0.989878,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.079401,
+      "F_min": 0.029916,
+      "F_post": 0.081657,
+      "recovery": 1.02842
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.080556,
+      "F_min": 0.027969,
+      "F_post": 0.076233,
+      "recovery": 0.946333
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.078686,
+      "F_min": 0.023102,
+      "F_post": 0.07959,
+      "recovery": 1.011497
+     }
+    ],
+    "recoveryMean": 0.995417,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": false,
+    "pass": false,
+    "ratio": 29.411765
+   },
+   "sha256": "f56dc12f2786cd80895c9ed79f98c2ee74f803f4c17ca7ee5614775ea2bed880"
+  },
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 6,
+   "cell": {
+    "seed": 6,
+    "arm": "cell",
+    "F_cut": 0.952821,
+    "F_floor": 0.174078,
+    "F_end": 0.673483,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 1200,
+    "psiPosHeldLongestTicks": 1200,
+    "heldTicks": 4000,
+    "F_half": 0.563449,
+    "psiCutMean": 0.00535,
+    "psiCutMeanHarnessOmega": 0.020727,
+    "RcutMean": 0.98613,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.752546,
+      "F_min": 0.336169,
+      "F_post": 0.745846,
+      "recovery": 0.991097
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.733486,
+      "F_min": 0.235955,
+      "F_post": 0.721598,
+      "recovery": 0.983793
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.697493,
+      "F_min": 0.201292,
+      "F_post": 0.677856,
+      "recovery": 0.971845
+     }
+    ],
+    "recoveryMean": 0.982245,
+    "sparks": 5,
+    "recycled": 6137
+   },
+   "control": {
+    "seed": 6,
+    "arm": "control",
+    "F_cut": 0.781679,
+    "F_floor": 0.174078,
+    "F_end": 0.088949,
+    "halfLife": 22,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 1100,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 22,
+    "F_half": 0.477878,
+    "psiCutMean": -0.0055,
+    "psiCutMeanHarnessOmega": 0.01195,
+    "RcutMean": 0.996341,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.091827,
+      "F_min": 0.008893,
+      "F_post": 0.084998,
+      "recovery": 0.925636
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.084688,
+      "F_min": 0.009464,
+      "F_post": 0.085443,
+      "recovery": 1.008914
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.088961,
+      "F_min": 0.017764,
+      "F_post": 0.086925,
+      "recovery": 0.977105
+     }
+    ],
+    "recoveryMean": 0.970552,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": true,
+    "pass": true,
+    "ratio": 68.181818
+   },
+   "sha256": "11e69722a2d9fa372b198c2c3d2f32d227ce1eba79b8d5b7f1861b46512a53b7"
+  },
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 7,
+   "cell": {
+    "seed": 7,
+    "arm": "cell",
+    "F_cut": 0.969982,
+    "F_floor": 0.174078,
+    "F_end": 0.649863,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 950,
+    "psiPosHeldLongestTicks": 950,
+    "heldTicks": 4000,
+    "F_half": 0.57203,
+    "psiCutMean": -0.05321,
+    "psiCutMeanHarnessOmega": -0.041217,
+    "RcutMean": 0.738905,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.855014,
+      "F_min": 0.519439,
+      "F_post": 0.716185,
+      "recovery": 0.837629
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.695365,
+      "F_min": 0.149053,
+      "F_post": 0.677272,
+      "recovery": 0.973981
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.658802,
+      "F_min": 0.312495,
+      "F_post": 0.651827,
+      "recovery": 0.989414
+     }
+    ],
+    "recoveryMean": 0.933675,
+    "sparks": 20,
+    "recycled": 5206
+   },
+   "control": {
+    "seed": 7,
+    "arm": "control",
+    "F_cut": 0.969982,
+    "F_floor": 0.174078,
+    "F_end": 0.246383,
+    "halfLife": 38,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 0,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 38,
+    "F_half": 0.57203,
+    "psiCutMean": -0.06539,
+    "psiCutMeanHarnessOmega": -0.0379,
+    "RcutMean": 0.99437,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.247316,
+      "F_min": 0.091546,
+      "F_post": 0.252478,
+      "recovery": 1.02087
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.254215,
+      "F_min": 0.126667,
+      "F_post": 0.248888,
+      "recovery": 0.979044
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.250588,
+      "F_min": 0.100445,
+      "F_post": 0.246895,
+      "recovery": 0.985264
+     }
+    ],
+    "recoveryMean": 0.995059,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": true,
+    "pass": true,
+    "ratio": 39.473684
+   },
+   "sha256": "0e0e5dedec7a388ba1e524a352573732ac35d04c81155b4e031f88f5658029f5"
+  },
+  {
+   "version": "torus_cell v1.0",
+   "prereg": "P4N-TORUS-CELL-V01",
+   "seed": 8,
+   "cell": {
+    "seed": 8,
+    "arm": "cell",
+    "F_cut": 0.973582,
+    "F_floor": 0.174078,
+    "F_end": 0.551636,
+    "halfLife": 1500,
+    "halfLifeCensored": true,
+    "psiPosLongestTicks": 950,
+    "psiPosHeldLongestTicks": 550,
+    "heldTicks": 2835,
+    "F_half": 0.57383,
+    "psiCutMean": -0.029248,
+    "psiCutMeanHarnessOmega": -0.021474,
+    "RcutMean": 0.723475,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.90127,
+      "F_min": 0.572972,
+      "F_post": 0.76464,
+      "recovery": 0.848403
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.603755,
+      "F_min": 0.313276,
+      "F_post": 0.568187,
+      "recovery": 0.941088
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.549185,
+      "F_min": 0.282045,
+      "F_post": 0.551369,
+      "recovery": 1.003977
+     }
+    ],
+    "recoveryMean": 0.931156,
+    "sparks": 14,
+    "recycled": 6147
+   },
+   "control": {
+    "seed": 8,
+    "arm": "control",
+    "F_cut": 0.973582,
+    "F_floor": 0.174078,
+    "F_end": 0.137454,
+    "halfLife": 37,
+    "halfLifeCensored": false,
+    "psiPosLongestTicks": 1450,
+    "psiPosHeldLongestTicks": 0,
+    "heldTicks": 37,
+    "F_half": 0.57383,
+    "psiCutMean": 0.006654,
+    "psiCutMeanHarnessOmega": 0.022574,
+    "RcutMean": 0.994603,
+    "recovery": [
+     {
+      "kick": 1500,
+      "F_pre": 0.141845,
+      "F_min": 0.078058,
+      "F_post": 0.141921,
+      "recovery": 1.000539
+     },
+     {
+      "kick": 2500,
+      "F_pre": 0.138007,
+      "F_min": 0.039266,
+      "F_post": 0.1382,
+      "recovery": 1.001399
+     },
+     {
+      "kick": 3500,
+      "F_pre": 0.139848,
+      "F_min": 0.025457,
+      "F_post": 0.135667,
+      "recovery": 0.970099
+     }
+    ],
+    "recoveryMean": 0.990679,
+    "sparks": 0,
+    "recycled": 0
+   },
+   "verdict": {
+    "P1": true,
+    "P2": true,
+    "pass": true,
+    "ratio": 40.540541
+   },
+   "sha256": "06920ca11bd0919a4de5ba60ae88df9dec585d5d35789f1f06a802b1357636b0"
+  }
+ ],
+ "tally": {
+  "P1": 8,
+  "P2": 6,
+  "both": 6,
+  "need": 7,
+  "of": 8
+ },
+ "OVERALL": "FAIL",
+ "results_sha256": "4ccbbead393bf89d2f61b0f9b1a80ef0de61151ba7248f2623934901baebca30"
+}
