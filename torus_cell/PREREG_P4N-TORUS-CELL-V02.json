@@ -1,0 +1,90 @@
+{
+ "id": "P4N-TORUS-CELL-V02",
+ "claim": "consciousness_claim=none",
+ "label": "pattern self-holding test",
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "devSeeds": [
+  1001,
+  1002
+ ],
+ "params": {
+  "N": 33,
+  "gens": [
+   1,
+   10,
+   15
+  ],
+  "dt": 0.02,
+  "alphaDeg": 1.00811,
+  "psiDog": 0.142,
+  "omega0": 0.5,
+  "tickHz": 400,
+  "thetaHz": 6,
+  "gammaHz": 40,
+  "sigmaExt": 0.5,
+  "sigmaInject": 0.03,
+  "kExt": 4,
+  "kSpark": 3.5,
+  "kSyn": 1,
+  "atten": 0.92,
+  "garden": 0.05,
+  "shellCW": 10,
+  "shellRatio": 0.6176470588235294,
+  "tSup": 1500,
+  "tCut": 8000,
+  "kicks": [
+   2000,
+   4000,
+   6000
+  ],
+  "kickFrac": 0.3333333333333333,
+  "kickAmp": 1.5707963267948966,
+  "holdF": 0.5,
+  "holdGraceCycles": 1,
+  "psiEvery": 100,
+  "win": 64,
+  "sample": 20,
+  "smooth": 67,
+  "atlantisDecayS": 0.05,
+  "Kscale": 1
+ },
+ "main": "PASS iff in >= 7 of 8 seeds (1..8), at the primary config, arm A (cell + Node-33 anchor, outside driving cut) survives >= 1.5 x max(Atlantis baseline, arm C no-cell twin). Survival = ticks after the cut until smoothed fidelity F stays below 0.5 for one full theta-cycle (67 ticks); censored at 8000.",
+ "atlantis": "Source rule literal: g -0.1/cycle, corruption +0.2/cycle when g<0.1, shutdown at >=1.0 (= 14 cycles); 1 cycle = 1 theta-cycle (66.67 ticks) plus the 0.05 s test decay (20 ticks).",
+ "predictionB": "Canon predicts arm B (anchor cut too) collapses: CONFIRMED iff B survival < 1.5 x max(Atlantis, C) in >= 7/8 seeds; otherwise the prediction is NOT confirmed in this model.",
+ "negativeControl": "Passes iff arm C (Π=1, no cell) does NOT survive past the Atlantis baseline x1.5 in >= 7/8 seeds.",
+ "recoveringCoordinate": "Sweep Π∈{0.0095,0.076,0.25,0.5}, σ_ext∈{0.25,0.5,1.0}, K-scale∈{0.5,1,2} on seeds 1-2 (arms A and C). found=True iff any swept point with Π<1 has A failing the main per-seed criterion.",
+ "scaleTopology": "Seeds 1-4, arms A and C, domains: N=33 nearest-neighbour {1}; N=33 Cayley {5,8,13}; N=33 V1 chord {1,2,3,5,8,13,21}; N=21 Cayley {1,6,10}; N=55 Cayley {1,17,25}. generalizes=True iff A passes the per-seed criterion in >= 3/4 seeds in every domain.",
+ "reportOnly": [
+  "B prediction",
+  "E recycling-off ablation",
+  "F synergy-off ablation (R-J expects +0.000)",
+  "A′ attenuation 0.99",
+  "Ψ canon (Ω0=0.5) and Ψ_R (Ω=mean R)",
+  "loop law R·Π>0.03 fraction",
+  "membrane Ψ_int",
+  "recovery after kicks",
+  "resets/restarts"
+ ],
+ "module": "torus_cell v2.0",
+ "module_sha256": "9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee",
+ "dev_note": "Built from Source parameters (TORUS_CELL_SOURCES Part D, NotebookLM answers, Soliton canon). Dev seeds 1001-1002 were run ONCE as a smoke check (A passed both; no parameter was changed afterwards). Test seeds 1-8, the sweep and the scale/topology domains had not been run when this file was written.",
+ "supersedes": "P4N-TORUS-CELL-V01 (FAILED, kept on record).",
+ "written_local": "Sat Oct 24 2026 11:00:54 GMT-0500 (Central Daylight Time)",
+ "amendments": [
+  {
+   "before_any_test_run": true,
+   "written_local": "Sat Oct 24 2026 11:01:04 GMT-0500 (Central Daylight Time)",
+   "change": "Added DEF.Kscale=1 (multiplies K(R)) so the pre-registered K-scale sweep can run. Default behaviour unchanged (dev seeds reproduce exactly).",
+   "previous_module_sha256": "df3099f2496a3da2c3ab2c6b615ce43318c024b6380790181466961d66453fa0"
+  }
+ ]
+}
