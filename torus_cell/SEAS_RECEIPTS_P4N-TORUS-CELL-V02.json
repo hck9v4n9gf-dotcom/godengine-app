@@ -1,0 +1,290 @@
+{
+ "claim": {
+  "claim_id": "P4N-TORUS-CELL-V02",
+  "title": "Torus Cell pattern self-holding test (N=33 Cayley {1,10,15}, Source parameters)",
+  "hypothesis": "With only the Node-33 anchor heartbeat, a sealed cell (Buga attenuation + ouroboros trace + spark gap + recycling) holds a planted phase pattern longer than both the Atlantis baseline and a no-cell twin.",
+  "empirical_results": {
+   "chi": 0.0257445,
+   "omega": 0.834325625,
+   "delta": 0.024403,
+   "main_pass": "8/8",
+   "atlantis_ticks": 953,
+   "A_survival": [
+    3143,
+    1616,
+    2575,
+    1606,
+    3043,
+    3425,
+    2036,
+    1476
+   ],
+   "C_survival": [
+    322,
+    261,
+    359,
+    253,
+    247,
+    243,
+    310,
+    176
+   ],
+   "results_sha256": "493997460fed4889ba4d31a2a27aad217e8b873ac9e674020fa7445123556454"
+  },
+  "pipeline_uri": "https://github.com/hck9v4n9gf-dotcom/godengine-app/tree/main/torus_cell",
+  "data_uri": "https://github.com/hck9v4n9gf-dotcom/godengine-app/blob/main/torus_cell/RESULTS_P4N-TORUS-CELL-V02.json",
+  "pipeline_hash": "9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee",
+  "timestamp": "2026-10-24T16:00:00Z",
+  "metadata": {
+   "preprocessing": "none: raw simulated phases; fidelity = centred complex correlation with the planted seed, 67-tick moving mean",
+   "controversies_bracketed": true,
+   "physical_residual": "simulation only (no physical measurement); a 33-oscillator Sakaguchi-Kuramoto toy model",
+   "measurement_independence": {
+    "chi_source": "ring phase window theta(t), 33 phases x 64 ticks (one measurement stream)",
+    "omega_source": "ring phase window theta(t), 33 phases x 64 ticks (one measurement stream)",
+    "delta_source": "ring phase window theta(t), 33 phases x 64 ticks (one measurement stream)",
+    "note": "chi=(erank/N)R^2 and delta=1-l1/sum(l) share the covariance eigenspectrum; omega=mean R and R^2 is inside chi. Not independent."
+   },
+   "basis_standardization": "phases as raw radians; Psi window 64 ticks every 100 ticks; Omega_0=0.5 (app) or mean R (harness)",
+   "reproducibility_test": {
+    "pipeline_rerun_matches": true,
+    "detail": "fresh-process Node re-run reproduced results_sha256 493997460fed4889ba4d31a2a27aad217e8b873ac9e674020fa7445123556454"
+   },
+   "recovering_coordinate_search": {
+    "found": true,
+    "description": "sweep Pi x sigma_ext x K-scale (72 points, seeds 1-2): 14 points fail the per-seed criterion; failures concentrate at K-scale 2 (stronger coupling re-synchronises the ring, survival ~370-1360 ticks < 1429.5 needed)"
+   },
+   "negative_control": {
+    "performed": true,
+    "claim_rejected_on_negative_data": true,
+    "detail": "arm C (Pi=1, no cell) survived past 1.5x Atlantis in 0/8 seeds"
+   },
+   "scale_topology_test": {
+    "performed": true,
+    "generalizes": false,
+    "domains_tested": [
+     "N33 nearest-neighbour {1}: 4/4",
+     "N33 Cayley {5,8,13}: 4/4",
+     "N33 V1 chord {1,2,3,5,8,13,21}: 2/4",
+     "N21 Cayley {1,6,10}: 2/4",
+     "N55 Cayley {1,17,25}: 4/4"
+    ]
+   },
+   "testable_predictions": [
+    "A outlasts 1.5 x max(Atlantis, no-cell twin) in >=7/8 seeds",
+    "B (anchor cut) collapses (canon prediction)",
+    "K-scale 2 breaks the hold"
+   ],
+   "mathematical_form": "dtheta_i = dt[omega_i + K(R)/deg sum sin(theta_j-theta_i-alpha) + u_i] + sqrt(dt)(Pi sigma_ext xi + sigma_inj eta); u_i = spark-gap trace feedback",
+   "uniqueness_proven": false,
+   "bounded_growth": true,
+   "unfalsifiable_claims_audit": {
+    "consciousness_claim": false,
+    "mysticism": false,
+    "universal_efficiency_claim": false
+   },
+   "degrees_of_freedom": {
+    "accounted": true,
+    "count": 31
+   }
+  }
+ },
+ "receipts": [
+  {
+   "claim_id": "P4N-TORUS-CELL-V02",
+   "gate_results": [
+    {
+     "gate_name": "Gate 1: Provenance",
+     "passed": false,
+     "evidence": [
+      "Pipeline hash provided (SHA-256): 9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee",
+      "Preprocessing documented: none: raw simulated phases; fidelity = centred complex correlation with the planted seed, 67-tick moving mean"
+     ],
+     "failures": [
+      "Pipeline fetch failed: name 'verify_uri_accessible' is not defined",
+      "Data fetch failed: name 'verify_uri_accessible' is not defined"
+     ],
+     "boundary_found": "Claim fails Provenance Gate; pipeline or data is not independently verifiable.",
+     "timestamp": "2026-10-24T16:04:23.817124"
+    }
+   ],
+   "overall_status": "BURIED",
+   "coherence_score": 0.0,
+   "interpretation_score": 0.0,
+   "reintegrated_boundaries": {},
+   "dual_hash_sha256": "",
+   "timestamp": "2026-10-24T16:04:23.817160",
+   "label": "SEAS v1 verbatim, imported (as shipped)",
+   "console": "\n================================================================================\nSOVEREIGN EMPIRICAL ADJUDICATOR SYSTEM (SEAS)\nCLAIM ID: P4N-TORUS-CELL-V02\nTITLE: Torus Cell pattern self-holding test (N=33 Cayley {1,10,15}, Source parameters)\n================================================================================\n\n[GATE 1: PROVENANCE]\nStatus: FAIL\n  \u2713 Pipeline hash provided (SHA-256): 9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee\n  \u2713 Preprocessing documented: none: raw simulated phases; fidelity = centred complex correlation with the planted seed, 67-tick moving mean\n  \u2717 Pipeline fetch failed: name 'verify_uri_accessible' is not defined\n  \u2717 Data fetch failed: name 'verify_uri_accessible' is not defined\n  BOUNDARY: Claim fails Provenance Gate; pipeline or data is not independently verifiable.\n\n[ADJUDICATION RESULT: BURIED]\nClaim does not survive Provenance Gate.\n",
+   "diagnostic_gates_3_5_standalone_NOT_A_VERDICT": [
+    {
+     "gate_name": "Gate 3: Demon Protocol",
+     "passed": false,
+     "evidence": [
+      "Null reproduced: N/A",
+      "Negative control passed: claim correctly rejected non-target data"
+     ],
+     "failures": [
+      "Recovering coordinate found: sweep Pi x sigma_ext x K-scale (72 points, seeds 1-2): 14 points fail the per-seed criterion; failures concentrate at K-scale 2 (stronger coupling re-synchronises the ring, survival ~370-1360 ticks < 1429.5 needed) (claim degenerates)",
+      "Generalization failed: results do not transfer to other scales/topologies"
+     ],
+     "boundary_found": "Claim fails Demon Protocol; at least one falsification test was not survived."
+    },
+    {
+     "gate_name": "Gate 4: Helmholtz Admissibility",
+     "passed": true,
+     "evidence": [
+      "Action-liftable: 3 testable predictions generated",
+      "Mathematical form stated: dtheta_i = dt[omega_i + K(R)/deg sum sin(theta_j-theta_i-alpha) + u_i] + sqrt(dt)(Pi sigma_ext xi + sigma_inj eta); u_i = spark-gap trace feedback",
+      "Solution growth is bounded",
+      "Claim passes unfalsifiability audit: no consciousness/mysticism/universals",
+      "Degrees of freedom: 31 accounted for",
+      "HELMHOLTZ GATE PASSED: Mathematically well-posed, action-liftable, falsifiable."
+     ],
+     "failures": [],
+     "boundary_found": null
+    }
+   ]
+  },
+  {
+   "claim_id": "P4N-TORUS-CELL-V02",
+   "gate_results": [
+    {
+     "gate_name": "Gate 1: Provenance",
+     "passed": true,
+     "evidence": [
+      "Pipeline URI resolves: https://github.com/hck9v4n9gf-dotcom/godengine-app/tree/main/torus_cell",
+      "Data URI resolves and is open: https://github.com/hck9v4n9gf-dotcom/godengine-app/blob/main/torus_cell/RESULTS_P4N-TORUS-CELL-V02.json",
+      "Pipeline hash provided (SHA-256): 9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee",
+      "Preprocessing documented: none: raw simulated phases; fidelity = centred complex correlation with the planted seed, 67-tick moving mean",
+      "PROVENANCE GATE PASSED: Pipeline is checkable, data is open, hash is verifiable."
+     ],
+     "failures": [],
+     "boundary_found": null,
+     "timestamp": "2026-10-24T16:04:23.818424"
+    },
+    {
+     "gate_name": "Gate 2: TruthLoom Basis",
+     "passed": false,
+     "evidence": [
+      "Controversies identified and bracketed: True",
+      "Physical residual extracted: simulation only (no physical measurement); a 33-oscillator Sakaguchi-Kuramoto toy model",
+      "Basis standardization applied: phases as raw radians; Psi window 64 ticks every 100 ticks; Omega_0=0.5 (app) or mean R (harness)"
+     ],
+     "failures": [
+      "\u03c7, \u03a9, \u0394 share source; product term will degenerate"
+     ],
+     "boundary_found": "Claim fails TruthLoom Gate; inputs remain heterogeneous or coupled.",
+     "timestamp": "2026-10-24T16:04:23.818441"
+    }
+   ],
+   "overall_status": "BURIED",
+   "coherence_score": 0.0,
+   "interpretation_score": 0.0,
+   "reintegrated_boundaries": {},
+   "dual_hash_sha256": "",
+   "timestamp": "2026-10-24T16:04:23.818451",
+   "label": "SEAS v1 verbatim + its own __main__ placeholder injected",
+   "console": "\n================================================================================\nSOVEREIGN EMPIRICAL ADJUDICATOR SYSTEM (SEAS)\nCLAIM ID: P4N-TORUS-CELL-V02\nTITLE: Torus Cell pattern self-holding test (N=33 Cayley {1,10,15}, Source parameters)\n================================================================================\n\n[GATE 1: PROVENANCE]\nStatus: PASS\n  \u2713 Pipeline URI resolves: https://github.com/hck9v4n9gf-dotcom/godengine-app/tree/main/torus_cell\n  \u2713 Data URI resolves and is open: https://github.com/hck9v4n9gf-dotcom/godengine-app/blob/main/torus_cell/RESULTS_P4N-TORUS-CELL-V02.json\n  \u2713 Pipeline hash provided (SHA-256): 9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee\n  \u2713 Preprocessing documented: none: raw simulated phases; fidelity = centred complex correlation with the planted seed, 67-tick moving mean\n  \u2713 PROVENANCE GATE PASSED: Pipeline is checkable, data is open, hash is verifiable.\n\n[GATE 2: TRUTHLOOM BASIS STANDARDIZATION]\nStatus: FAIL\n  \u2713 Controversies identified and bracketed: True\n  \u2713 Physical residual extracted: simulation only (no physical measurement); a 33-oscillator Sakaguchi-Kuramoto toy model\n  \u2713 Basis standardization applied: phases as raw radians; Psi window 64 ticks every 100 ticks; Omega_0=0.5 (app) or mean R (harness)\n  \u2717 \u03c7, \u03a9, \u0394 share source; product term will degenerate\n  BOUNDARY: Claim fails TruthLoom Gate; inputs remain heterogeneous or coupled.\n\n[ADJUDICATION RESULT: BURIED]\nClaim does not survive TruthLoom Gate.\n",
+   "diagnostic_gates_3_5_standalone_NOT_A_VERDICT": [
+    {
+     "gate_name": "Gate 3: Demon Protocol",
+     "passed": false,
+     "evidence": [
+      "Null reproduced: N/A",
+      "Negative control passed: claim correctly rejected non-target data"
+     ],
+     "failures": [
+      "Recovering coordinate found: sweep Pi x sigma_ext x K-scale (72 points, seeds 1-2): 14 points fail the per-seed criterion; failures concentrate at K-scale 2 (stronger coupling re-synchronises the ring, survival ~370-1360 ticks < 1429.5 needed) (claim degenerates)",
+      "Generalization failed: results do not transfer to other scales/topologies"
+     ],
+     "boundary_found": "Claim fails Demon Protocol; at least one falsification test was not survived."
+    },
+    {
+     "gate_name": "Gate 4: Helmholtz Admissibility",
+     "passed": true,
+     "evidence": [
+      "Action-liftable: 3 testable predictions generated",
+      "Mathematical form stated: dtheta_i = dt[omega_i + K(R)/deg sum sin(theta_j-theta_i-alpha) + u_i] + sqrt(dt)(Pi sigma_ext xi + sigma_inj eta); u_i = spark-gap trace feedback",
+      "Solution growth is bounded",
+      "Claim passes unfalsifiability audit: no consciousness/mysticism/universals",
+      "Degrees of freedom: 31 accounted for",
+      "HELMHOLTZ GATE PASSED: Mathematically well-posed, action-liftable, falsifiable."
+     ],
+     "failures": [],
+     "boundary_found": null
+    }
+   ]
+  },
+  {
+   "claim_id": "P4N-TORUS-CELL-V02",
+   "gate_results": [
+    {
+     "gate_name": "Gate 1: Provenance",
+     "passed": true,
+     "evidence": [
+      "Pipeline URI resolves: https://github.com/hck9v4n9gf-dotcom/godengine-app/tree/main/torus_cell",
+      "Data URI resolves and is open: https://github.com/hck9v4n9gf-dotcom/godengine-app/blob/main/torus_cell/RESULTS_P4N-TORUS-CELL-V02.json",
+      "Pipeline hash provided (SHA-256): 9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee",
+      "Preprocessing documented: none: raw simulated phases; fidelity = centred complex correlation with the planted seed, 67-tick moving mean",
+      "PROVENANCE GATE PASSED: Pipeline is checkable, data is open, hash is verifiable."
+     ],
+     "failures": [],
+     "boundary_found": null,
+     "timestamp": "2026-10-24T16:04:24.907825"
+    },
+    {
+     "gate_name": "Gate 2: TruthLoom Basis",
+     "passed": false,
+     "evidence": [
+      "Controversies identified and bracketed: True",
+      "Physical residual extracted: simulation only (no physical measurement); a 33-oscillator Sakaguchi-Kuramoto toy model",
+      "Basis standardization applied: phases as raw radians; Psi window 64 ticks every 100 ticks; Omega_0=0.5 (app) or mean R (harness)"
+     ],
+     "failures": [
+      "\u03c7, \u03a9, \u0394 share source; product term will degenerate"
+     ],
+     "boundary_found": "Claim fails TruthLoom Gate; inputs remain heterogeneous or coupled.",
+     "timestamp": "2026-10-24T16:04:24.908005"
+    }
+   ],
+   "overall_status": "BURIED",
+   "coherence_score": 0.0,
+   "interpretation_score": 0.0,
+   "reintegrated_boundaries": {},
+   "dual_hash_sha256": "",
+   "timestamp": "2026-10-24T16:04:24.908036",
+   "label": "SEAS v1.1 fail-closed",
+   "console": "\n================================================================================\nSOVEREIGN EMPIRICAL ADJUDICATOR SYSTEM (SEAS)\nCLAIM ID: P4N-TORUS-CELL-V02\nTITLE: Torus Cell pattern self-holding test (N=33 Cayley {1,10,15}, Source parameters)\n================================================================================\n\n[GATE 1: PROVENANCE]\nStatus: PASS\n  \u2713 Pipeline URI resolves: https://github.com/hck9v4n9gf-dotcom/godengine-app/tree/main/torus_cell\n  \u2713 Data URI resolves and is open: https://github.com/hck9v4n9gf-dotcom/godengine-app/blob/main/torus_cell/RESULTS_P4N-TORUS-CELL-V02.json\n  \u2713 Pipeline hash provided (SHA-256): 9d6a261f0c4d05a0a880f734724cf4d2bea54a324c25e3698a749bfc9d267dee\n  \u2713 Preprocessing documented: none: raw simulated phases; fidelity = centred complex correlation with the planted seed, 67-tick moving mean\n  \u2713 PROVENANCE GATE PASSED: Pipeline is checkable, data is open, hash is verifiable.\n\n[GATE 2: TRUTHLOOM BASIS STANDARDIZATION]\nStatus: FAIL\n  \u2713 Controversies identified and bracketed: True\n  \u2713 Physical residual extracted: simulation only (no physical measurement); a 33-oscillator Sakaguchi-Kuramoto toy model\n  \u2713 Basis standardization applied: phases as raw radians; Psi window 64 ticks every 100 ticks; Omega_0=0.5 (app) or mean R (harness)\n  \u2717 \u03c7, \u03a9, \u0394 share source; product term will degenerate\n  BOUNDARY: Claim fails TruthLoom Gate; inputs remain heterogeneous or coupled.\n\n[ADJUDICATION RESULT: BURIED]\nClaim does not survive TruthLoom Gate.\n",
+   "diagnostic_gates_3_5_standalone_NOT_A_VERDICT": [
+    {
+     "gate_name": "Gate 3: Demon Protocol",
+     "passed": false,
+     "evidence": [
+      "Null reproduced: N/A",
+      "Negative control passed: claim correctly rejected non-target data"
+     ],
+     "failures": [
+      "Recovering coordinate found: sweep Pi x sigma_ext x K-scale (72 points, seeds 1-2): 14 points fail the per-seed criterion; failures concentrate at K-scale 2 (stronger coupling re-synchronises the ring, survival ~370-1360 ticks < 1429.5 needed) (claim degenerates)",
+      "Generalization failed: results do not transfer to other scales/topologies"
+     ],
+     "boundary_found": "Claim fails Demon Protocol; at least one falsification test was not survived."
+    },
+    {
+     "gate_name": "Gate 4: Helmholtz Admissibility",
+     "passed": true,
+     "evidence": [
+      "Action-liftable: 3 testable predictions generated",
+      "Mathematical form stated: dtheta_i = dt[omega_i + K(R)/deg sum sin(theta_j-theta_i-alpha) + u_i] + sqrt(dt)(Pi sigma_ext xi + sigma_inj eta); u_i = spark-gap trace feedback",
+      "Solution growth is bounded",
+      "Claim passes unfalsifiability audit: no consciousness/mysticism/universals",
+      "Degrees of freedom: 31 accounted for",
+      "HELMHOLTZ GATE PASSED: Mathematically well-posed, action-liftable, falsifiable."
+     ],
+     "failures": [],
+     "boundary_found": null
+    }
+   ]
+  }
+ ]
+}

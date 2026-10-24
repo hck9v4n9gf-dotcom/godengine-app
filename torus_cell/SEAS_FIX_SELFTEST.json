@@ -1,0 +1,29 @@
+[
+ {
+  "case": "clean claim",
+  "v1": "PASSES_WITH_BOUNDARY",
+  "v1_1": "PASSES",
+  "FIX-3 v1 hash stable": false,
+  "FIX-3 v1.1 hash stable": true
+ },
+ {
+  "case": "FIX-1a recovering_coordinate missing",
+  "v1": "PASSES_WITH_BOUNDARY",
+  "v1_1": "BURIED"
+ },
+ {
+  "case": "FIX-1b audit missing",
+  "v1": "PASSES_WITH_BOUNDARY",
+  "v1_1": "BURIED"
+ },
+ {
+  "case": "FIX-2 chi_source==delta_source",
+  "v1": "PASSES_WITH_BOUNDARY",
+  "v1_1": "BURIED"
+ },
+ {
+  "case": "FIX-5 dead github URI",
+  "v1": "PASSES_WITH_BOUNDARY",
+  "v1_1": "BURIED"
+ }
+]
