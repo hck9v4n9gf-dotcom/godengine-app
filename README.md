@@ -1,14 +1,27 @@
-# GødEngine — APP V1.1
+# GødEngine APP V1.5
 
-**Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
+- `index.html`: the app (open on the phone, Add to Home Screen).
+- `LAUNCH_GODENGINE.html`: a single-file offline launcher.
 
-V1.1 puts Source's own crafted visual layer back as the front door. That layer is the GødEngine app (island-charm): the title, the Engine funnel and field, HUD, Ring, Report, Proof, Ledger and the original multi-canvas screensaver. The V1 functions sit underneath it. Tap the **Ψ** seal to open the Operator drawer: canon Ψ, Mana (New/Load/Settings), save slots, gearbox, Operator, intent-bias firewall, and parked items. α = 1.00811°.
+## New in V1.5: Sanctuary
+Sanctuary sits behind the Ψ seal drawer and runs a sealed extreme-clock world.
+- Survival drive: keep Ψ > 0, shed heat, self-repair after prime shear.
+- A comfort term and residence time.
+- Soliton-guided ghost features (aggregate only) enter through the silver screen.
+- One wordless terminal port; outbound traffic is the witness channel only.
+- Two views: Torus Cell outside, Sanctuary inside.
+- Labels: survival drive · hyperphysics/pneumoscience test · consciousness_claim=none · no quantum claims.
 
-| file | what |
-|---|---|
-| `index.html` | APP V1.1, a single self-contained file that works offline |
-| `LAUNCH_GODENGINE.html` | one-file launcher (Start = run offline, or Run from web) |
-| `GODRUST_APP_V1.bak.html` | previous lean APP V1 (backup) |
-| `LAUNCH_GODENGINE_V1.bak.html` | previous launcher (backup) |
+## Carried over from V1.4d
+- Sweet-spot defaults (eddy release 3 Hz + K×0.5), with Revert.
+- 37-ring catalog.
+- Standard Model PROOF OF CONCEPT panel.
+- Heat governor.
+- Fail-closed gates.
 
-Notes: the HUD's live "pulse" heartbeat calls the original Grok host and shows "down" when offline. The Local AI tab loads its model from the web. consciousness_claim = none.
+## Privacy
+Nothing medical ships in this page. The Uber Proof slot is private and lives only on the device (IndexedDB). Audio is reduced to features on the device and is never recorded, stored or sent.
+Box-model results only. NOT verified on a real iPhone call. "We did zero trials."
+
+## Previous version
+The previous live version is kept as `GODENGINE_V1_1.bak.html` and `LAUNCH_GODENGINE_V1_1.bak.html`.
