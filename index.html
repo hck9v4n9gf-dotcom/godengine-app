@@ -97,8 +97,9 @@ var sv=null;
 function screens(){if(!document.body)return;if(!sv){var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);sv=document.createElement('div');sv.id='geSaver';
  sv.innerHTML='<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".6"><ellipse cx="50" cy="50" rx="40" ry="17"/><ellipse cx="50" cy="50" rx="27" ry="11"/><ellipse cx="50" cy="50" rx="13" ry="5"/><circle cx="50" cy="50" r="1.4" fill="#ffe08a" stroke="none"/></g></svg><div id="geSaverT"></div><button id="geSaverB" type="button"></button>';
  document.body.appendChild(sv);document.getElementById('geSaverB').addEventListener('click',function(){if(G.tier>=4)G.resume();else{G.saverOff=true;screens()}})}
+ if(!sv.isConnected)document.body.appendChild(sv);
  var show=G.tier>=4||(G.tier===3&&!G.saverOff);sv.style.display=show?'flex':'none';
- if(show){document.getElementById('geSaverT').textContent=G.tier>=4?'Paused to let the phone cool. Your place is saved.':'Cooling down. Drawing less until the phone settles.';
+ if(show){sv.querySelector('#geSaverT').textContent=G.tier>=4?'Paused to let the phone cool. Your place is saved.':'Cooling down. Drawing less until the phone settles.';
   document.getElementById('geSaverB').textContent=G.tier>=4?'Resume':'Show the app'}}
 ['pointerdown','keydown','wheel','touchstart'].forEach(function(e){W.addEventListener(e,function(){G.lastInput=now();if(G.band==='IDLE')decide()},{passive:true,capture:true})});
 document.addEventListener('visibilitychange',function(){last=0;decide()});
