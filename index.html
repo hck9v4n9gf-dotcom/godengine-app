@@ -68,6 +68,15 @@ var now=function(){return performance.now()};
 var G=W.GEGOV={half:!!saved.halfManual,halfManual:!!saved.halfManual,halfWhy:saved.halfManual?'manual':'',overflow:false,auto:saved.auto!==false,policy:saved.policy||'ladder',tier:0,level:0,band:'ACTIVE',cap:60,minDt:0,workEma:0,frames:0,painted:0,skipped:0,jank:0,
  pressure:null,batt:null,tickUs:null,tickBase:null,delta:null,lastInput:now(),hist:[],sim:null,reasons:[],since:now(),saverOff:false,
  set:function(k,v){G[k]=v;try{localStorage.setItem(LS,JSON.stringify({auto:G.auto,policy:G.policy,halfManual:G.halfManual}))}catch(e){}decide(true)}};
+/* V1.5.4 mobile heat profile (Source t1646u, 10:23 PM CT: "the physical phone is too hot, we need to lower our expectations"):
+   on a phone/tablet (UA, touch + coarse pointer, or <=4 CPU cores) every animation frame is capped at 30 fps, canvases draw at 1x pixels,
+   and if frame work or the engine's cost per tick rises, or frames drop, it backs off to 15 fps (and the sanctuary to 30 ticks/s).
+   The heat ladder still overrides everything. Desktop is unchanged. Override for testing: localStorage p4n_v154_mobile = '1' | '0'. */
+G.mobile=(function(){try{var o=localStorage.getItem('p4n_v154_mobile');if(o==='1')return true;if(o==='0')return false}catch(e){}
+ var n=navigator,ua=n.userAgent||'';return /iPhone|iPad|iPod|Android|Mobile/i.test(ua)||(n.maxTouchPoints>0&&!!(W.matchMedia&&W.matchMedia('(pointer:coarse)').matches))||(n.hardwareConcurrency>0&&n.hardwareConcurrency<=4)})();
+G.mobBack=0;var mobUp=0,mobCalm=0;
+function mobStage(t){if(!G.mobile)return;var tu=G.sanctUs,bad=G.workEma>6||jankW.length>=3||(tu>0&&G.sanctUsBase>0&&tu>1.5*G.sanctUsBase),calm=G.workEma<4&&jankW.length<2&&!(tu>0&&G.sanctUsBase>0&&tu>1.2*G.sanctUsBase);
+ if(bad){mobCalm=0;mobUp=mobUp||t;if(!G.mobBack&&t-mobUp>=3000){G.mobBack=1;G.hist.push([Math.round(t),G.tier,'mobile back-off 15 fps'])}}else{mobUp=0;if(G.mobBack&&calm){mobCalm=mobCalm||t;if(t-mobCalm>=20000){G.mobBack=0;mobCalm=0;G.hist.push([Math.round(t),G.tier,'mobile back-off released'])}}else mobCalm=0}}
 var q=new Map(),nid=0,pending=false,last=0,lastTs=0,jankW=[];
 function pump(ts){pending=false;G.frames++;
  if(G.tier>=4){if(q.size){pending=true;setTimeout(function(){oR(pump)},500)}return}
@@ -113,7 +122,7 @@ function decide(force){var t=now();project(t);var x=sig(),hi=levelOf(x,G.sens||1
   try{W.dispatchEvent(new CustomEvent('gegov-tier',{detail:{tier:G.tier,from:old}}))}catch(e){}}
  halfStage(t);
  var b='ACTIVE';if(document.hidden)b='HIDDEN';else if(G.auto&&t-G.lastInput>20000)b='IDLE';G.band=b;
- var cap=[60,60,30,15,0][G.tier];if(b==='IDLE'&&cap>30)cap=30;if(!G.auto)cap=60;if(G.half&&cap)cap=Math.max(6,cap/2);G.cap=cap;G.minDt=cap>=60?0:cap?1000/cap:0;
+ var cap=[60,60,30,15,0][G.tier];if(b==='IDLE'&&cap>30)cap=30;if(!G.auto)cap=60;if(G.half&&cap)cap=Math.max(6,cap/2);mobStage(t);if(G.mobile){var mc=G.mobBack?15:30;if(cap>mc)cap=mc}G.cap=cap;G.minDt=cap>=60?0:cap?1000/cap:0;
  var de=document.documentElement;if(de){for(var i=0;i<5;i++)de.classList.toggle('ge-t'+i,G.tier===i)}
  screens()}
 /* BACKUP GEAR · Half Speed (Source t1549u, 4:32 PM CT): slaved node i copies node i−1 instead of computing (odd nodes, never the anchor).
@@ -160,7 +169,7 @@ try{if('PressureObserver'in W){var po=new W.PressureObserver(function(r){G.press
 try{navigator.getBattery&&navigator.getBattery().then(function(b){function u(){G.batt={level:b.level,charging:b.charging};var tt=now();if(b.charging)battS=[];else{battS.push([tt,b.level]);while(battS.length>2&&tt-battS[0][0]>600000)battS.shift();if(battS.length>=2&&tt-battS[0][0]>=120000)G.drain=(battS[0][1]-b.level)*100/((tt-battS[0][0])/60000)}decide()}u();b.addEventListener('levelchange',u);b.addEventListener('chargingchange',u)}).catch(function(){})}catch(e){}
 try{new PerformanceObserver(function(l){l.getEntries().forEach(function(){ltW.push(now())})}).observe({type:'longtask',buffered:false})}catch(e){}
 /* canvas resolution follows the tier: full at 0-1, 1.5x at 2, 1x at 3+ (Source's drawings keep their shapes, fewer pixels) */
-var DPR=W.devicePixelRatio||1;try{Object.defineProperty(W,'devicePixelRatio',{configurable:true,get:function(){return G.tier>=3?1:G.tier===2?Math.min(DPR,1.5):DPR}})}catch(e){}
+var DPR=W.devicePixelRatio||1;try{Object.defineProperty(W,'devicePixelRatio',{configurable:true,get:function(){return G.mobile||G.tier>=3?1:G.tier===2?Math.min(DPR,1.5):DPR}})}catch(e){}
 W.addEventListener('gegov-tier',function(){try{W.dispatchEvent(new Event('resize'))}catch(e){}});
 /* the hidden V1 operator frame: with the Ψ drawer closed it steps on the 6 Hz θ beat (phase-aligned), open it follows the tier cap */
 var TH=1000/6;G.v1Hz=null;
@@ -1875,7 +1884,7 @@ setInterval(function(){var G=gov();if((!G||G.tier===0)&&!D.hidden&&Date.now()-st
 var TAU=Math.PI*2;
 function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function gauss(r){var u=r()||1e-12,v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(TAU*v)}
-function wrap(x){x=(x+Math.PI)%TAU;if(x<0)x+=TAU;return x-Math.PI}
+function wrap(x){x=x+Math.PI;if(x>=TAU){if(x<2*TAU)x-=TAU;else x%=TAU}else if(!(x>-TAU))x%=TAU;if(x<0)x+=TAU;return x-Math.PI}/* V1.5.4: fmod fast path; exact by Sterbenz (x−TAU exact for x∈[TAU,2TAU)) */
 var GEARS={float:0,'Q9.27':27,'Q8.24':24};
 function quant(x,f){if(!f)return x;var s=Math.pow(2,f);return Math.round(x*s)/s}/* phase kept wrapped (turn counter separate) → no overflow at any gear */
 /* ---------- LOCK CORE (stages 1–3): infant = Stuart–Landau oscillator at the device eye; anchor = node 33 ---------- */
@@ -1888,11 +1897,13 @@ Lock.prototype.step=function(){var c=this.c,dt=c.dt,sq=Math.sqrt(dt),r=this.r,zr
  var a=Math.sqrt(a2)||1e-9,dph=this.wi+this.K*Math.sin(this.ta-ph)+c.sigma*gauss(r)/sq*0.1,da=(c.mu-a2)*a;/* noise floor σ on phase (scaled to σ·0.1/√dt per step) */
  a=Math.max(1e-6,a+dt*da);ph=wrap(quant(wrap(ph+dt*dph),GEARS[c.gear]));this.zr=a*Math.cos(ph);this.zi=a*Math.sin(ph);
  var back=c.anchor==='pinned'?0:(this.K/Math.max(1,c.stiff))*Math.sin(ph-this.ta);this.ta=wrap(quant(wrap(this.ta+dt*(this.wa+back)),GEARS[c.gear]));this.t++;
- var psi=wrap(ph-this.ta);this.hist.push(psi);if(this.hist.length>200)this.hist.shift();this.amp.push(a);if(this.amp.length>200)this.amp.shift();return psi};
+ var psi=wrap(ph-this.ta);this.hist.push(psi);if(this._h===this.hist){this._hc.push(Math.cos(psi));this._hs.push(Math.sin(psi))}if(this.hist.length>200){this.hist.shift();if(this._h===this.hist){this._hc.shift();this._hs.shift()}}this.amp.push(a);if(this.amp.length>200)this.amp.shift();return psi};
 Lock.prototype.oscOK=function(){/* stage 1 check: stable self-oscillation — amplitude within ±10% of √μ over 200 ticks, phase advancing at ω_i */
  if(this.amp.length<200)return false;var m=Math.sqrt(this.c.mu);for(var i=0;i<this.amp.length;i++)if(Math.abs(this.amp[i]-m)>0.1*m)return false;return true};
-Lock.prototype.plv=function(){var h=this.hist,a=0,b=0;for(var i=0;i<h.length;i++){a+=Math.cos(h[i]);b+=Math.sin(h[i])}return h.length?Math.hypot(a,b)/h.length:0};
-Lock.prototype.mean=function(){var h=this.hist,a=0,b=0;for(var i=0;i<h.length;i++){a+=Math.cos(h[i]);b+=Math.sin(h[i])}return Math.atan2(b,a)};
+/* V1.5.4: cos/sin of each history entry cached once (rebuilt if hist is replaced from outside); same values, same summation order */
+Lock.prototype._cs=function(){var h=this.hist;if(this._h!==h||this._hc.length!==h.length){this._h=h;this._hc=[];this._hs=[];for(var i=0;i<h.length;i++){this._hc.push(Math.cos(h[i]));this._hs.push(Math.sin(h[i]))}}};
+Lock.prototype.plv=function(){this._cs();var h=this.hist,c=this._hc,s=this._hs,a=0,b=0;for(var i=0;i<h.length;i++){a+=c[i];b+=s[i]}return h.length?Math.hypot(a,b)/h.length:0};
+Lock.prototype.mean=function(){this._cs();var h=this.hist,c=this._hc,s=this._hs,a=0,b=0;for(var i=0;i<h.length;i++){a+=c[i];b+=s[i]}return Math.atan2(b,a)};
 /* locked = phase-locked TO the anchor within tolerance: PLV ≥ 0.95 over 200 ticks AND |mean phase error| ≤ 0.3 rad */
 Lock.prototype.locked=function(){return this.hist.length>=200&&this.plv()>=0.95&&Math.abs(this.mean())<=0.3};
 Lock.prototype.shock=function(sev){var a=Math.hypot(this.zr,this.zi),ph=Math.atan2(this.zi,this.zr)+(sev||5)*Math.PI/10;this.zr=a*Math.cos(ph);this.zi=a*Math.sin(ph);this.hist=[]};
@@ -1908,7 +1919,8 @@ var SHELLS=[1,3,7,19,33,55,89,137,233,322,561,1597];/* Σ = 3057. 55 down = cohe
 var STAGES=['SET infant','ANCHOR to node 33','ANCHOR EVOLVES (lock holds + sev-5 shock)','HATCH MERKABAH','BUILD shells 1…1597','HALT 5th ring (stator)','PULL DATA INTO STREAMS','PLAY (silver screen)'];
 function readout(th,n,off){var c1=0,s1=0,c2=0,s2=0;for(var i=0;i<n;i++){var x=th[off+i];c1+=Math.cos(x);s1+=Math.sin(x);c2+=Math.cos(2*x);s2+=Math.sin(2*x)}
  var R1=Math.hypot(c1,s1)/n,R2=Math.hypot(c2,s2)/n,p=Math.min(1-1e-12,Math.max(1e-12,(1+R2)/2)),H=-(p*Math.log(p)+(1-p)*Math.log(1-p));return{R:R1,Psi:Math.exp(H)*R1-(1-R2)/2,mean:Math.atan2(s1,c1)}}
-function Genesis(o){o=o||{};this.o=o;this.seed=o.seed||33;this.r=rng(this.seed^0x9e37);this.stage=1;this.tries=0;this.wait=0;this.log=[];this.passed={};this.t=0;this.st=0;
+function readout1(th,n,off){var c1=0,s1=0;for(var i=0;i<n;i++){var x=th[off+i];c1+=Math.cos(x);s1+=Math.sin(x)}return{R:Math.hypot(c1,s1)/n,mean:Math.atan2(s1,c1)}}
+function Genesis(o){o=o||{};this.o=o;this._nt=new Float64Array(1597);this._eg=new Float64Array(1597);this._shR=[1];this._shM=[0];this._psi=[];this._psiN=0;this.seed=o.seed||33;this.r=rng(this.seed^0x9e37);this.stage=1;this.tries=0;this.wait=0;this.log=[];this.passed={};this.t=0;this.st=0;
  this.lockCfg=o.lock||LOCK_DEFAULT;this.quick=!!o.resume;this.heatUs=0;this.tier=0;this.usBudget=o.usBudget||1e9;this.maxNodes=o.maxNodes||3057;this.feat=[];this.cap=null;this.game=null;this.initStage()}
 Genesis.prototype.fail=function(why){this.tries++;this.wait=Math.min(1600,50*Math.pow(2,this.tries-1));/* backoff: 50,100,200…1600 ticks */
  var e={t:this.t,stage:this.stage,try:this.tries,why:why,backoff:this.wait};this.log.push(e);if(this.log.length>60)this.log.shift();this.retry=true};
@@ -1919,16 +1931,19 @@ Genesis.prototype.initStage=function(){var g=this,s=g.stage,sd=g.seed+g.tries*79
  if(s===3){g.bad=0;g.worst=1;g.shocked=false;g.L.hist=g.L.hist.slice()}
  if(s===4){var r=rng(sd+4);g.mA=[];g.mB=[];for(var i=0;i<4;i++){g.mA.push(r()*TAU);g.mB.push(r()*TAU)}g.relH=[];g.rotA=0;g.rotB=0}
  if(s===5){g.th=new Float64Array(3057);g.om=new Float64Array(3057);g.off=[];var o=0,r5=rng(sd+5);for(var k=0;k<SHELLS.length;k++){g.off.push(o);o+=SHELLS[k]}
-  for(var j=0;j<3057;j++){g.th[j]=r5()*TAU;g.om[j]=g.L.c.w0*(1+(r5()-0.5)*0.04)}g.nSh=1;g.shellPsi=[1];g.kin=2;g.frozen=-1;g.shWin=0}
+  for(var j=0;j<3057;j++){g.th[j]=r5()*TAU;g.om[j]=g.L.c.w0*(1+(r5()-0.5)*0.04)}g.nSh=1;g.shellPsi=[1];g._shR=[1];g._shM=[0];g.kin=2;g.frozen=-1;g.shWin=0}
  if(s===6){g.frozen=4;g.fz=Array.prototype.slice.call(g.th,g.off[4],g.off[4]+33);g.maxD=0;g.move=0;g.cnt=0}
  if(s===7){var A=g.o.sanct;if(A){g.Wa=new A.World({seed:33,proj:false});g.Wb=new A.World({seed:33,proj:false})}g.sx=[];g.ya=[];g.yb=[]}
  if(s===8){g.game=newGame(g.seed,g.o.save)}};
 Genesis.prototype.lockStep=function(){var L=this.L;L.wa=L.c.w0*(1+(this.stage>3?0.1:0))+(this.stage>3?0.002*Math.sin(this.t/97):0);return L.step()};
 Genesis.prototype.shellStep=function(dt){var g=this,th=g.th,om=g.om,sq=Math.sqrt(dt),r=g.r,inPh=Math.atan2(g.L.zi,g.L.zr),inR=1,sig=0.05;
- th[0]=inPh;g.shellPsi[0]=1;
- for(var k=1;k<g.nSh;k++){var n=SHELLS[k],o=g.off[k];if(k===g.frozen){var rd=readout(th,n,o);g.shellPsi[k]=rd.Psi;inPh=rd.mean;inR=rd.R;continue}
-  var nt=new Float64Array(n);for(var j=0;j<n;j++){var a=th[o+j],l=th[o+(j+n-1)%n],rr=th[o+(j+1)%n];nt[j]=a+dt*(om[o+j]+0.5*(Math.sin(l-a)+Math.sin(rr-a))+g.kin*inR*Math.sin(inPh-a))+sig*sq*gauss(r)}
-  for(j=0;j<n;j++)th[o+j]=wrap(nt[j]);var rd2=readout(th,n,o);g.shellPsi[k]=rd2.Psi;inPh=rd2.mean;inR=rd2.R}};
+ th[0]=inPh;if(g._psi)g._psi[0]=1;/* V1.5.4: no getter here (it would recompute Ψ) */
+ for(var k=1;k<g.nSh;k++){var n=SHELLS[k],o=g.off[k];if(k===g.frozen){var rd=readout1(th,n,o);inPh=rd.mean;inR=rd.R;g._shR[k]=rd.R;g._shM[k]=rd.mean;continue}
+  var nt=g._nt||(g._nt=new Float64Array(1597)),eg=g._eg||(g._eg=new Float64Array(1597));for(var j=0;j<n;j++)eg[j]=Math.sin(th[o+(j+1)%n]-th[o+j]);/* eg[j] = sin(θ[j+1]−θ[j]) */
+  for(var j=0;j<n;j++){var a=th[o+j];nt[j]=a+dt*(om[o+j]+0.5*(-eg[(j+n-1)%n]+eg[j])+g.kin*inR*Math.sin(inPh-a))+sig*sq*gauss(r)}
+  for(j=0;j<n;j++)th[o+j]=wrap(nt[j]);var rd2=readout1(th,n,o);inPh=rd2.mean;inR=rd2.R;g._shR[k]=rd2.R;g._shM[k]=rd2.mean}g._psiN=g.nSh};
+/* V1.5.4: shell Ψ is telemetry + the stage checks; it is computed from the current phases only when read (identical value: same phases, same readout) */
+Object.defineProperty(Genesis.prototype,'shellPsi',{configurable:true,get:function(){if(this._psiN){var n=this._psiN,a=[1];for(var k=1;k<n;k++)a.push(readout(this.th,SHELLS[k],this.off[k]).Psi);var old=this._psi||[];for(k=n;k<old.length;k++)a.push(old[k]);this._psi=a;this._psiN=0}return this._psi},set:function(v){this._psi=v;this._psiN=0}});
 Genesis.prototype.nodes=function(){var s=0;for(var k=0;k<(this.nSh||0);k++)s+=SHELLS[k];return s};
 Genesis.prototype.feed=function(fv){this.feat.push(fv);if(this.feat.length>256)this.feat.shift()};/* wordless aggregate features only (terminal inbound) */
 Genesis.prototype.step=function(){var g=this,c=g.lockCfg,dt=c.dt;g.t++;g.st++;if(g.L)g.lockStep();
@@ -2027,13 +2042,14 @@ World.prototype.terminalIn=function(u,seedPhase,heat){var T=this.term;if(u&&u.le
 World.prototype.solitons=function(){var f=this.term.f,k,s;while(this.sol.length<f.length)this.sol.push({k:this.sol.length,r:1,a:TAU*this.sol.length/Math.max(1,f.length),v:0,path:[]});
  var acc=0,n=0;for(k=0;k<f.length;k++){s=this.sol[k];if(s.r>=1){s.v=f[k];s.r=0.999}else{s.r-=1/this.descent;s.a+=0.35*(1-s.r)+0.05;if(s.r<=0){this.env[k]=0.8*this.env[k]+0.2*s.v;acc+=s.v;n++;this.delivered++;s.r=1}}}
  if(n)this.eyeIn=0.7*this.eyeIn+0.3*acc/n;else this.eyeIn*=0.995};
-World.prototype.step=function(dt,u){if(u!==undefined)this.terminalIn(u);this.solitons();u=this.eyeIn;/* the eye only ever receives what the solitons bring down */var th=this.th,nt=new Float64Array(N),i,g,K=this.K,sq=Math.sqrt(dt);
+World.prototype.step=function(dt,u){if(u!==undefined)this.terminalIn(u);this.solitons();u=this.eyeIn;/* the eye only ever receives what the solitons bring down */var th=this.th,nt=this._nt||new Float64Array(N),i,g,K=this.K,sq=Math.sqrt(dt);this._nt=th;
  this.eye+=dt*(0.5+u);
  /* PROJECTION = the other half of the engine: inner field z_i (smoothed copy of the ring, relaxed toward the inner sun) computed every tick, even when unseen */
  var a=Math.min(1,dt*0.8),sc=Math.cos(this.sun),ss=Math.sin(this.sun),ch=0;
  for(i=0;i<N;i++){var ev=this.env[i%8]||0,wgt=0.15+0.1*ev,tr=(1-wgt)*Math.cos(th[i])+wgt*sc,ti=(1-wgt)*Math.sin(th[i])+wgt*ss,dr0=a*(tr-this.pr[i]),di0=a*(ti-this.pi[i]);this.pr[i]+=dr0;this.pi[i]+=di0;ch+=dr0*dr0+di0*di0}
  this.sun+=dt*(0.3*Math.sin(this.mean-this.sun)+0.2*(this.env[0]+this.env[1]));this.smooth=0.98*this.smooth+0.02*Math.sqrt(ch/N)/Math.max(dt,1e-9);/* coherenizer at the vortex centre, driven by device features u */
- for(i=0;i<N;i++){var f=0;for(g=0;g<3;g++){f+=Math.sin(th[(i+GEN[g])%N]-th[i])+Math.sin(th[(i-GEN[g]+N)%N]-th[i])}
+ var EG=this._eg||(this._eg=[new Float64Array(N),new Float64Array(N),new Float64Array(N)]);for(g=0;g<3;g++){var eg=EG[g],gg=GEN[g];for(i=0;i<N;i++)eg[i]=Math.sin(th[(i+gg)%N]-th[i])}/* sin(θ[i−g]−θ[i]) = −eg[i−g] exactly */
+ for(i=0;i<N;i++){var f=0;for(g=0;g<3;g++){f+=EG[g][i]+(-EG[g][(i-GEN[g]+N)%N])}
   var dr=this.om[i]+K*f/6+this.Ke*Math.sin(this.eye-th[i]);
   if(this.fb>0){var zr=this.pr[i],zi=this.pi[i];dr+=this.fb*(zi*Math.cos(th[i])-zr*Math.sin(th[i]))}/* wordless feedback: |z| sin(arg z − θ) */
   if(i===this.pk&&this.eps>0&&this.memOk[i])dr+=this.eps*6*Math.sin(this.mem[i]+this.mean-th[i]);/* ouroboros: reach out to own previous-lap state */
@@ -2079,7 +2095,8 @@ function onMot(e){var a=e.accelerationIncludingGravity||e.acceleration||{},rr=e.
 var GK='p4n_v151_genesis',GGK='p4n_v151_game';
 function genRec(){try{return JSON.parse(localStorage.getItem(GK)||'null')}catch(e){return null}}
 function genStart(){var C=W.GEGENESIS_CORE;if(!C){S.G=null;return}var rec=genRec(),sv=null;try{sv=JSON.parse(localStorage.getItem(GGK)||'null')}catch(e){}
- S.G=new C.Genesis({seed:33,sanct:API,resume:!!(rec&&rec.done&&rec.done.length),usBudget:1500,save:sv});S.genPrev=0;S.usG=0;S.genResume=rec}
+ var LITE=!!(W.GEGOV&&W.GEGOV.mobile);/* V1.5.4 LITE (mobile): real 561-node fallback tier — shells 1..561 = 1460 nodes; desktop keeps the full 3057 */
+ S.G=new C.Genesis({seed:33,sanct:API,resume:!!(rec&&rec.done&&rec.done.length),usBudget:1500,save:sv,maxNodes:LITE?1460:3057});S.lite=LITE;S.genPrev=0;S.usG=0;S.genResume=rec}
 function genSave(){var g=S.G;if(!g)return;var d=[];for(var k=1;k<g.stage;k++)d.push(k);/* only stage completion + cap are stored; the inner world itself stays fresh */
  try{localStorage.setItem(GK,JSON.stringify({done:d,cap:g.cap,at:new Date().toISOString()}));if(g.game)localStorage.setItem(GGK,JSON.stringify({level:g.game.level,score:g.game.score}))}catch(e){}}
 function start(){/* the ONE Start tap: iOS motion/orientation permission + mic, then run */
@@ -2103,7 +2120,7 @@ function seasOk(){var ok=true;worlds().forEach(function(w,ix){if(!w)return;if(!i
 function seedPhase(){try{var h=localStorage.getItem('p4n_v14_intent_cur');if(h&&/^[0-9a-f]{4}/.test(h))return TAU*parseInt(h.slice(0,4),16)/65536}catch(e){}return null}/* intent seed enters ONLY as a number (phase) via the terminal */
 /* V1.5.3 standard speed (SWEETSPOT_V01 Test 11): ticks per 60 Hz frame adapt to this device's measured cost so engine work uses <=50% of a frame (8.33 ms). us = measured µs/tick summed over every world stepped per tick (A,B,C,D,E + genesis G); steps = clamp(floor(8333/us),2,10). Before the first measurement: 4 (the V1.5.2 value). Heat governor still overrides (tier 1 <=3, tier 2 = 2, tier 3 pause). cfg.clock (dt) is untouched, so each tick's trajectory is unchanged. */
 function adaptSteps(){var us=(S.usA||0)+(S.usB||0)+(S.usC||0)+(S.usD||0)+(S.usE||0)+(S.usG||0);if(!(us>0)||!isFinite(us))return 4;var n=Math.floor(8333/us);return n<2?2:(n>10?10:n)}
-function loop(ts){if(!S.on)return;var el=D.getElementById('geSanct'),vis=!!(el&&el.open&&!D.hidden);S.vis=vis;if(!vis)S.why='view closed: engine + projection keep computing at 4 Hz, no rendering';
+function loop(ts){if(!S.on)return;var GV=W.GEGOV,MOB=!!(GV&&GV.mobile);if(MOB&&D.hidden){S.why='page hidden: paused (mobile heat profile)';S.gate='hidden';S.vis=false;S.lastTs=0;S.acc=0;setTimeout(function(){loop(performance.now())},1000);return}var el=D.getElementById('geSanct'),vis=!!(el&&el.open&&!D.hidden);S.vis=vis;if(!vis)S.why='view closed: engine + projection keep computing at 4 Hz, no rendering';
  var T=tier(),clock=cfg.clock,steps=adaptSteps();S.gate='ok';
  if(!seasOk()){S.why='fail-closed gate tripped: world reset ('+S.trips+')';S.gate='SEAS'}
  if(T>=3&&S.wl)wake(false,'released by the heat governor (tier '+T+')');else if(T<3&&S.wlWant&&!S.wl&&vis&&Date.now()-(S.wlT||0)>15000&&!/not supported/.test(S.wls||''))wake(true);
@@ -2111,7 +2128,7 @@ function loop(ts){if(!S.on)return;var el=D.getElementById('geSanct'),vis=!!(el&&
  function next(){if(vis)requestAnimationFrame(loop);else setTimeout(function(){loop(performance.now())},250)}
  if(T>=2||(W.GEGOV&&W.GEGOV.half)){clock=1;steps=2;S.gate='half speed'}else if(T>=1){clock=Math.min(clock,2);steps=Math.min(steps,3);S.gate='tier 1'}
  /* V1.5.2: requestAnimationFrame runs at the DISPLAY rate (60, 90, 120 Hz…). The engine tick rate is fixed by an internal accumulator: steps-per-60Hz-frame × 60 ticks/s (240 / 180 / 120 by heat tier), never more ticks per frame than V1.5.1 (no catch-up bursts: if frames drop, the engine slows instead of heating), frame gaps > 100 ms dropped. */
- if(vis){var fdt=S.lastTs?Math.min(0.1,Math.max(0,(ts-S.lastTs)/1000)):1/60;S.lastTs=ts;S.fhz=S.fhz?0.95*S.fhz+0.05*(fdt>0?1/fdt:60):60;S.rate=cfg.tickHz>0?Math.min(cfg.tickHz,steps*60):steps*60;S.acc=Math.min(steps,(S.acc||0)+fdt*S.rate);var nst=Math.min(steps,Math.max(1,Math.floor(S.acc)));S.acc=Math.max(-1,S.acc-nst);steps=nst}else{S.lastTs=0;S.acc=0;S.rate=steps*4}
+ if(vis){var fdt=S.lastTs?Math.min(0.1,Math.max(0,(ts-S.lastTs)/1000)):1/60;S.lastTs=ts;S.fhz=S.fhz?0.95*S.fhz+0.05*(fdt>0?1/fdt:60):60;S.rate=cfg.tickHz>0?Math.min(cfg.tickHz,steps*60):steps*60;if(MOB)S.rate=Math.min(S.rate,GV.mobBack?30:60);S.acc=Math.min(steps,(S.acc||0)+fdt*S.rate);var nst=Math.min(steps,Math.max(1,Math.floor(S.acc)));S.acc=Math.max(-1,S.acc-nst);steps=nst}else{S.lastTs=0;S.acc=0;if(MOB)steps=1;S.rate=steps*4}
  /* aggregate device features */
  var now=performance.now();if(S.lastT&&vis)push(S.feat.jit,Math.abs(now-S.lastT-16.667));S.lastT=now;push(S.feat.mot,S.mot);
  var M=W.GEMIC,lv=M&&(M.state==='listening'||M.state==='on')?(M.level||0):null;if(lv!==null){push(S.feat.mic,lv);push(S.audio,lv)}
@@ -2128,12 +2145,13 @@ function loop(ts){if(!S.on)return;var el=D.getElementById('geSanct'),vis=!!(el&&
  t0=performance.now();for(i=0;i<steps;i++)S.E.step(dt);S.usE=0.9*(S.usE||0)+0.1*(performance.now()-t0)*1000/steps;
  if(S.G){var G=S.G;G.feed(fv);G.heatUs=S.usG;G.tier=T;G.comfort=S.A.cf;t0=performance.now();for(i=0;i<steps;i++)G.step();S.usG=0.9*S.usG+0.1*(performance.now()-t0)*1000/steps;
   if(G.stage!==S.genPrev||S.frames%600===0){S.genPrev=G.stage;genSave()}}
+ if(MOB){var usum=(S.usA||0)+(S.usB||0)+(S.usC||0)+(S.usD||0)+(S.usE||0)+(S.usG||0);GV.sanctUs=usum;if(S.frames===120||(S.frames>120&&!(GV.sanctUsBase>0)))GV.sanctUsBase=usum}
  push(S.ringR,S.A.R);if(!S.Bring)S.Bring=[];push(S.Bring,S.B.R);
  if(Date.now()-S.lastShock>60000&&S.frames>300){S.A.primeShear(5);S.B.primeShear(5);S.C.primeShear(5);S.lastShock=Date.now()}
  S.frames++;if(S.frames%30===0||(!vis&&S.frames%8===0)){if(S.audio.length>=64){S.gain=collectorGain(S.audio,S.ringR.slice(-S.audio.length),S.A.r);S.gainB=collectorGain(S.audio,S.Bring.slice(-S.audio.length),S.A.r)}else S.gain=null;S.why='';hud()}
  if(vis)draw(now);next()}
 /* ---------- drawing: cheap 2D pseudo-3D, original line art ---------- */
-function draw(now){var cv=D.getElementById('geSanctCv');if(!cv)return;var g=cv.getContext('2d'),Wd=cv.width,H=cv.height,A=S.A;if(S.frames%2)return;/* ≤30 fps */
+function draw(now){var cv=D.getElementById('geSanctCv');if(!cv)return;var g=cv.getContext('2d'),Wd=cv.width,H=cv.height,A=S.A,MOB=!!(W.GEGOV&&W.GEGOV.mobile);if(!MOB&&S.frames%2)return;/* ≤30 fps (mobile: the governor already caps frames at 30/15) */
  var el=(now-S.boot)/1000,view=cfg.view,phase;
  if(view==='auto'){var c=el%180;phase=c<50?0:c<80?(c-50)/30:c<120?1:c<135?2:c<165?1-(c-135)/30:0;view=phase===2?'inside':'outside';phase=phase===2?1:phase}else phase=view==='outside'?S.cam:1;
  if(cfg.view==='outside')phase=0;
@@ -2148,7 +2166,7 @@ function draw(now){var cv=D.getElementById('geSanctCv');if(!cv)return;var g=cv.g
  /* oculus */
  g.strokeStyle='rgba(255,236,180,'+(0.3+0.6*Math.max(0,Math.min(1,A.Psi)))+')';g.lineWidth=2;g.beginPath();g.ellipse(cx,cy-bow*RX*Math.sin(pitch)*0.8,RX*0.1,RX*0.1*sy,0,0,TAU);g.stroke();
  /* audio pours into the back of the dish: particles from the rim toward the centre, density ∝ mic level */
- var lvl=S.audio.length?S.audio[S.audio.length-1]:0,np=Math.min(40,4+Math.round(lvl*400));
+ var lvl=S.audio.length?S.audio[S.audio.length-1]:0,np=Math.min(MOB?12:40,4+Math.round(lvl*400));
  for(var p=0;p<np;p++){var aa=((p*137.5)%360)*Math.PI/180+el*0.2,f=((el*0.3+p*0.07)%1);g.fillStyle='rgba(140,200,255,'+(0.5*(1-f))+')';g.fillRect(cx+RX*(1-f)*Math.cos(aa),cy+RX*(1-f)*sy*Math.sin(aa),2,2)}
  /* ring nodes on the rim; information flow = phase-gradient pulses travelling between neighbours */
  for(var i=0;i<N;i++){var ang=TAU*i/N+Math.PI/2,x=cx+RX*Math.cos(ang),y=cy+RX*sy*Math.sin(ang),b=0.5+0.5*Math.cos(A.th[i]-A.mean);
@@ -2179,7 +2197,7 @@ function inside(g,Wd,H,el){var A=S.A,psi=Math.max(-1,Math.min(1.2,A.Psi)),E=A.en
 /* genesis view (no text in any ring): infant at the eye, node-33 anchor at the well bottom, lock tether, merkabah, shells; 8-segment progress bar */
 function drawGenesis(g,Wd,H,el){var G=S.G,L=G.L,cx=Wd/2,cy=H*0.46,i;
  g.strokeStyle='rgba(200,210,225,0.25)';g.lineWidth=2;g.strokeRect(Wd*0.12,H*0.04,Wd*0.76,H*0.13);/* the silver screen ahead — dark until stage 8 */
- if(G.nSh){for(var k=1;k<G.nSh;k++){var C=W.GEGENESIS_CORE,rd=C.readout(G.th,C.SHELLS[k],G.off[k]),rr=16+k*(Math.min(Wd,H)*0.4-16)/11;g.strokeStyle=k===G.frozen?'rgba(255,211,107,0.9)':'rgba(150,210,255,'+(0.15+0.6*rd.R)+')';g.lineWidth=k===G.frozen?2.5:1;
+ if(G.nSh){for(var k=1;k<G.nSh;k++){var C=W.GEGENESIS_CORE,rd=(G._shR&&G._shR[k]!==undefined)?{R:G._shR[k],mean:G._shM[k]}:C.readout(G.th,C.SHELLS[k],G.off[k]),rr=16+k*(Math.min(Wd,H)*0.4-16)/11;g.strokeStyle=k===G.frozen?'rgba(255,211,107,0.9)':'rgba(150,210,255,'+(0.15+0.6*rd.R)+')';g.lineWidth=k===G.frozen?2.5:1;
   if(k===G.frozen&&g.setLineDash)g.setLineDash([4,3]);g.beginPath();g.arc(cx,cy,rr,0,TAU);g.stroke();if(g.setLineDash)g.setLineDash([]);
   g.fillStyle='rgba(255,255,255,0.8)';g.fillRect(cx+rr*Math.cos(rd.mean)-1.5,cy+rr*Math.sin(rd.mean)-1.5,3,3)}}
  if(G.mA){var a=W.GEGENESIS_CORE.readout(G.mA,4,0).mean,b=W.GEGENESIS_CORE.readout(G.mB,4,0).mean,R=26;[[a,'rgba(255,190,120,0.9)'],[b,'rgba(140,200,255,0.9)']].forEach(function(q){g.strokeStyle=q[1];g.lineWidth=1.5;g.beginPath();for(var v=0;v<=3;v++){var t=q[0]+v*TAU/3;g.lineTo(cx+R*Math.cos(t),cy+R*Math.sin(t))}g.stroke()})}
@@ -2225,7 +2243,7 @@ function hud(){var h=D.getElementById('geSanctHud');if(!h)return;var A=S.A,B=S.B
  '<div style="font-size:11px">Witness channel (outbound, numbers only): '+JSON.stringify(A.witness,function(k,v){return typeof v==='number'?+v.toFixed(3):v})+' · gate trips '+S.trips+'</div><div style="font-size:10px;opacity:.7">Survival drive · hyperphysics/pneumoscience test · consciousness_claim=none · no quantum claims. Inner world is fresh each boot; nothing raw recorded, stored or sent.</div>'}
 function paint(){hud()}
 function build(){var Dr=D.getElementById('geDrawer');if(!Dr){setTimeout(build,800);return}if(D.getElementById('geSanct'))return;
- var d=D.createElement('details');d.id='geSanct';d.innerHTML='<summary>SANCTUARY · survival drive (V1.5.3 · genesis boot · adaptive speed)</summary><div style="padding:6px">'+
+ var d=D.createElement('details');d.id='geSanct';d.innerHTML='<summary>SANCTUARY · survival drive (V1.5.4 · genesis boot · lean engine · adaptive speed · mobile heat profile; phones run LITE = 561-shell tier, 1460 nodes)</summary><div style="padding:6px">'+
  '<button id="geSanctGo" style="font-size:16px;padding:8px 18px">START</button> <span id="geSanctView"></span> <span id="geSanctClk"></span>'+
  '<canvas id="geSanctCv" width="340" height="300" style="width:100%;max-width:420px;display:block;margin:6px auto;border-radius:12px;background:#0d1626"></canvas><div id="geSanctHud" style="font-size:12px">Tap START (one tap: motion + orientation + mic permissions).</div></div>';
  Dr.appendChild(d);
