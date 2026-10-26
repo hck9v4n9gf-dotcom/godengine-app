@@ -1,3 +1,21 @@
+# GødEngine: APP V1.5.3 "standard speed"
+
+**Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
+
+- **Adaptive standard speed (SWEETSPOT_V01 Test 11).** Ticks per 60 Hz frame now fit the device: steps = clamp(floor(8.33 ms / measured ms-per-tick), 2, 10), where ms-per-tick is the measured cost of every world stepped per tick (A–E + genesis). Engine work stays ≤ ~50% of a frame. Before the first measurement it uses 4 (the V1.5.2 value). The heat governor still overrides (tier 1 ≤ 3, tier 2 = 2, tier 3 pause).
+- **Tick-rate presets** (Sanctuary → ticks/s): auto · 528 · 561 · 600. A preset is a target; the adaptive per-frame cap and the heat governor still apply.
+- `cfg.clock` (dt) is unchanged, so every tick is the same computation as V1.5.2. Genesis core and lock recipe unchanged (determinism hash `76a5bb571aa7bbcb`).
+- Headless phone-size Chrome on the box (clock ×1, governor pinned to tier 0 because another job was loading the box): all 8 genesis stages pass at auto/528/561/600; stage-2 lock at tick 805, PLV 0.9753 in every run. **NOT verified on a real iPhone or Pi.**
+- consciousness_claim = none · medical_claim = none.
+
+| file | what |
+|---|---|
+| `index.html` | APP V1.5.3, a single self-contained file |
+| `LAUNCH_GODENGINE.html` | one-file launcher (V1.5.3) |
+| `GODENGINE_V1_5_2.bak.html` / `LAUNCH_GODENGINE_V1_5_2.bak.html` | V1.5.2 (backup) |
+
+---
+
 # GødEngine: APP V1.5.2 "collider + iPhone readiness"
 
 **Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
