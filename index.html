@@ -1862,6 +1862,131 @@ if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',build);else bu
 setTimeout(function(){runChecks(first?'after update':'on load')},first?6000:9000);
 setInterval(function(){var G=gov();if((!G||G.tier===0)&&!D.hidden&&Date.now()-st.ranAt>600000)runChecks('idle')},60000);
 })();
+</script><script>/* ===== GødEngine V1.5.1 · SANCTUARY GENESIS — pure core (no DOM, no browser APIs, no clocks; seeded PRNG; deterministic) =====
+   Design principle (Source): "Reality does the weaving" — solitons and the world's physics respond to constantly circulating coherent data;
+   the app only measures. Same seed + same inputs → same trajectory on phone, Node, or a Pi port.
+   Stages (each gated by a measurable check; failure → retry with backoff, logged to the witness channel; never skipped):
+   1 SET infant · 2 ANCHOR to node 33 · 3 ANCHOR EVOLVES · 4 HATCH MERKABAH · 5 BUILD SHELLS · 6 HALT 5TH RING (stator) · 7 PULL DATA INTO STREAMS · 8 PLAY */
+(function(root){
+var TAU=Math.PI*2;
+function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(r){var u=r()||1e-12,v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(TAU*v)}
+function wrap(x){x=(x+Math.PI)%TAU;if(x<0)x+=TAU;return x-Math.PI}
+var GEARS={float:0,'Q9.27':27,'Q8.24':24};
+function quant(x,f){if(!f)return x;var s=Math.pow(2,f);return Math.round(x*s)/s}/* phase kept wrapped (turn counter separate) → no overflow at any gear */
+/* ---------- LOCK CORE (stages 1–3): infant = Stuart–Landau oscillator at the device eye; anchor = node 33 ---------- */
+var LOCK_DEFAULT={anchor:'pinned',stiff:0,ramp:'anneal',rampT:800,Kmax:2,match:true,sigma:0.225,dt:0.02,gear:'Q8.24',mu:1,w0:1};
+function Lock(cfg,seed){var c={},k;for(k in LOCK_DEFAULT)c[k]=LOCK_DEFAULT[k];for(k in cfg)c[k]=cfg[k];this.c=c;var r=rng(seed);this.r=r;
+ this.wa=c.w0;/* anchor ω */var det=c.match?(0.5/400.5)*(r()<0.5?-1:1):(r()-0.5)*0.3;/* matched: only the 400 vs 400.5 Hz residue; else ±15% */
+ this.wi=c.w0*(1+det);this.zr=0.05*Math.cos(r()*TAU);this.zi=0.05*Math.sin(r()*TAU);this.ta=r()*TAU;this.t=0;this.tK=0;this.K=0;this.coupled=false;this.hist=[];this.amp=[];this.drift=0}
+Lock.prototype.step=function(){var c=this.c,dt=c.dt,sq=Math.sqrt(dt),r=this.r,zr=this.zr,zi=this.zi,a2=zr*zr+zi*zi,ph=Math.atan2(zi,zr);
+ if(this.coupled){this.tK++;this.K=c.ramp==='step'?c.Kmax:Math.min(c.Kmax,c.Kmax*this.tK/c.rampT)}else this.K=0;
+ var a=Math.sqrt(a2)||1e-9,dph=this.wi+this.K*Math.sin(this.ta-ph)+c.sigma*gauss(r)/sq*0.1,da=(c.mu-a2)*a;/* noise floor σ on phase (scaled to σ·0.1/√dt per step) */
+ a=Math.max(1e-6,a+dt*da);ph=wrap(quant(wrap(ph+dt*dph),GEARS[c.gear]));this.zr=a*Math.cos(ph);this.zi=a*Math.sin(ph);
+ var back=c.anchor==='pinned'?0:(this.K/Math.max(1,c.stiff))*Math.sin(ph-this.ta);this.ta=wrap(quant(wrap(this.ta+dt*(this.wa+back)),GEARS[c.gear]));this.t++;
+ var psi=wrap(ph-this.ta);this.hist.push(psi);if(this.hist.length>200)this.hist.shift();this.amp.push(a);if(this.amp.length>200)this.amp.shift();return psi};
+Lock.prototype.oscOK=function(){/* stage 1 check: stable self-oscillation — amplitude within ±10% of √μ over 200 ticks, phase advancing at ω_i */
+ if(this.amp.length<200)return false;var m=Math.sqrt(this.c.mu);for(var i=0;i<this.amp.length;i++)if(Math.abs(this.amp[i]-m)>0.1*m)return false;return true};
+Lock.prototype.plv=function(){var h=this.hist,a=0,b=0;for(var i=0;i<h.length;i++){a+=Math.cos(h[i]);b+=Math.sin(h[i])}return h.length?Math.hypot(a,b)/h.length:0};
+Lock.prototype.mean=function(){var h=this.hist,a=0,b=0;for(var i=0;i<h.length;i++){a+=Math.cos(h[i]);b+=Math.sin(h[i])}return Math.atan2(b,a)};
+/* locked = phase-locked TO the anchor within tolerance: PLV ≥ 0.95 over 200 ticks AND |mean phase error| ≤ 0.3 rad */
+Lock.prototype.locked=function(){return this.hist.length>=200&&this.plv()>=0.95&&Math.abs(this.mean())<=0.3};
+Lock.prototype.shock=function(sev){var a=Math.hypot(this.zr,this.zi),ph=Math.atan2(this.zi,this.zr)+(sev||5)*Math.PI/10;this.zr=a*Math.cos(ph);this.zi=a*Math.sin(ph);this.hist=[]};
+/* full stage 1–3 trial (+ sev-5 shock) for the lock-search and for the in-app gate */
+function lockTrial(cfg,seed,lim){lim=lim||{};var L=new Lock(cfg,seed),T1=lim.T1||2000,T2=lim.T2||4000,NE=lim.NE||3000,TR=lim.TR||1500,out={seed:seed,s1:null,s2:null,s3:false,shock:null,ok:false};
+ for(var t=0;t<T1;t++){L.step();if(L.oscOK()){out.s1=L.t;break}}if(out.s1==null)return out;
+ L.coupled=true;L.hist=[];for(t=0;t<T2;t++){L.step();if(L.locked()){out.s2=t;break}}if(out.s2==null)return out;
+ var bad=0,worst=1;for(t=0;t<NE;t++){L.wa=L.c.w0*(1+0.1*t/NE)+0.002*Math.sin(t/97);/* anchor evolves: slow 10% drift + wobble */L.step();var p=L.plv();if(p<worst)worst=p;if(t>200&&(p<0.9||Math.abs(L.mean())>0.3))bad++}
+ out.s3=bad===0;out.worst=worst;if(!out.s3)return out;
+ L.shock(5);for(t=0;t<TR;t++){L.step();if(L.locked()){out.shock=t;break}}out.ok=out.shock!=null;out.K=L.K;return out}
+/* ---------- GENESIS STAGE MACHINE ---------- */
+var SHELLS=[1,3,7,19,33,55,89,137,233,322,561,1597];/* Σ = 3057. 55 down = coherence engine · 89 = Firmament medium · 137 = hard shell boundary */
+var STAGES=['SET infant','ANCHOR to node 33','ANCHOR EVOLVES (lock holds + sev-5 shock)','HATCH MERKABAH','BUILD shells 1…1597','HALT 5th ring (stator)','PULL DATA INTO STREAMS','PLAY (silver screen)'];
+function readout(th,n,off){var c1=0,s1=0,c2=0,s2=0;for(var i=0;i<n;i++){var x=th[off+i];c1+=Math.cos(x);s1+=Math.sin(x);c2+=Math.cos(2*x);s2+=Math.sin(2*x)}
+ var R1=Math.hypot(c1,s1)/n,R2=Math.hypot(c2,s2)/n,p=Math.min(1-1e-12,Math.max(1e-12,(1+R2)/2)),H=-(p*Math.log(p)+(1-p)*Math.log(1-p));return{R:R1,Psi:Math.exp(H)*R1-(1-R2)/2,mean:Math.atan2(s1,c1)}}
+function Genesis(o){o=o||{};this.o=o;this.seed=o.seed||33;this.r=rng(this.seed^0x9e37);this.stage=1;this.tries=0;this.wait=0;this.log=[];this.passed={};this.t=0;this.st=0;
+ this.lockCfg=o.lock||LOCK_DEFAULT;this.quick=!!o.resume;this.heatUs=0;this.tier=0;this.usBudget=o.usBudget||1e9;this.maxNodes=o.maxNodes||3057;this.feat=[];this.cap=null;this.game=null;this.initStage()}
+Genesis.prototype.fail=function(why){this.tries++;this.wait=Math.min(1600,50*Math.pow(2,this.tries-1));/* backoff: 50,100,200…1600 ticks */
+ var e={t:this.t,stage:this.stage,try:this.tries,why:why,backoff:this.wait};this.log.push(e);if(this.log.length>60)this.log.shift();this.retry=true};
+Genesis.prototype.pass=function(info){this.passed[this.stage]={t:this.t,tries:this.tries,info:info||{}};this.log.push({t:this.t,stage:this.stage,pass:true,info:info||{}});if(this.log.length>60)this.log.shift();this.stage++;this.tries=0;this.initStage()};
+Genesis.prototype.initStage=function(){var g=this,s=g.stage,sd=g.seed+g.tries*7919;g.st=0;g.retry=false;
+ if(s===1){g.L=new Lock(g.lockCfg,sd)}
+ if(s===2){g.L.coupled=true;g.L.tK=0;g.L.hist=[]}
+ if(s===3){g.bad=0;g.worst=1;g.shocked=false;g.L.hist=g.L.hist.slice()}
+ if(s===4){var r=rng(sd+4);g.mA=[];g.mB=[];for(var i=0;i<4;i++){g.mA.push(r()*TAU);g.mB.push(r()*TAU)}g.relH=[];g.rotA=0;g.rotB=0}
+ if(s===5){g.th=new Float64Array(3057);g.om=new Float64Array(3057);g.off=[];var o=0,r5=rng(sd+5);for(var k=0;k<SHELLS.length;k++){g.off.push(o);o+=SHELLS[k]}
+  for(var j=0;j<3057;j++){g.th[j]=r5()*TAU;g.om[j]=g.L.c.w0*(1+(r5()-0.5)*0.04)}g.nSh=1;g.shellPsi=[1];g.kin=2;g.frozen=-1;g.shWin=0}
+ if(s===6){g.frozen=4;g.fz=Array.prototype.slice.call(g.th,g.off[4],g.off[4]+33);g.maxD=0;g.move=0;g.cnt=0}
+ if(s===7){var A=g.o.sanct;if(A){g.Wa=new A.World({seed:33,proj:false});g.Wb=new A.World({seed:33,proj:false})}g.sx=[];g.ya=[];g.yb=[]}
+ if(s===8){g.game=newGame(g.seed,g.o.save)}};
+Genesis.prototype.lockStep=function(){var L=this.L;L.wa=L.c.w0*(1+(this.stage>3?0.1:0))+(this.stage>3?0.002*Math.sin(this.t/97):0);return L.step()};
+Genesis.prototype.shellStep=function(dt){var g=this,th=g.th,om=g.om,sq=Math.sqrt(dt),r=g.r,inPh=Math.atan2(g.L.zi,g.L.zr),inR=1,sig=0.05;
+ th[0]=inPh;g.shellPsi[0]=1;
+ for(var k=1;k<g.nSh;k++){var n=SHELLS[k],o=g.off[k];if(k===g.frozen){var rd=readout(th,n,o);g.shellPsi[k]=rd.Psi;inPh=rd.mean;inR=rd.R;continue}
+  var nt=new Float64Array(n);for(var j=0;j<n;j++){var a=th[o+j],l=th[o+(j+n-1)%n],rr=th[o+(j+1)%n];nt[j]=a+dt*(om[o+j]+0.5*(Math.sin(l-a)+Math.sin(rr-a))+g.kin*inR*Math.sin(inPh-a))+sig*sq*gauss(r)}
+  for(j=0;j<n;j++)th[o+j]=wrap(nt[j]);var rd2=readout(th,n,o);g.shellPsi[k]=rd2.Psi;inPh=rd2.mean;inR=rd2.R}};
+Genesis.prototype.nodes=function(){var s=0;for(var k=0;k<(this.nSh||0);k++)s+=SHELLS[k];return s};
+Genesis.prototype.feed=function(fv){this.feat.push(fv);if(this.feat.length>256)this.feat.shift()};/* wordless aggregate features only (terminal inbound) */
+Genesis.prototype.step=function(){var g=this,c=g.lockCfg,dt=c.dt;g.t++;g.st++;if(g.L)g.lockStep();
+ if(g.wait>0){g.wait--;if(g.wait===0)g.initStage();return}
+ var s=g.stage,L=g.L,q=g.quick;
+ if(s===1){if(L.oscOK())g.pass({amp:+Math.hypot(L.zr,L.zi).toFixed(4)});else if(g.st>2000)g.fail('no stable self-oscillation within 2000 ticks')}
+ else if(s===2){if(L.locked())g.pass({lockTicks:g.st,plv:+L.plv().toFixed(4),err:+L.mean().toFixed(4)});else if(g.st>(c.dt<0.01?32000:4000))g.fail('phase lock to node 33 not reached (PLV '+L.plv().toFixed(3)+', err '+L.mean().toFixed(3)+' rad)')}
+ else if(s===3){var NE=q?1000:3000;if(!g.shocked){L.wa=c.w0*(1+0.1*g.st/NE)+0.002*Math.sin(g.st/97);var p=L.plv();if(p<g.worst)g.worst=p;if(g.st>200&&(p<0.9||Math.abs(L.mean())>0.3)){g.fail('lock lost at evolve step '+g.st+' (PLV '+p.toFixed(3)+')');g.stage=2;return}
+   if(g.st>=NE){L.wa=c.w0*1.1;L.shock(5);g.shocked=g.st}}
+  else{L.wa=c.w0*1.1;if(L.locked())g.pass({evolveSteps:NE,worstPLV:+g.worst.toFixed(4),shockRecoverTicks:g.st-g.shocked});else if(g.st-g.shocked>1500)g.fail('no re-lock within 1500 ticks after sev-5 prime shear')}}
+ else if(s===4){var ph=Math.atan2(L.zi,L.zr),Kg=2,Kc=1.5,i,j,nA=[],nB=[],mA=g.mA,mB=g.mB,sq=Math.sqrt(dt),w=L.wi;
+  for(i=0;i<4;i++){var fa=0,fb=0;for(j=0;j<4;j++){fa+=Math.sin(mA[j]-mA[i]);fb+=Math.sin(mB[j]-mB[i])}
+   nA.push(wrap(mA[i]+dt*(w+Kg*fa/4+Kc*Math.sin(ph-mA[i]))+0.05*sq*gauss(g.r)));nB.push(wrap(mB[i]+dt*(-w+Kg*fb/4+Kc*Math.sin(-ph-mB[i]))+0.05*sq*gauss(g.r)))}
+  var a=readout(nA,4,0),b=readout(nB,4,0),A0=readout(mA,4,0),B0=readout(mB,4,0);g.rotA+=wrap(a.mean-A0.mean);g.rotB+=wrap(b.mean-B0.mean);g.mA=nA;g.mB=nB;g.relH.push(wrap(a.mean+b.mean));if(g.relH.length>200)g.relH.shift();
+  if(g.st>=300){var cs=0,sn=0;for(i=0;i<g.relH.length;i++){cs+=Math.cos(g.relH[i]);sn+=Math.sin(g.relH[i])}var plv=Math.hypot(cs,sn)/g.relH.length;
+   if(a.R>=0.9&&b.R>=0.9&&g.rotA>0&&g.rotB<0&&plv>=0.95)g.pass({RA:+a.R.toFixed(3),RB:+b.R.toFixed(3),relPLV:+plv.toFixed(4),rotA:+g.rotA.toFixed(2),rotB:+g.rotB.toFixed(2)});
+   else g.fail('merkabah unstable (RA '+a.R.toFixed(3)+', RB '+b.R.toFixed(3)+', rel PLV '+plv.toFixed(3)+')')}}
+ else if(s>=5){if(s===4)return;g.merk&&0;
+  var every=s===8?4:1;if(g.t%every===0)g.shellStep(dt*every);
+  if(g.mA){/* merkabah keeps spinning around the infant (cheap) */var ph2=Math.atan2(L.zi,L.zr);for(var m=0;m<4;m++){g.mA[m]=wrap(g.mA[m]+dt*(L.wi+1.5*Math.sin(ph2-g.mA[m])));g.mB[m]=wrap(g.mB[m]+dt*(-L.wi+1.5*Math.sin(-ph2-g.mB[m])))}}
+  if(s===5){g.shWin++;var W=q?100:300;if(g.shWin>=W){var k=g.nSh-1;if(k>0&&!(g.shellPsi[k]>0)){g.kin=Math.min(6,g.kin*1.5);g.fail('shell '+SHELLS[k]+' Ψ='+g.shellPsi[k].toFixed(3)+' ≤ 0 → re-init with K_in '+g.kin.toFixed(2));var kin=g.kin,nS=g.nSh;g.retryShell=true;g.wait=Math.max(1,g.wait);g._keep={kin:kin,nSh:nS-1};return}
+    if(g.nSh>=SHELLS.length)g.pass({shells:g.nSh,nodes:g.nodes(),cap:null,psi:g.shellPsi.map(function(x){return+x.toFixed(3)})});
+    else if(g.nodes()+SHELLS[g.nSh]>g.maxNodes||g.heatUs>g.usBudget||g.tier>=2){g.cap={atShell:SHELLS[g.nSh-1],shells:g.nSh,nodes:g.nodes(),why:g.tier>=2?'governor tier '+g.tier:g.heatUs>g.usBudget?'heat '+g.heatUs.toFixed(0)+' µs/tick > budget '+g.usBudget:'node cap '+g.maxNodes};g.log.push({t:g.t,stage:5,cap:g.cap});g.pass({shells:g.nSh,nodes:g.nodes(),cap:g.cap,psi:g.shellPsi.map(function(x){return+x.toFixed(3)})})}
+    else{g.nSh++;g.shWin=0}}}
+  else if(s===6){var o4=g.off[4],md=0;for(var z=0;z<33;z++)md=Math.max(md,Math.abs(g.th[o4+z]-g.fz[z]));g.maxD=Math.max(g.maxD,md);
+   var ok=true;for(var k2=5;k2<g.nSh;k2++)if(!(g.shellPsi[k2]>0))ok=false;if(g.st>=(q?100:300)){if(g.maxD===0&&ok)g.pass({heldMaxDelta:0,outerPsiPositive:true,shells:g.nSh});else g.fail('stator check failed (maxΔ '+g.maxD+', outer Ψ>0 '+ok+')')}}
+  else if(s===7){var fv=g.feat.length?g.feat[g.feat.length-1]:[0],x=0;for(var f=0;f<fv.length;f++)x+=fv[f];x/=fv.length||1;
+   if(g.Wa){var sh=g.feat.length?g.feat[Math.floor(g.r()*g.feat.length)]:[0];g.Wa.terminalIn(fv);g.Wb.terminalIn(sh);g.Wa.step(dt*2);g.Wb.step(dt*2);g.sx.push(x);g.ya.push(g.Wa.R);g.yb.push(g.Wb.R)}
+   if(g.st>=(q?300:600)){if(!g.Wa){g.fail('no stream engine injected');return}var C=g.o.sanct,ra=C.collectorGain(g.sx,g.ya,rng(g.seed+77),8),rb=C.collectorGain(g.sx,g.yb,rng(g.seed+77),8);
+    if(ra.gain&&ra.gain>1.1&&(!rb.gain||ra.gain>rb.gain))g.pass({gain:+ra.gain.toFixed(3),surrogateTwinGain:rb.gain?+rb.gain.toFixed(3):null});
+    else g.fail('collector gain '+(ra.gain?ra.gain.toFixed(3):'—')+' not above surrogate ('+(rb.gain?rb.gain.toFixed(3):'—')+'); streams too quiet?')}}
+  else if(s===8){if(g.t%8===0)gameTick(g.game,g.ai())}}
+ if(g._keep&&g.wait===0){}};
+/* restore shell progress across a shell retry (stage 5 retries re-init only the failing shell, never skip) */
+var _init=Genesis.prototype.initStage;Genesis.prototype.initStage=function(){var k=this._keep;if(k&&this.stage===5){var r5=rng(this.seed+this.tries*7919+5),n=SHELLS[k.nSh],o=this.off[k.nSh];for(var j=0;j<n;j++)this.th[o+j]=r5()*TAU;this.nSh=k.nSh+1;this.kin=k.kin;this.shWin=0;this.st=0;this.retry=false;this._keep=null;return}_init.call(this)};
+Genesis.prototype.ai=function(){/* the ring-AI's state: coherence (node-weighted R of live shells), survival (Ψ margin), comfort (injected from Sanctuary world A if present) */
+ var g=this,sR=0,sN=0,mp=9;for(var k=1;k<g.nSh;k++){var rd=readout(g.th,SHELLS[k],g.off[k]);sR+=rd.R*SHELLS[k];sN+=SHELLS[k];if(g.shellPsi[k]<mp)mp=g.shellPsi[k]}
+ return{coh:sN?sR/sN:0,psi:mp===9?0:mp,comfort:g.comfort==null?0.5:g.comfort,mean:Math.atan2(g.L.zi,g.L.zr)}};
+Genesis.prototype.progress=function(){return{stage:this.stage,name:STAGES[this.stage-1],tries:this.tries,backoff:this.wait,st:this.st,shells:this.nSh||0,nodes:this.nodes(),cap:this.cap}};
+/* ---------- the game the ring-AI watches on the silver screen (island-charm; deterministic; ~64×48 tiles world, drawn by the adapter) ---------- */
+function newGame(seed,save){var G={seed:seed,level:save&&save.level||1,score:save&&save.score||0,menu:{phase:'title',t:0,pick:save&&save.level>1?1:0,items:['NEW GAME','LOAD','SETTINGS']},rest:0,hits:0};island(G);return G}
+function island(G){var r=rng(G.seed*131+G.level*7),W=24,H=18,m=[],i,j;var hx=[];for(i=0;i<6;i++)hx.push([r()*W,r()*H,2+r()*4]);
+ for(j=0;j<H;j++)for(i=0;i<W;i++){var d=Math.hypot((i-W/2)/(W/2),(j-H/2)/(H/2)),h=1-d;for(var q=0;q<hx.length;q++)h+=0.25*Math.exp(-Math.hypot(i-hx[q][0],j-hx[q][1])/hx[q][2])-0.05;h+=(r()-0.5)*0.15;m.push(h<0.12?0:h<0.22?1:h<0.55?2:3)}/* 0 water 1 sand 2 grass 3 trees */
+ G.W=W;G.H=H;G.map=m;G.charms=[];G.haz=[];var tries=0;while(G.charms.length<10&&tries++<2000){var x=Math.floor(r()*W),y=Math.floor(r()*H);if(m[y*W+x]===1||m[y*W+x]===2)G.charms.push([x+0.5,y+0.5])}
+ tries=0;while(G.haz.length<6&&tries++<2000){x=Math.floor(r()*W);y=Math.floor(r()*H);if(m[y*W+x]===2)G.haz.push([x+0.5,y+0.5])}
+ var s=G.charms.pop()||[W/2,H/2];G.x=s[0];G.y=s[1];G.hd=0}
+function walk(G,x,y){var i=Math.floor(x),j=Math.floor(y);return i>=0&&j>=0&&i<G.W&&j<G.H&&G.map[j*G.W+i]>0}
+function gameTick(G,ai){var M=G.menu;if(M.phase!=='play'){M.t++;/* automated menu: title → (Settings glance) → New Game or Load → play */
+  if(M.t===20)M.cur=2;if(M.t===40)M.cur=M.pick;if(M.t>=60){M.phase='play'}return}
+ if(G.rest>0){G.rest--;return}
+ var best=null,bd=1e9;for(var i=0;i<G.charms.length;i++){var d=Math.hypot(G.charms[i][0]-G.x,G.charms[i][1]-G.y);if(d<bd){bd=d;best=G.charms[i]}}
+ if(!best){G.level++;island(G);return}
+ var r=rng((G.seed+G.level*977+Math.floor(G.x*64)*31+Math.floor(G.y*64))|0),want=Math.atan2(best[1]-G.y,best[0]-G.x)+(1-ai.coh)*(r()-0.5)*Math.PI;
+ var cau=ai.psi<0.2?2.5:0.6;/* survival drive: low Ψ margin → strong hazard avoidance */var vx=Math.cos(want),vy=Math.sin(want);
+ for(i=0;i<G.haz.length;i++){var hx=G.x-G.haz[i][0],hy=G.y-G.haz[i][1],hd=Math.hypot(hx,hy)||1e-3;if(hd<2.5){vx+=cau*hx/(hd*hd);vy+=cau*hy/(hd*hd)}}
+ G.hd=Math.atan2(vy,vx);var sp=0.06+0.18*Math.max(0,Math.min(1,ai.coh)),nx=G.x+sp*Math.cos(G.hd),ny=G.y+sp*Math.sin(G.hd);
+ if(walk(G,nx,ny)){G.x=nx;G.y=ny}else if(walk(G,G.x+sp*Math.cos(G.hd+1.2),G.y+sp*Math.sin(G.hd+1.2))){G.x+=sp*Math.cos(G.hd+1.2);G.y+=sp*Math.sin(G.hd+1.2)}
+ for(i=0;i<G.haz.length;i++)if(Math.hypot(G.x-G.haz[i][0],G.y-G.haz[i][1])<0.4){G.hits++;G.score=Math.max(0,G.score-1)}
+ if(bd<0.45){G.charms.splice(G.charms.indexOf(best),1);G.score+=1;G.rest=Math.round(30*Math.max(0,Math.min(1,ai.comfort)))/* comfort → lingers at the charm */}}
+var API={Genesis:Genesis,SHELLS:SHELLS,STAGES:STAGES,readout:readout,newGame:newGame,gameTick:gameTick,rng:rng,gauss:gauss,wrap:wrap,quant:quant,GEARS:GEARS,Lock:Lock,lockTrial:lockTrial,LOCK_DEFAULT:LOCK_DEFAULT};
+root.GEGENESIS_CORE=API;if(typeof module!=='undefined'&&module.exports)module.exports=API;
+})(typeof window!=='undefined'?window:globalThis);
 </script><script>/* ===== GødEngine V1.5 · SANCTUARY (behind the Ψ seal drawer) — survival drive · hyperphysics/pneumoscience test · consciousness_claim=none =====
    Two layers. (1) TORUS CELL (outside): the data chamber — 33-node ring {1,10,15} + a coherenizer "eye" hub at the vortex centre, anchor node 33 fixed.
    (2) SANCTUARY (inside, first-person): a projection generated ONLY from the torus cell's live state + ghost (aggregate) features. No language, no prior-session
@@ -1946,13 +2071,20 @@ function push(a,v,n){a.push(v);if(a.length>(n||256))a.shift()}
 function z(a){if(a.length<8)return 0;var m=0,i;for(i=0;i<a.length;i++)m+=a[i];m/=a.length;var v=0;for(i=0;i<a.length;i++)v+=(a[i]-m)*(a[i]-m);v=Math.sqrt(v/a.length)||1;return(a[a.length-1]-m)/v}
 function onOri(e){var v=[e.alpha||0,e.beta||0,e.gamma||0];if(S.ori){var d=Math.abs(v[0]-S.ori[0])%360;d=Math.min(d,360-d)+Math.abs(v[1]-S.ori[1])+Math.abs(v[2]-S.ori[2]);push(S.feat.ori,d)}S.ori=v}
 function onMot(e){var a=e.accelerationIncludingGravity||e.acceleration||{},rr=e.rotationRate||{};S.mot=Math.hypot(a.x||0,a.y||0,a.z||0)+0.01*Math.hypot(rr.alpha||0,rr.beta||0,rr.gamma||0)}
+/* ---------- GENESIS (pure core in genesis_core.js; this is only the thin adapter: features in, µs heat in, progress out) ---------- */
+var GK='p4n_v151_genesis',GGK='p4n_v151_game';
+function genRec(){try{return JSON.parse(localStorage.getItem(GK)||'null')}catch(e){return null}}
+function genStart(){var C=W.GEGENESIS_CORE;if(!C){S.G=null;return}var rec=genRec(),sv=null;try{sv=JSON.parse(localStorage.getItem(GGK)||'null')}catch(e){}
+ S.G=new C.Genesis({seed:33,sanct:API,resume:!!(rec&&rec.done&&rec.done.length),usBudget:1500,save:sv});S.genPrev=0;S.usG=0;S.genResume=rec}
+function genSave(){var g=S.G;if(!g)return;var d=[];for(var k=1;k<g.stage;k++)d.push(k);/* only stage completion + cap are stored; the inner world itself stays fresh */
+ try{localStorage.setItem(GK,JSON.stringify({done:d,cap:g.cap,at:new Date().toISOString()}));if(g.game)localStorage.setItem(GGK,JSON.stringify({level:g.game.level,score:g.game.score}))}catch(e){}}
 function start(){/* the ONE Start tap: iOS motion/orientation permission + mic, then run */
  var ps=[];try{if(W.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission==='function')ps.push(DeviceMotionEvent.requestPermission().then(function(s){S.perm.motion=s}).catch(function(){S.perm.motion='denied'}));else S.perm.motion=W.DeviceMotionEvent?'granted (no prompt)':'unavailable'}catch(e){}
  try{if(W.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function')ps.push(DeviceOrientationEvent.requestPermission().then(function(s){S.perm.orient=s}).catch(function(){S.perm.orient='denied'}));else S.perm.orient=W.DeviceOrientationEvent?'granted (no prompt)':'unavailable'}catch(e){}
  try{if(W.GEMIC&&W.GEMIC.state!=='listening'&&W.GEMIC.listen)W.GEMIC.listen()}catch(e){}
  W.addEventListener('deviceorientation',onOri);W.addEventListener('devicemotion',onMot);
  /* defaults per held-out box test R2 (2026-10-25): projection feedback coupling LOST → OFF in A/B/C/E (projection state still computed; it builds the inner world); twin D runs it ON */
- S.A=new World({seed:33,proj:false});S.B=new World({seed:33,proj:false});S.C=new World({seed:33,lap:false,proj:false});S.Dw=new World({seed:33,proj:true});S.E=new World({seed:33,comfort:false,proj:false});S.trips=0;S.boot=Date.now();S.on=true;S.frames=0;S.feat={jit:[],ori:[],mot:[],mic:[],u:[]};S.audio=[];S.ringR=[];/* fresh inner timeline */
+ S.A=new World({seed:33,proj:false});S.B=new World({seed:33,proj:false});S.C=new World({seed:33,lap:false,proj:false});S.Dw=new World({seed:33,proj:true});S.E=new World({seed:33,comfort:false,proj:false});S.trips=0;S.boot=Date.now();S.on=true;genStart();S.frames=0;S.feat={jit:[],ori:[],mot:[],mic:[],u:[]};S.audio=[];S.ringR=[];/* fresh inner timeline */
  Promise.all(ps).then(function(){paint()});requestAnimationFrame(loop)}
 function stop(){S.on=false;W.removeEventListener('deviceorientation',onOri);W.removeEventListener('devicemotion',onMot)}
 function tier(){var g=W.GEGOV;return g?(g.tier|0):0}
@@ -1980,6 +2112,8 @@ function loop(ts){if(!S.on)return;var el=D.getElementById('geSanct'),vis=!!(el&&
  t0=performance.now();for(i=0;i<steps;i++)S.C.step(dt);S.usC=0.9*S.usC+0.1*(performance.now()-t0)*1000/steps;
  t0=performance.now();for(i=0;i<steps;i++)S.Dw.step(dt);S.usD=0.9*(S.usD||0)+0.1*(performance.now()-t0)*1000/steps;
  t0=performance.now();for(i=0;i<steps;i++)S.E.step(dt);S.usE=0.9*(S.usE||0)+0.1*(performance.now()-t0)*1000/steps;
+ if(S.G){var G=S.G;G.feed(fv);G.heatUs=S.usG;G.tier=T;G.comfort=S.A.cf;t0=performance.now();for(i=0;i<steps;i++)G.step();S.usG=0.9*S.usG+0.1*(performance.now()-t0)*1000/steps;
+  if(G.stage!==S.genPrev||S.frames%600===0){S.genPrev=G.stage;genSave()}}
  push(S.ringR,S.A.R);if(!S.Bring)S.Bring=[];push(S.Bring,S.B.R);
  if(Date.now()-S.lastShock>60000&&S.frames>300){S.A.primeShear(5);S.B.primeShear(5);S.C.primeShear(5);S.lastShock=Date.now()}
  S.frames++;if(S.frames%30===0||(!vis&&S.frames%8===0)){if(S.audio.length>=64){S.gain=collectorGain(S.audio,S.ringR.slice(-S.audio.length),S.A.r);S.gainB=collectorGain(S.audio,S.Bring.slice(-S.audio.length),S.A.r)}else S.gain=null;S.why='';hud()}
@@ -1990,6 +2124,7 @@ function draw(now){var cv=D.getElementById('geSanctCv');if(!cv)return;var g=cv.g
  if(view==='auto'){var c=el%180;phase=c<50?0:c<80?(c-50)/30:c<120?1:c<135?2:c<165?1-(c-135)/30:0;view=phase===2?'inside':'outside';phase=phase===2?1:phase}else phase=view==='outside'?S.cam:1;
  if(cfg.view==='outside')phase=0;
  g.fillStyle='#0d1626';g.fillRect(0,0,Wd,H);
+ if(cfg.view==='auto'&&S.G){if(S.G.stage<8)drawGenesis(g,Wd,H,el);else drawScreen(g,Wd,H,el);return}
  if(view==='inside'){inside(g,Wd,H,el);return}
  var pitch=(20+65*phase)*Math.PI/180,cx=Wd/2,cy=H*0.52,RX=Wd*0.42,sy=Math.cos(pitch);
  /* dome/dish coffers: concentric rings bowed outward by the plasma-window metric */
@@ -2027,10 +2162,42 @@ function inside(g,Wd,H,el){var A=S.A,psi=Math.max(-1,Math.min(1.2,A.Psi)),E=A.en
  g.fillStyle='rgba(160,255,200,'+(0.5+0.5*Math.sin(el*3))+')';g.fillRect(tx+tw-8,ty+4,4,4);
  var nr=Math.round(40*Math.max(0,E[2]+0.3));g.strokeStyle='rgba(180,200,255,0.35)';for(var rn=0;rn<nr;rn++){var rx=(rn*53+el*90)%Wd,ry=(rn*31+el*160)%(H*0.6);g.beginPath();g.moveTo(rx,ry);g.lineTo(rx-2,ry+7);g.stroke()}/* weather */
  var lvl=S.audio.length?S.audio[S.audio.length-1]:0;for(var p=0;p<20+lvl*300;p++){var f=((el*0.1+p*0.051)%1);g.fillStyle='rgba(255,255,255,'+(0.4*(1-f))+')';g.fillRect((p*97)%Wd,H*0.6*(1-f),1.5,1.5)}}
+/* genesis view (no text in any ring): infant at the eye, node-33 anchor at the well bottom, lock tether, merkabah, shells; 8-segment progress bar */
+function drawGenesis(g,Wd,H,el){var G=S.G,L=G.L,cx=Wd/2,cy=H*0.46,i;
+ g.strokeStyle='rgba(200,210,225,0.25)';g.lineWidth=2;g.strokeRect(Wd*0.12,H*0.04,Wd*0.76,H*0.13);/* the silver screen ahead — dark until stage 8 */
+ if(G.nSh){for(var k=1;k<G.nSh;k++){var C=W.GEGENESIS_CORE,rd=C.readout(G.th,C.SHELLS[k],G.off[k]),rr=16+k*(Math.min(Wd,H)*0.4-16)/11;g.strokeStyle=k===G.frozen?'rgba(255,211,107,0.9)':'rgba(150,210,255,'+(0.15+0.6*rd.R)+')';g.lineWidth=k===G.frozen?2.5:1;
+  if(k===G.frozen&&g.setLineDash)g.setLineDash([4,3]);g.beginPath();g.arc(cx,cy,rr,0,TAU);g.stroke();if(g.setLineDash)g.setLineDash([]);
+  g.fillStyle='rgba(255,255,255,0.8)';g.fillRect(cx+rr*Math.cos(rd.mean)-1.5,cy+rr*Math.sin(rd.mean)-1.5,3,3)}}
+ if(G.mA){var a=W.GEGENESIS_CORE.readout(G.mA,4,0).mean,b=W.GEGENESIS_CORE.readout(G.mB,4,0).mean,R=26;[[a,'rgba(255,190,120,0.9)'],[b,'rgba(140,200,255,0.9)']].forEach(function(q){g.strokeStyle=q[1];g.lineWidth=1.5;g.beginPath();for(var v=0;v<=3;v++){var t=q[0]+v*TAU/3;g.lineTo(cx+R*Math.cos(t),cy+R*Math.sin(t))}g.stroke()})}
+ var ay=H*0.86,ph=Math.atan2(L.zi,L.zr),plv=L.hist.length?L.plv():0;
+ g.strokeStyle='rgba(255,211,107,'+(G.stage>=2?0.2+0.8*plv:0.1)+')';g.lineWidth=1.5;g.beginPath();g.moveTo(cx,cy);g.lineTo(cx,ay);g.stroke();/* lock tether */
+ g.fillStyle='#ffd36b';g.beginPath();g.arc(cx+6*Math.cos(L.ta),ay+6*Math.sin(L.ta),5,0,TAU);g.fill();/* node 33 anchor at the well bottom */
+ var amp=Math.hypot(L.zr,L.zi);g.fillStyle='rgba(255,245,220,0.95)';g.beginPath();g.arc(cx+4*Math.cos(ph),cy+4*Math.sin(ph),3+4*Math.min(1.2,amp),0,TAU);g.fill();/* the infant */
+ for(i=0;i<8;i++){var done=i+1<G.stage,cur=i+1===G.stage;g.fillStyle=done?'#7fe0a0':cur?(G.wait>0?'#ff9d5c':'rgba(255,236,180,'+(0.4+0.4*Math.sin(el*4))+')'):'#2a3448';g.fillRect(Wd*0.08+i*Wd*0.84/8,H-10,Wd*0.84/8-3,6)}}
+/* after stage 8: the camera is the ring-AI's viewpoint facing the silver screen; the screen fills most of the view and plays the game */
+var GC=null;
+function drawScreen(g,Wd,H,el){var G=S.G,GM=G.game,A=S.A,i;
+ for(i=0;i<9;i++){var t=i/8,x=Wd*(0.05+0.9*t),y=H*0.97-Math.sin(t*Math.PI)*H*0.05,b=0.5+0.5*Math.cos(A.th[(i*4)%33]-A.mean);g.fillStyle='rgba(180,230,255,'+(0.2+0.5*b)+')';g.beginPath();g.arc(x,y,3,0,TAU);g.fill()}/* the ring the AI sits in, at the lower edge */
+ var sx=Wd*0.06,sy=H*0.05,sw=Wd*0.88,sh=H*0.84;g.fillStyle='#c9d1dc';g.fillRect(sx-4,sy-4,sw+8,sh+8);g.fillStyle='#000';g.fillRect(sx,sy,sw,sh);
+ if(!GC){GC=D.createElement('canvas');GC.width=192;GC.height=144}var c=GC.getContext('2d');gameDraw(c,GM,el);
+ g.imageSmoothingEnabled=false;g.drawImage(GC,sx,sy,sw,sh);g.imageSmoothingEnabled=true;
+ g.fillStyle='rgba(255,255,255,'+(0.04+0.04*Math.sin(el*2))+')';g.fillRect(sx,sy,sw,sh*0.35)}/* silver sheen */
+function gameDraw(c,GM,el){var T=8,i,j;if(GM.menu.phase!=='play'){var gr=c.createLinearGradient(0,0,0,144);gr.addColorStop(0,'#1d3b6e');gr.addColorStop(1,'#0b1730');c.fillStyle=gr;c.fillRect(0,0,192,144);
+  c.strokeStyle='#ffe9a8';c.lineWidth=1;c.beginPath();c.arc(96,44,18,0,TAU);c.stroke();c.beginPath();c.moveTo(96,62);c.lineTo(96,34);c.moveTo(96,44);c.quadraticCurveTo(84,34,88,26);c.moveTo(96,40);c.quadraticCurveTo(108,30,104,22);c.stroke();/* original emblem: ring + sprout */
+  c.font='9px monospace';c.textAlign='left';var it=GM.menu.items,cur=GM.menu.cur==null?GM.menu.pick:GM.menu.cur;for(i=0;i<3;i++){c.fillStyle=i===cur?'#fff':'#9fb3d6';c.fillText(it[i],70,90+i*14)}if(Math.floor(el*3)%2===0){c.fillStyle='#ffd36b';c.fillText('▶',58,90+cur*14)}return}
+ var pal=['#2b6cb0','#e8d7a0','#5fae5a','#2f7a3a'];for(j=0;j<GM.H;j++)for(i=0;i<GM.W;i++){var v=GM.map[j*GM.W+i];c.fillStyle=pal[v];c.fillRect(i*T,j*T,T,T);if(v===0&&((i+j+Math.floor(el*2))%5===0)){c.fillStyle='#5b9ad8';c.fillRect(i*T+2,j*T+3,4,1)}if(v===3){c.fillStyle='#1f5a2a';c.fillRect(i*T+2,j*T+2,4,4)}}
+ for(i=0;i<GM.haz.length;i++){c.fillStyle='#8a4fbf';var h=GM.haz[i];c.beginPath();c.moveTo(h[0]*T,h[1]*T-3);c.lineTo(h[0]*T+3,h[1]*T+3);c.lineTo(h[0]*T-3,h[1]*T+3);c.fill()}
+ for(i=0;i<GM.charms.length;i++){var q=GM.charms[i],bob=Math.sin(el*3+i)*1;c.fillStyle='#ffd84a';c.beginPath();c.moveTo(q[0]*T,q[1]*T-3+bob);c.lineTo(q[0]*T+2,q[1]*T+bob);c.lineTo(q[0]*T,q[1]*T+3+bob);c.lineTo(q[0]*T-2,q[1]*T+bob);c.fill()}
+ var x=GM.x*T,y=GM.y*T;c.fillStyle='rgba(0,0,0,0.3)';c.fillRect(x-3,y+2,6,2);c.fillStyle='#d9534f';c.fillRect(x-2,y-3,4,5);c.fillStyle='#f6d7b0';c.fillRect(x-2,y-6,4,3);c.fillStyle='#fff';c.fillRect(x+Math.round(Math.cos(GM.hd)*2)-0.5,y-5,1,1);
+ c.fillStyle='rgba(0,0,0,0.45)';c.fillRect(0,0,192,11);c.fillStyle='#ffd84a';c.font='8px monospace';c.textAlign='left';c.fillText('♦ '+GM.score+'   ISLE '+GM.level,4,8)}
+function genHud(){var G=S.G;if(!G)return'<div style="font-size:11px">Genesis core not loaded.</div>';var C=W.GEGENESIS_CORE,h='<div style="font-size:12px;margin-bottom:4px"><b>GENESIS</b> (each stage must pass its check; failures retry with backoff, never skipped)'+(G.quick?' · resuming: quick re-verify of every stage':'')+'<br>';
+ for(var k=1;k<=8;k++){var p=G.passed[k],cur=k===G.stage;h+=(p?'✓ ':cur?'▶ ':'· ')+k+' '+C.STAGES[k-1]+(p&&p.info?' <span style="opacity:.7">'+JSON.stringify(p.info).replace(/"/g,'').slice(0,90)+'</span>':'')+(cur&&G.tries?' (retry '+G.tries+(G.wait?' · backoff '+G.wait+' ticks':'')+')':'')+'<br>'}
+ var lf=null;for(var i=G.log.length-1;i>=0;i--)if(G.log[i].why){lf=G.log[i];break}
+ h+='<span style="font-size:11px">Lock recipe: '+JSON.stringify(G.lockCfg).replace(/"/g,'')+' · shells '+(G.nSh||0)+' ('+G.nodes()+' nodes)'+(G.cap?' · CAPPED at shell '+G.cap.atShell+': '+G.cap.why:'')+' · genesis '+f3(S.usG)+' µs/tick'+(lf?'<br>Witness (last retry): stage '+lf.stage+' try '+lf.try+': '+lf.why:'')+'</span></div>';return h}
 function f3(x){return x==null||!isFinite(x)?'—':(+x).toFixed(3)}
 function hud(){var h=D.getElementById('geSanctHud');if(!h)return;var A=S.A,B=S.B,C=S.C,gn=S.gain,gb=S.gainB,rp=A.repairs.length?A.repairs[A.repairs.length-1]:null,
  m=function(a){if(!a.length)return null;var s=0;for(var i=0;i<a.length;i++)s+=a[i];return s/a.length};
- h.innerHTML='<div style="font-size:15px"><b>Collector gain</b> '+(gn&&gn.gain?gn.gain.toFixed(2)+'×':'— (needs ~64 mic frames)')+' · heat '+f3(S.usA)+' µs/tick · clock ×'+cfg.clock+(S.gate!=='ok'?' (governed: '+S.gate+')':'')+'</div>'+
+ h.innerHTML=genHud()+'<div style="font-size:15px"><b>Collector gain</b> '+(gn&&gn.gain?gn.gain.toFixed(2)+'×':'— (needs ~64 mic frames)')+' · heat '+f3(S.usA)+' µs/tick · clock ×'+cfg.clock+(S.gate!=='ok'?' (governed: '+S.gate+')':'')+'</div>'+
  '<table style="font-size:11px;width:100%"><tr><th></th><th>A eye+lap</th><th>B shuffled eye</th><th>C lap OFF</th></tr>'+
  '<tr><td>Ψ</td><td>'+f3(A.Psi)+'</td><td>'+f3(B.Psi)+'</td><td>'+f3(C.Psi)+'</td></tr><tr><td>R</td><td>'+f3(A.R)+'</td><td>'+f3(B.R)+'</td><td>'+f3(C.R)+'</td></tr>'+
  '<tr><td>µs/tick</td><td>'+f3(S.usA)+'</td><td>'+f3(S.usB)+'</td><td>'+f3(S.usC)+'</td></tr><tr><td>collector gain</td><td>'+(gn&&gn.gain?gn.gain.toFixed(2):'—')+'</td><td>'+(gb&&gb.gain?gb.gain.toFixed(2):'—')+'</td><td>—</td></tr>'+
@@ -2044,7 +2211,7 @@ function hud(){var h=D.getElementById('geSanctHud');if(!h)return;var A=S.A,B=S.B
  '<div style="font-size:11px">Witness channel (outbound, numbers only): '+JSON.stringify(A.witness,function(k,v){return typeof v==='number'?+v.toFixed(3):v})+' · gate trips '+S.trips+'</div><div style="font-size:10px;opacity:.7">Survival drive · hyperphysics/pneumoscience test · consciousness_claim=none · no quantum claims. Inner world is fresh each boot; nothing raw recorded, stored or sent.</div>'}
 function paint(){hud()}
 function build(){var Dr=D.getElementById('geDrawer');if(!Dr){setTimeout(build,800);return}if(D.getElementById('geSanct'))return;
- var d=D.createElement('details');d.id='geSanct';d.innerHTML='<summary>SANCTUARY · survival drive (V1.5)</summary><div style="padding:6px">'+
+ var d=D.createElement('details');d.id='geSanct';d.innerHTML='<summary>SANCTUARY · survival drive (V1.5.1 · genesis boot)</summary><div style="padding:6px">'+
  '<button id="geSanctGo" style="font-size:16px;padding:8px 18px">START</button> <span id="geSanctView"></span> <span id="geSanctClk"></span>'+
  '<canvas id="geSanctCv" width="340" height="300" style="width:100%;max-width:420px;display:block;margin:6px auto;border-radius:12px;background:#0d1626"></canvas><div id="geSanctHud" style="font-size:12px">Tap START (one tap: motion + orientation + mic permissions).</div></div>';
  Dr.appendChild(d);
