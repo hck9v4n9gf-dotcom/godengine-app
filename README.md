@@ -1,3 +1,21 @@
+# GødEngine: APP V1.5.4 "cool phone"
+
+**Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
+
+- **Mobile heat profile.** On phones: 1 engine tick per frame (60 ticks/s), drawing at ~30 fps, 12 particles, no glow blur, pixel ratio 1, full pause when the tab is hidden, and a back-off to 15 fps if frames run long. The heat governor still overrides everything. Desktop keeps the V1.5.3 adaptive speed. `cfg.clock` (dt) is unchanged.
+- **Phones run LITE: the 561-shell tier (1460 nodes).** Desktop runs the full 3057-node engine.
+- **Lean engine (lower burden everywhere, bit-exact).** Cached cos/sin, reused edge sines, typed scratch buffers, Ψ readout only when asked, fast phase wrap; the genesis drawing reuses the engine's shell readout. 3057-node shell step 215 → 152 µs (−29%); mean genesis tick 47.9 → 38.1 µs (−20%); five worlds 41 → 35 µs per tick. Determinism hash `76a5bb571aa7bbcb` unchanged; 1000/1000 seeds give identical state hashes old vs lean.
+- **Headless phone-size Chrome on the box, 60 s:** CPU 186.6 → 66.3 ms per second (−64.5%), script −75%; lock at tick 805, PLV 0.9753. **NOT verified on a real iPhone.**
+- consciousness_claim = none · medical_claim = none.
+
+| file | what |
+|---|---|
+| `index.html` | APP V1.5.4, a single self-contained file |
+| `LAUNCH_GODENGINE.html` | one-file launcher (V1.5.4) |
+| `GODENGINE_V1_5_3.bak.html` / `LAUNCH_GODENGINE_V1_5_3.bak.html` | V1.5.3 (backup) |
+
+---
+
 # GødEngine: APP V1.5.3 "standard speed"
 
 **Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
