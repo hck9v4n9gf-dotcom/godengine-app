@@ -1,3 +1,28 @@
+# GødEngine: APP V1.5.2 "collider + iPhone readiness"
+
+**Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
+
+- **Truth Collider in the app (Ψ seal drawer → TRUTH COLLIDER).**
+  - It runs in its own isolated 33-ring with fixed inputs, and never touches the app ring or the ledger.
+  - It starts automatically after boot behind the heat gate. Work is time-sliced at ≤6 ms per frame, with surrogates at 50 per frame.
+  - Watchdog: if it has not started by frame 100, or runs over budget, it writes `{"stage":"truth_collider","status":"UNMEASURED","reason":"INIT_OR_EXECUTION_TIMEOUT"}` to the witness log and the app keeps going.
+  - Measured verdict: **KILL**. AUC 0.4182; z −1.99 against a 1000× label-swap null. The box run gave AUC 0.4183 and z −2.01 against a phase-randomized null.
+- **Stage 7 ablation** (pre-registered, seeds 2001–2120, N = 120): EWMA smoothing and a tighter clip were each tested alone. Both were **discarded** (p 0.67 and p 0.38; the rule needed p < 0.01). Lock time was unchanged (median 7.45 model-s).
+- **iPhone readiness.**
+  - Audio and the mic start only after a real tap (touchend/click; WebKit does not count touchstart).
+  - Screen wake lock is feature-detected with try/catch (safe before iOS 16.4).
+  - Drawing follows the display rate; the engine ticks at a fixed rate through an internal accumulator, with no catch-up bursts.
+  - Headless phone-size Chrome: all 8 stages pass, genesis 0.166 ms/tick. **NOT verified on a real iPhone.**
+- Lock recipe and genesis core are unchanged from V1.5.1 (determinism hash `76a5bb571aa7bbcb`). consciousness_claim = none · medical_claim = none. Audio is features only.
+
+| file | what |
+|---|---|
+| `index.html` | APP V1.5.2, a single self-contained file |
+| `LAUNCH_GODENGINE.html` | one-file launcher (V1.5.2) |
+| `GODENGINE_V1_5_1.bak.html` / `LAUNCH_GODENGINE_V1_5_1.bak.html` | V1.5.1 (backup) |
+
+---
+
 # GødEngine — APP V1.5.1 "genesis boot"
 
 **Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
