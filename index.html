@@ -1426,8 +1426,8 @@ var css=D.createElement('style');css.textContent=[
 '#geQuest .q{border:1px solid rgba(159,223,255,.25);padding:8px;margin-top:8px}#geQuest .q b{color:#ffe08a;font-weight:500}#geQuest .r{font:12px/1.5 "Outfit",ui-sans-serif,system-ui,sans-serif;color:#fff6e8;margin-top:4px}',
 '#geQuest .ok{color:#ffe08a}#geQuest .no{color:#c8bba8}'].join('\n');D.head.appendChild(css);
 var ed=null,edT=0;
-function spawnAt(){var g=G();return !D.hidden&&!drawerOpen()&&(!g||(g.tier<=1&&g.band==='ACTIVE'))}
-function spawn(force){clearTimeout(edT);edT=setTimeout(spawn,45000+Math.random()*45000);if(ed||(!force&&!spawnAt()))return;
+function spawnAt(){var g=G();return !!W.GEPLAYMODE&&!D.hidden&&!drawerOpen()&&(!g||(g.tier<=1&&g.band==='ACTIVE'))}
+function spawn(force){clearTimeout(edT);edT=setTimeout(spawn,45000+Math.random()*45000);if(ed||!W.GEPLAYMODE||(!force&&!spawnAt()))return;
  var b=D.createElement('button');b.className='geEd';b.setAttribute('aria-label','Catch the forming eddy');
  b.style.left=(15+Math.random()*70)+'vw';b.style.top=(28+Math.random()*44)+'vh';D.body.appendChild(b);ed=b;requestAnimationFrame(function(){b.classList.add('on')});
  var miss=setTimeout(function(){if(ed!==b)return;st.auto++;st.streak=0;save();b.classList.remove('on');setTimeout(function(){b.remove()},900);ed=null;pop(b,'caught by the engine',0)},6500);
@@ -1491,7 +1491,7 @@ function qLine(){var e=D.getElementById('gqScore');if(e)e.innerHTML='Proto-H mot
  var a=D.getElementById('gqTau');if(a)a.innerHTML='Self-listen (automatic, χ): '+f(t.chi_self)+(t.chi_self?' · '+t.chi_self.passes+'/'+t.chi_self.runs+' runs':'')+'<br>Puff quest (Ω): '+f(t.omega_puff)+' · Salt quest (χ): '+f(t.chi_salt)+'<br>Δ: no independent source yet (heat-block test is the next one)'+
   '<br><small>SEAS Gate 2 uses these only when χ, Ω and Δ all pass from separate sources. '+(g.all?'All three present — Gate 2 now uses them.':'Not yet, so Gate 2 still reports one measurement stream.')+'</small>'}
 function build(){var cool=D.getElementById('geCool');if(!cool){setTimeout(build,800);return}var s=D.createElement('div');s.className='sec';s.id='geQuest';
- s.innerHTML='<h3>Play · eddy catch &amp; quests</h3><div class="sub">Tap a warm swirl when one forms over the island: it becomes a proto-H mote and flies into the vortex.</div><div class="r" id="gqScore"></div>'+
+ s.innerHTML='<h3>Play · eddy catch &amp; quests</h3><div class="sub">Eddy catch lives in Play mode (PLAY section in this drawer). With it on, tap a warm swirl when one forms: it becomes a proto-H mote and flies into the vortex.</div><div class="r" id="gqScore"></div>'+
  '<div class="q"><b>Quest · vortex puff</b><div class="sub">Roll a toilet-paper tube over the speaker, tape a tissue strip at the far end, sound up, then Begin.</div><div class="row"><button id="gqPuff">Begin puff quest</button></div><div class="r" id="gqPuffR"></div></div>'+
  '<div class="q"><b>Quest · salt cymatics</b><div class="sub">Plastic wrap tight over a cup, a pinch of salt on it, rest the speaker on the rim, back camera on the salt, then Begin.</div><div class="row"><button id="gqSalt">Begin salt quest</button></div><div class="r" id="gqSaltR"></div></div>'+
  '<div class="r" id="gqTau" style="margin-top:8px"></div>';cool.parentNode.insertBefore(s,cool.nextSibling);
@@ -2243,7 +2243,7 @@ function hud(){var h=D.getElementById('geSanctHud');if(!h)return;var A=S.A,B=S.B
  '<div style="font-size:11px">Witness channel (outbound, numbers only): '+JSON.stringify(A.witness,function(k,v){return typeof v==='number'?+v.toFixed(3):v})+' · gate trips '+S.trips+'</div><div style="font-size:10px;opacity:.7">Survival drive · hyperphysics/pneumoscience test · consciousness_claim=none · no quantum claims. Inner world is fresh each boot; nothing raw recorded, stored or sent.</div>'}
 function paint(){hud()}
 function build(){var Dr=D.getElementById('geDrawer');if(!Dr){setTimeout(build,800);return}if(D.getElementById('geSanct'))return;
- var d=D.createElement('details');d.id='geSanct';d.innerHTML='<summary>SANCTUARY · survival drive (V1.5.4 · genesis boot · lean engine · adaptive speed · mobile heat profile; phones run LITE = 561-shell tier, 1460 nodes)</summary><div style="padding:6px">'+
+ var d=D.createElement('details');d.id='geSanct';d.innerHTML='<summary>SANCTUARY · survival drive (V1.5.5 · helper + play · genesis boot · lean engine · adaptive speed · mobile heat profile; phones run LITE = 561-shell tier, 1460 nodes)</summary><div style="padding:6px">'+
  '<button id="geSanctGo" style="font-size:16px;padding:8px 18px">START</button> <span id="geSanctView"></span> <span id="geSanctClk"></span>'+
  '<canvas id="geSanctCv" width="340" height="300" style="width:100%;max-width:420px;display:block;margin:6px auto;border-radius:12px;background:#0d1626"></canvas><div id="geSanctHud" style="font-size:12px">Tap START (one tap: motion + orientation + mic permissions).</div></div>';
  Dr.appendChild(d);
@@ -2326,4 +2326,375 @@ function ui(){var Dr=D.getElementById('geDrawer');if(!Dr){setTimeout(ui,800);ret
  Dr.appendChild(d);D.getElementById('geColGo').onclick=function(){C.rerun();paint()};paint();setInterval(function(){if(d.open)paint()},1000)}
 if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',ui);else ui();
 requestAnimationFrame(frame);run()})();
-</script></body></html>
+</script><script>/* ===== GødEngine V1.5.5 · CALL P4N / ASK A HELPER =====
+   Copy-out only. Builds a HELPER_PACKET on tap, copies it, and opens a helper in a new tab.
+   No API calls, no keys, no timers, nothing per frame. Pasted replies are shown as text only in a
+   quarantined box and are NEVER passed to the ring, engine, cfg, ledger or storage (no language into the ring). */
+(function(){var W=window,D=document;
+var HELPER_CFG={
+ version:'V1.5.5',detHash:'76a5bb571aa7bbcb',
+ email:'s.michael.newman@gmail.com',
+ notebooks:[
+  {key:'NOTEBOOK_1',name:'The Cosmic Onion',role:'chat lane',url:'https://notebook.google.com/notebook/c01a3087-0957-428e-862c-5c3c66228041'},
+  {key:'NOTEBOOK_2',name:"Ultimate Newman's Law",role:'source vault',url:'https://notebook.google.com/notebook/f628c600-8767-4d0b-9278-ee0c84c9d8e2'}],
+ geminiHeader:"Open both NotebookLM notebooks (The Cosmic Onion and Ultimate Newman's Law) as reference before answering.",
+ providers:[
+  {id:'gemini',name:'Gemini',url:'https://gemini.google.com/app'},
+  {id:'chatgpt',name:'ChatGPT (free)',url:'https://chatgpt.com/'},
+  {id:'grok',name:'Grok',url:'https://grok.com/'},
+  {id:'claude',name:'Claude (free)',url:'https://claude.ai/new'},
+  {id:'lechat',name:'Mistral Le Chat',url:'https://chat.mistral.ai/chat'},
+  {id:'deepseek',name:'DeepSeek',url:'https://chat.deepseek.com/'},
+  {id:'perplexity',name:'Perplexity',url:'https://www.perplexity.ai/'},
+  {id:'other',name:'Other',url:''}]};
+W.GEHELPER_CFG=HELPER_CFG;
+function f(x,n){return (typeof x==='number'&&isFinite(x))?+x.toFixed(n==null?4:n):null}
+function packet(pid){var A=W.GESANCT||{},S=A.S||{},G=S.G,cfg=A.cfg||{},o={};
+ o.HELPER_PACKET='GodEngine '+HELPER_CFG.version;o.timestamp=new Date().toISOString();
+ o.consciousness_claim='none';o.EXTERNAL='NOT_CLEARED';o.note='Read-only snapshot. Reply in plain text; replies are shown to the owner only and never enter the engine.';
+ try{if(G){var lk=G.passed&&G.passed[2];var sr=0,si=0,th=G.th||[];for(var i=0;i<th.length;i++){sr+=Math.cos(th[i]);si+=Math.sin(th[i])}
+  o.genesis={tick:G.t,stage:G.stage,nodes:G.nodes?G.nodes():th.length,maxNodes:G.maxNodes,lite:!!S.lite,lock:lk?{tick:lk.t,plv:f(lk.info&&lk.info.plv)}:'not yet',R:th.length?f(Math.hypot(sr,si)/th.length):null,
+   shellPsi:(G.shellPsi?Array.prototype.slice.call(G.shellPsi).map(function(x){return f(x,3)}):null)}}else o.genesis='not started'}catch(e){o.genesis='read error'}
+ try{o.worlds={};['A','B','C','Dw','E'].forEach(function(k){var w=S[k];if(w)o.worlds[k]={R:f(w.R),Psi:f(w.Psi),K:f(w.K,3)}})}catch(e){}
+ try{o.cfg={clock:cfg.clock,view:cfg.view,speedPreset:cfg.tickHz?cfg.tickHz+' ticks/s':'auto',rate:S.rate,gate:S.gate,mobile:!!(W.GEGOV&&W.GEGOV.mobile),heatTier:W.GEGOV?W.GEGOV.tier:null}}catch(e){}
+ o.detHash=HELPER_CFG.detHash;
+ var head='';if(pid==='gemini')head=HELPER_CFG.geminiHeader+'\n'+HELPER_CFG.notebooks.map(function(n){return n.name+' ('+n.role+'): '+n.url}).join('\n')+'\n\n';
+ return head+'Please help me read this GodEngine state. Question: [type your question here]\n\n'+JSON.stringify(o)}
+function copy(t){var ok=false;try{var ta=D.getElementById('geHlpOut');ta.value=t;ta.focus();ta.select();ok=D.execCommand&&D.execCommand('copy')}catch(e){}
+ try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){say('Copied. Paste it into the helper.')},function(){say(ok?'Copied.':'Select the text below and copy it.')})}catch(e){}
+ say(ok?'Copied. Paste it into the helper.':'Select the text below and copy it.')}
+function say(m){var s=D.getElementById('geHlpSt');if(s)s.textContent=m}
+function build(){var Dr=D.getElementById('geDrawer');if(!Dr)return false;if(D.getElementById('geHelper'))return true;
+ var d=D.createElement('details');d.id='geHelper';d.className='sec';
+ var prov=HELPER_CFG.providers.map(function(p){return '<option value="'+p.id+'">'+p.name+'</option>'}).join('');
+ d.innerHTML='<summary>CALL P4N · ASK A HELPER (V1.5.5 · copy-out only)</summary><div style="padding:6px">'+
+ '<div class="sub">Copies a small snapshot of this run (no secrets, no audio) so a free AI or a person can help. Nothing is sent automatically.</div>'+
+ '<div class="row" style="margin-top:6px"><select id="geHlpPick" style="flex:1 1 auto;min-height:36px;background:#1c1915;color:#fff6e8;border:1px solid #ffc49a">'+prov+'</select>'+
+ '<button id="geHlpGo">Copy + open</button></div>'+
+ '<div class="row" style="margin-top:6px"><button id="geHlpCopy" class="ice">Copy packet</button><button id="geHlpBot" class="ice">Grok Bot</button><button id="geHlpMail" class="ice">Email</button></div>'+
+ '<div class="row" style="margin-top:6px">'+HELPER_CFG.notebooks.map(function(n,i){return '<button id="geHlpNb'+i+'" class="ice">'+n.name+'</button>'}).join('')+'</div>'+
+ '<div id="geHlpSt" class="sub" aria-live="polite">Pick a helper, then tap Copy + open. For any other Ask-AI tool: tap Copy packet and paste it there.</div>'+
+ '<textarea id="geHlpOut" readonly placeholder="HELPER_PACKET appears here"></textarea>'+
+ '<details class="adv"><summary>Paste helper reply (quarantined · text only)</summary>'+
+ '<textarea id="geHlpIn" placeholder="Paste a helper reply here"></textarea><div class="row"><button id="geHlpShow">Show as text</button><button id="geHlpClr" class="ice">Clear</button></div>'+
+ '<div class="sub">Quarantine: shown here as plain text only. It is never fed into the ring, engine, settings or ledger.</div>'+
+ '<pre id="geHlpQ" style="white-space:pre-wrap;word-break:break-word;max-height:220px;overflow:auto;border:1px dashed rgba(255,196,154,.5);padding:6px;font:11px ui-monospace,Menlo,monospace;color:#fff6e8"></pre></details></div>';
+ Dr.appendChild(d);
+ function open(u){if(!u)return;try{W.open(u,'_blank','noopener')}catch(e){}}
+ D.getElementById('geHlpGo').onclick=function(){var id=D.getElementById('geHlpPick').value,p=HELPER_CFG.providers.filter(function(x){return x.id===id})[0];copy(packet(id));
+  if(p&&p.url){open(p.url);say('Copied. '+p.name+' opened in a new tab: paste the packet there.')}else say('Copied. Paste it into any Ask-AI tool you like.')};
+ D.getElementById('geHlpCopy').onclick=function(){copy(packet(D.getElementById('geHlpPick').value))};
+ D.getElementById('geHlpBot').onclick=function(){copy(packet('grokbot'));say('Copied. Paste it into your Grok Bot chat.')};
+ D.getElementById('geHlpMail').onclick=function(){var t=packet('email');copy(t);var b=t.length>1800?t.slice(0,1800)+'\n…(full packet is on the clipboard)':t;
+  var a=D.createElement('a');a.href='mailto:'+HELPER_CFG.email+'?subject='+encodeURIComponent('GodEngine HELPER_PACKET '+HELPER_CFG.version)+'&body='+encodeURIComponent(b);a.style.display='none';D.body.appendChild(a);a.click();setTimeout(function(){a.remove()},1000);say('Mail draft opened to '+HELPER_CFG.email+' (nothing is sent until you tap Send there). Full packet is also on the clipboard.')};
+ HELPER_CFG.notebooks.forEach(function(n,i){D.getElementById('geHlpNb'+i).onclick=function(){open(n.url)}});
+ D.getElementById('geHlpShow').onclick=function(){var v=String(D.getElementById('geHlpIn').value||'');D.getElementById('geHlpQ').textContent=v.slice(0,20000)};
+ D.getElementById('geHlpClr').onclick=function(){D.getElementById('geHlpIn').value='';D.getElementById('geHlpQ').textContent=''};
+ return true}
+var tries=0;(function t(){if(build()||++tries>40)return;setTimeout(t,500)})();
+W.GEHELPER={packet:packet,cfg:HELPER_CFG};
+})();
+
+</script>
+<script>/* ===== GødEngine V1.5.5 · PLAY mode + SEED HANDOFF (L1 numeric seed, L2 rule-based ring choice) =====
+   Main mode is the instrument: the floating eddy prompt only appears while Play mode is on.
+   Seed Handoff runs in its OWN isolated 33-node ring (never the app ring, never the genesis lock, never cfg).
+   L1: a helper may return ONLY {"phase_offset":n,"K":n,"sigma":n[,"rng_seed":int]} — numbers only, bounded, any text rejected.
+   L2: pre-registered rule (deterministic given the seed):
+       run 400 ticks (dt 0.02, Kuramoto, anchor node 0 pinned at its phase), then
+       R>=0.80 → HOLD (anchor stays) · 0.50<=R<0.80 → NUDGE (anchor += 0.10·sign(wrap(meanPhase−anchor))) · R<0.50 → RESEAT (anchor = meanPhase).
+       Control: same K, sigma, rng_seed but phase_offset shuffled (drawn from a seeded RNG independent of the helper) → ΔR = R_real − R_shuffled.
+   Every generation is logged with a SHA-256 hash chained to the previous one and can be replayed bit-for-bit.
+   Heat governor overrides (tier ≥ 2: runs refused). No timers while idle. consciousness_claim=none */
+(function(){var W=window,D=document,LSK='p4n_v155_play',LOGK='p4n_v155_seedlog';
+var RULE={N:33,ticks:400,dt:0.02,hold:0.80,nudge:0.50,step:0.10,bounds:{phase_offset:[-3.14159,3.14159],K:[0,4],sigma:[0,0.5],rng_seed:[0,2147483647]}};
+W.GESEED_RULE=RULE;
+function get(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function put(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var on=!!get(LSK,false);W.GEPLAYMODE=on;
+/* ---- L1 strict validation ---- */
+function validate(txt){txt=String(txt||'').trim();if(!txt)return{err:'empty'};if(txt.length>200)return{err:'too long (max 200 chars)'};
+ if(txt[0]!=='{'||txt[txt.length-1]!=='}')return{err:'must be one JSON object and nothing else'};
+ var o;try{o=JSON.parse(txt)}catch(e){return{err:'not valid JSON'}}
+ if(!o||typeof o!=='object'||Array.isArray(o))return{err:'must be a JSON object'};
+ var ks=Object.keys(o),ok=['phase_offset','K','sigma','rng_seed'];
+ for(var i=0;i<ks.length;i++)if(ok.indexOf(ks[i])<0)return{err:'unknown key rejected: '+ks[i].slice(0,20)};
+ var s={};for(i=0;i<ok.length;i++){var k=ok[i],v=o[k],b=RULE.bounds[k];
+  if(v===undefined){if(k==='rng_seed'){s[k]=null;continue}return{err:'missing '+k}}
+  if(typeof v!=='number'||!isFinite(v))return{err:k+' must be a number'};
+  if(k==='rng_seed'&&Math.floor(v)!==v)return{err:'rng_seed must be an integer'};
+  if(v<b[0]||v>b[1])return{err:k+' out of range ['+b[0]+', '+b[1]+']'};s[k]=v}
+ return{seed:s}}
+/* ---- isolated ring ---- */
+function mb32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function seedInt(s){var r=s.rng_seed;if(r!=null)return r>>>0;var h=2166136261>>>0,str=[s.phase_offset,s.K,s.sigma].join(',');for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h}
+function wrap(x){x=(x+Math.PI)%(2*Math.PI);if(x<0)x+=2*Math.PI;return x-Math.PI}
+function ring(po,K,sig,si,anchor){var N=RULE.N,r=mb32(si),om=new Float64Array(N),th=new Float64Array(N),nt=new Float64Array(N),i,t;
+ for(i=0;i<N;i++){var u1=r()||1e-12,u2=r();om[i]=sig*Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);th[i]=wrap(po+(r()-0.5)*2)}
+ th[0]=anchor;for(t=0;t<RULE.ticks;t++){var zr=0,zi=0;for(i=0;i<N;i++){zr+=Math.cos(th[i]);zi+=Math.sin(th[i])}zr/=N;zi/=N;
+  for(i=1;i<N;i++)nt[i]=wrap(th[i]+RULE.dt*(om[i]+K*(zi*Math.cos(th[i])-zr*Math.sin(th[i]))+K*Math.sin(anchor-th[i])/N));nt[0]=anchor;var sw=th;th=nt;nt=sw}
+ var cr=0,ci=0;for(i=0;i<N;i++){cr+=Math.cos(th[i]);ci+=Math.sin(th[i])}return{R:Math.hypot(cr,ci)/N,mean:Math.atan2(ci,cr)}}
+function choose(R,mean,anchor){if(R>=RULE.hold)return{c:'HOLD',a:anchor};if(R>=RULE.nudge){var d=wrap(mean-anchor);return{c:'NUDGE',a:wrap(anchor+RULE.step*(d>0?1:d<0?-1:0))}}return{c:'RESEAT',a:wrap(mean)}}
+function generation(seed,anchor){var si=seedInt(seed),real=ring(seed.phase_offset,seed.K,seed.sigma,si,anchor),ch=choose(real.R,real.mean,anchor);
+ var sr=mb32((si^0x9E3779B9)>>>0),spo=(sr()*2-1)*Math.PI,shuf=ring(spo,seed.K,seed.sigma,si,anchor),chS=choose(shuf.R,shuf.mean,anchor);
+ return{seed:seed,anchorIn:anchor,R:real.R,mean:real.mean,choice:ch.c,anchorOut:ch.a,ctrl:{phase_offset:spo,R:shuf.R,choice:chS.c},dR:real.R-shuf.R}}
+/* ---- hash chain ---- */
+function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return('0'+x.toString(16)).slice(-2)}).join('')}
+function fnv(str){var h1=0x811c9dc5,h2=0x01000193;for(var i=0;i<str.length;i++){h1^=str.charCodeAt(i);h1=Math.imul(h1,16777619)>>>0;h2=Math.imul(h2^str.charCodeAt(i),2246822519)>>>0}return('fnv-'+h1.toString(16)+h2.toString(16))}
+function hash(str){try{if(W.crypto&&crypto.subtle)return crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)).then(hex)}catch(e){}return Promise.resolve(fnv(str))}
+function canon(g,prev,n){return JSON.stringify({n:n,prev:prev,rule:'L2v1',seed:g.seed,anchorIn:g.anchorIn,R:g.R,choice:g.choice,anchorOut:g.anchorOut,ctrl:g.ctrl})}
+var log=get(LOGK,[]);if(!Array.isArray(log))log=[];
+function anchorNow(){return log.length?log[log.length-1].anchorOut:0}
+function heatBlock(){var g=W.GEGOV;return g&&g.tier>=2?'Heat governor tier '+g.tier+': seed runs paused to keep the phone cool.':''}
+function $(i){return D.getElementById(i)}
+function msg(t){var e=$('gePlSt');if(e)e.textContent=t}
+function render(){var e=$('gePlLog');if(!e)return;var rows=log.slice(-8).map(function(x){return 'gen '+x.n+' · '+x.choice+' · R '+x.R.toFixed(3)+' (shuffled '+x.ctrl.R.toFixed(3)+', ΔR '+(x.dR>=0?'+':'')+x.dR.toFixed(3)+') · anchor '+x.anchorIn.toFixed(3)+'→'+x.anchorOut.toFixed(3)+' · '+x.hash.slice(0,12)});
+ e.textContent=rows.length?rows.join('\n'):'No generations yet.';var s=$('gePlSum');if(s&&log.length){var m=log.reduce(function(a,x){return a+x.dR},0)/log.length,ag=log.filter(function(x){return x.choice===x.ctrl.choice}).length;
+  s.textContent=log.length+' generation(s) · mean ΔR (real − shuffled) '+(m>=0?'+':'')+m.toFixed(4)+' · same choice as control '+ag+'/'+log.length+' · head '+log[log.length-1].hash.slice(0,16)}else if(s)s.textContent=''}
+function run(){var hb=heatBlock();if(hb){msg(hb);return}var v=validate($('gePlIn').value);if(v.err){msg('Rejected: '+v.err+'. Nothing ran.');return}
+ var g=generation(v.seed,anchorNow()),prev=log.length?log[log.length-1].hash:'genesis',n=log.length+1;
+ hash(canon(g,prev,n)).then(function(h){g.n=n;g.prev=prev;g.hash=h;log.push(g);if(log.length>200)log=log.slice(-200);put(LOGK,log);render();msg('Generation '+n+': '+g.choice+'. Logged and hash-chained.')})}
+/* ---- closed loop (t1663): ring output (R, mean phase) becomes the next numeric seed; every step re-passes the L1 gate ----
+   K_next = clamp(K + gain·(0.95 − R), 0..4); phase_offset_next = mean phase; sigma and rng_seed are kept.
+   Gain is auto-tuned: start 0.5; halve when R drops (anti-runaway); cap 1. At most 5 steps; stops at R ≥ 0.95 or heat tier ≥ 2. */
+function r5(x){return Math.round(x*1e5)/1e5}
+function loop(){var hb=heatBlock();if(hb){msg(hb);return}var v=validate($('gePlIn').value);if(v.err){msg('Rejected: '+v.err+'. Nothing ran.');return}
+ var seed=v.seed,gain=0.5,prevR=null,steps=0,trace=[];
+ function step(){if(heatBlock()){msg('Closed loop stopped by heat governor after '+steps+' step(s).');return}
+  var g=generation(seed,anchorNow()),prev=log.length?log[log.length-1].hash:'genesis',n=log.length+1;g.loop={step:steps+1,gain:gain};
+  return hash(canon(g,prev,n)).then(function(h){g.n=n;g.prev=prev;g.hash=h;log.push(g);if(log.length>200)log=log.slice(-200);put(LOGK,log);steps++;trace.push(g.R.toFixed(3));
+   if(prevR!=null&&g.R<prevR)gain=Math.max(0.05,gain*0.5);else gain=Math.min(1,gain);prevR=g.R;
+   var nx={phase_offset:r5(Math.max(-3.14159,Math.min(3.14159,g.mean))),K:r5(Math.max(0,Math.min(4,seed.K+gain*(0.95-g.R)))),sigma:seed.sigma};if(seed.rng_seed!=null)nx.rng_seed=seed.rng_seed;
+   var vv=validate(JSON.stringify(nx));render();
+   if(vv.err){msg('Closed loop stopped: fed-back seed failed the L1 gate ('+vv.err+').');return}
+   if(g.R>=0.95||steps>=5){msg('Closed loop: '+steps+' step(s), R '+trace.join(' → ')+', final gain '+gain.toFixed(2)+'. Every step is logged and hash-chained.');return}
+   seed=vv.seed;return step()})}
+ step()}
+function replay(){if(!log.length){msg('Nothing to replay yet: run a seed first.');return}var bad=0,p=Promise.resolve();
+ log.forEach(function(x,k){p=p.then(function(){var g=generation(x.seed,x.anchorIn),exp=k?log[k-1].hash:x.prev;
+  return hash(canon(g,x.prev,x.n)).then(function(h){if(h!==x.hash||g.anchorOut!==x.anchorOut||x.prev!==exp)bad++})})});
+ p.then(function(){msg('Replay: '+(log.length-bad)+'/'+log.length+' generations reproduce bit-for-bit'+(bad?' · MISMATCH '+bad:'')+'.')})}
+function setMode(v){on=v;W.GEPLAYMODE=v;put(LSK,v);var b=$('gePlMode');if(b){b.textContent=v?'Play mode: ON (tap to return to instrument)':'Play mode: OFF (tap to play)';b.classList.toggle('on',v)}
+ if(v&&W.GEPLAY&&GEPLAY.spawn&&!heatBlock())try{GEPLAY.spawn()}catch(e){}score()}
+function score(){var e=$('gePlScore');if(!e)return;var st=(W.GEPLAY&&GEPLAY.state)||{};e.textContent='You '+(st.score||0)+' · Coherenizer '+(st.auto||0)+' · best streak '+(st.best||0)}
+function build(){var Dr=$('geDrawer');if(!Dr)return false;if($('gePlay'))return true;var d=D.createElement('details');d.id='gePlay';d.className='sec';
+ d.innerHTML='<summary>PLAY · you vs the coherenizer (V1.5.5)</summary><div style="padding:6px">'+
+ '<div class="sub">The main screen is an instrument. Warm swirls only float up to be caught while Play mode is on; any you miss, the coherenizer catches.</div>'+
+ '<div class="row" style="margin-top:6px"><button id="gePlMode"></button><button id="gePlScoreB" class="ice">Refresh score</button></div><div class="sub" id="gePlScore"></div>'+
+ '<h3>Seed handoff · L1 numbers only → L2 ring choice</h3>'+
+ '<div class="sub">A helper may answer with ONE JSON object of numbers only: {"phase_offset": −3.14…3.14, "K": 0…4, "sigma": 0…0.5, "rng_seed": optional integer}. Anything else is rejected. It runs in a separate 33-node practice ring, never in the app ring or the genesis lock.</div>'+
+ '<div class="row" style="margin-top:6px"><button id="gePlAsk" class="ice">Copy seed request</button><button id="gePlEx" class="ice">Example seed</button></div>'+
+ '<textarea id="gePlIn" placeholder=\'{"phase_offset":0.5,"K":1.6,"sigma":0.2,"rng_seed":33}\'></textarea>'+
+ '<div class="row"><button id="gePlRun">Run generation</button><button id="gePlLoop">Close the loop ×5</button><button id="gePlRep" class="ice">Replay &amp; verify</button><button id="gePlClr" class="ice">Clear lineage</button></div>'+
+ '<div class="sub" id="gePlSt" aria-live="polite">Rule L2v1: R ≥ 0.80 hold · 0.50–0.80 nudge anchor 0.10 toward the mean · below 0.50 reseat anchor at the mean. Control: same seed with phase_offset shuffled.</div>'+
+ '<div class="sub" id="gePlSum"></div><pre id="gePlLog" style="white-space:pre-wrap;font:10px ui-monospace,Menlo,monospace;color:#fff6e8;max-height:180px;overflow:auto"></pre>'+
+ '<div class="sub">Coming (not built yet, no buttons): L3 anchor update spreading outward through the shells · L4 lineage memory where each generation builds on the last. See LAYERS_PLAN.md.</div></div>';
+ Dr.appendChild(d);
+ $('gePlMode').onclick=function(){setMode(!on)};$('gePlScoreB').onclick=score;
+ $('gePlEx').onclick=function(){$('gePlIn').value='{"phase_offset":0.5,"K":1.6,"sigma":0.2,"rng_seed":33}';msg('Example loaded. Tap Run generation.')};
+ $('gePlAsk').onclick=function(){var t='Reply with ONLY one JSON object of numbers, no words: {"phase_offset": number between -3.14159 and 3.14159, "K": number 0 to 4, "sigma": number 0 to 0.5, "rng_seed": optional integer 0 to 2147483647}. Pick values you think will make a 33-oscillator ring lock (R >= 0.8) from anchor phase '+anchorNow().toFixed(4)+'.';
+  var ta=$('gePlIn'),old=ta.value;ta.value=t;ta.select();var ok=false;try{ok=D.execCommand('copy')}catch(e){}try{navigator.clipboard&&navigator.clipboard.writeText(t)}catch(e){}ta.value=old;msg((ok?'Copied':'Request ready')+': paste it to a helper, then paste its JSON reply in the box.')};
+ $('gePlRun').onclick=run;$('gePlLoop').onclick=loop;$('gePlRep').onclick=replay;$('gePlClr').onclick=function(){log=[];put(LOGK,log);render();msg('Lineage cleared. Anchor back to 0.')};
+ setMode(on);render();return true}
+var tries=0;(function t(){if(build()||++tries>40)return;setTimeout(t,500)})();
+W.GESEED={validate:validate,generation:generation,loop:loop,choose:choose,rule:RULE,log:function(){return log}};
+})();
+
+</script>
+<script>/* ===== GødEngine V1.5.5 · LOW-HEAT OA-lite mode (Source t1655) =====
+   Optional. When ON, the full sanctuary engine is paused through its own Start/Stop button. A 2-number Ott–Antonsen reduction
+   dR/dt = −γR + (K/2)R(1−R²) is then run at 10 Hz instead, with K annealed 0→2 over 800 ticks (dt 0.02) and γ = 0.18
+   (a Lorentzian matched to σ 0.225 Gaussian: same critical K). Validated vs a full N=3057 Kuramoto (t1655/oa_validate.json).
+   OFF (the default) means the full engine is untouched, so the lock and det hash are unchanged. consciousness_claim=none */
+(function(){var W=window,D=document,LS='p4n_v155_oalite';
+function oaStep(R,K,g,dt){function f(r){return -g*r+0.5*K*r*(1-r*r)}var a=f(R),b=f(R+.5*dt*a),c=f(R+.5*dt*b),d=f(R+dt*c);return R+dt/6*(a+2*b+2*c+d)}
+var OA={on:false,R:0.05,t:0,g:0.18,Kmax:2,rampT:800,dt:0.02,timer:0,stopped:false,step:oaStep};W.GEOALITE=OA;
+function $(i){return D.getElementById(i)}
+function sanctOn(){var S=W.GESANCT&&GESANCT.S;return !!(S&&S.on)}
+function tick(){if(!OA.on)return;if(D.hidden){OA.timer=setTimeout(tick,1000);return}
+ for(var i=0;i<6;i++){var K=OA.Kmax*Math.min(1,OA.t/OA.rampT);OA.R=oaStep(OA.R,K,OA.g,OA.dt);OA.t++}
+ var e=$('geOaSt');if(e)e.textContent='OA-lite running · tick '+OA.t+' · R '+OA.R.toFixed(4)+' · '+(OA.R>=0.8?'locked (R ≥ 0.8)':'settling')+' · cost: 2 numbers, ~0 ms';
+ OA.timer=setTimeout(tick,100)}
+function set(v){OA.on=v;try{localStorage.setItem(LS,v?'1':'0')}catch(e){}var b=$('geOaB');if(b)b.textContent=v?'OA-lite: ON (tap for full engine)':'OA-lite: OFF (tap for low heat)';
+ var go=$('geSanctGo');
+ if(v){if(sanctOn()&&go){go.click();OA.stopped=true}OA.R=0.05;OA.t=0;clearTimeout(OA.timer);tick()}
+ else{clearTimeout(OA.timer);if(OA.stopped&&go&&!sanctOn())go.click();OA.stopped=false;var e=$('geOaSt');if(e)e.textContent='Full engine. OA-lite off.'}}
+OA.set=set;
+function build(){var Dr=$('geDrawer');if(!Dr)return false;if($('geOa'))return true;var d=D.createElement('details');d.id='geOa';d.className='sec';
+ d.innerHTML='<summary>LOW-HEAT · OA-lite engine (V1.5.5)</summary><div style="padding:6px"><div class="sub">Swaps the full ring for a 2-number reduced model (Ott–Antonsen) while it is on. Use it when the phone is hot or charging. Off = full engine, unchanged.</div><div class="row"><button id="geOaB"></button></div><div class="sub" id="geOaSt">Full engine. OA-lite off.</div></div>';
+ Dr.appendChild(d);$('geOaB').onclick=function(){set(!OA.on)};var b=$('geOaB');b.textContent='OA-lite: OFF (tap for low heat)';return true}
+var n=0;(function t(){if(build()||++n>40)return;setTimeout(t,500)})();
+})();
+
+</script>
+<script>/* ===== GødEngine V1.5.5 · CHARGING-AWARE GOVERNOR + COMBO TRIAL (Source t1657/t1659) =====
+   A browser cannot read the radios or the charge current. It reads what it can and asks you for the rest:
+   - Battery Status API (Chrome/Android) gives charging + level. navigator.connection (Chrome/Android) gives a radio hint (type/effectiveType).
+     Neither exists on iOS Safari, so you tick "I'm charging" by hand.
+   - While charging (detected or ticked), the governor is more conservative: frames are capped like a phone (30 fps, back-off 15) and
+     the drawer suggests OA-lite. It is released when unplugged. The heat ladder still overrides everything.
+   - Combo Trial: a guided factorial over Bluetooth, Wi-Fi, cellular (airplane), charging, audio stimulus and brightness. Each condition runs
+     for 60 s and logs frame time, governor steps, battery drop rate and ring response vs the all-off baseline. Main effects and the
+     charging×radio interaction are summarized on the phone. CSV export happens only on tap. Nothing is sent anywhere. consciousness_claim=none */
+(function(){var W=window,D=document,LS='p4n_v155_combo',st={manualCharge:false,runs:[],plan:[],idx:0};
+try{var sv=JSON.parse(localStorage.getItem(LS)||'null');if(sv)st=Object.assign(st,sv)}catch(e){}
+function save(){try{localStorage.setItem(LS,JSON.stringify({manualCharge:st.manualCharge,runs:st.runs.slice(-200),plan:st.plan,idx:st.idx}))}catch(e){}}
+function $(i){return D.getElementById(i)}
+var bat=null,conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection||null;
+if(navigator.getBattery)navigator.getBattery().then(function(b){bat=b;b.addEventListener('chargingchange',apply);b.addEventListener('levelchange',hud);apply()}).catch(function(){});
+function isPhone(){try{return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||!!(W.matchMedia&&W.matchMedia('(pointer:coarse)').matches)}catch(e){return false}}
+/* Auto-detected charging only changes the profile on phones/tablets: desktops usually report "charging, 100%" all the time, and the
+   desktop override (p4n_v154_mobile='0') wins. The tick box always applies. */
+function autoChg(){var o=null;try{o=localStorage.getItem('p4n_v154_mobile')}catch(e){}return !!(bat&&bat.charging)&&isPhone()&&o!=='0'}
+function charging(){return autoChg()||!!st.manualCharge}
+var weSet=false,prevMobile=null;
+function apply(){var G=W.GEGOV;if(G){if(charging()&&!G.mobile){prevMobile=G.mobile;G.mobile=true;weSet=true}else if(!charging()&&weSet){G.mobile=!!prevMobile;weSet=false}}hud()}
+function radio(){if(!conn)return 'n/a (not exposed by this browser)';return (conn.type||'?')+' · '+(conn.effectiveType||'?')+(conn.downlink!=null?' · '+conn.downlink+' Mb/s':'')}
+function hud(){var e=$('geCbHud');if(!e)return;e.textContent='Battery API: '+(bat?(Math.round(bat.level*100)+'% · '+(bat.charging?'charging':'unplugged')):'not available, use the tick box')+' · radio hint: '+radio()+' · governor: '+(charging()?'charging-conservative (30 fps cap)':(bat&&bat.charging?'normal (desktop: charging ignored; tick the box to force)':'normal'))}
+/* ---- audio stimulus (numeric WebAudio, nested θ6·γ40 AM) ---- */
+var AC=null,nodes=[];
+function audioStop(){nodes.forEach(function(n){try{n.stop&&n.stop()}catch(e){}try{n.disconnect()}catch(e){}});nodes=[]}
+function audioStart(kind){audioStop();if(kind==='none')return;try{AC=AC||new (W.AudioContext||W.webkitAudioContext)();AC.resume&&AC.resume()}catch(e){return}
+ var fs=kind==='five'?[432,440,528,561,600]:[440,528],out=AC.createGain();out.gain.value=0.12/fs.length*2;out.connect(AC.destination);nodes.push(out);
+ fs.forEach(function(f){var o=AC.createOscillator();o.frequency.value=f;var g=AC.createGain();g.gain.value=0.5;o.connect(g);g.connect(out);
+  var th=AC.createOscillator();th.frequency.value=6;var thg=AC.createGain();thg.gain.value=0.5;th.connect(thg);thg.connect(g.gain);
+  var ga=AC.createOscillator();ga.frequency.value=40;var gag=AC.createGain();gag.gain.value=0.2;ga.connect(gag);gag.connect(g.gain);
+  [o,th,ga].forEach(function(x){x.start();nodes.push(x)});nodes.push(g,thg,gag)})}
+/* ---- trial ---- */
+var FACT=['bluetooth','wifi','cellular','charging','audio','brightHigh'];
+function mb(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function plan(){/* 2^(6-3) fractional factorial (8 runs) + all-off baseline twice; order randomized */
+ var base=[[0,0,0],[1,0,0],[0,1,0],[1,1,0],[0,0,1],[1,0,1],[0,1,1],[1,1,1]],p=base.map(function(r){var a=r[0],b=r[1],c=r[2];return {bluetooth:a,wifi:b,cellular:c,charging:(a+b)%2,audio:(a+c)%2,brightHigh:(b+c)%2}});
+ p.push({bluetooth:0,wifi:0,cellular:0,charging:0,audio:0,brightHigh:0,baseline:1});p.push({bluetooth:0,wifi:0,cellular:0,charging:0,audio:0,brightHigh:0,baseline:1});
+ var r=mb(Date.now()&0x7fffffff);for(var i=p.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),t=p[i];p[i]=p[j];p[j]=t}st.plan=p;st.idx=0;save();show()}
+function cond(c){return FACT.map(function(f){return f+' '+(c[f]?'ON':'off')}).join(' · ').replace('cellular ON','cellular ON (not airplane)').replace('cellular off','airplane mode')}
+function show(){var e=$('geCbStep');if(!e)return;if(!st.plan.length){e.textContent='Tap "Plan trial" to get 10 conditions in random order.';return}
+ if(st.idx>=st.plan.length){e.textContent='All '+st.plan.length+' conditions done. See the summary, export CSV, or plan again.';return}
+ e.textContent='Condition '+(st.idx+1)+'/'+st.plan.length+': set the phone to → '+cond(st.plan[st.idx])+'. Then tap "Run 60 s".'}
+var running=null;
+function ring(){var S=W.GESANCT&&GESANCT.S,G=S&&S.G,o={lock:null,plv:null,R:null,psi:null,t:null};if(!G)return o;
+ try{var L=G.passed&&G.passed[2];o.lock=L?L.t:null;o.plv=L&&L.info?L.info.plv:null;o.t=G.t;var p=G.shellPsi;if(p&&p.length){o.psi=p.reduce(function(a,b){return a+b},0)/p.length}}catch(e){}
+ try{o.R=S.A?S.A.R:null}catch(e){}return o}
+function runCond(){if(running||st.idx>=st.plan.length){show();return}var c=st.plan[st.idx],G=W.GEGOV;if(c.charging!==undefined&&!bat){st.manualCharge=!!c.charging;var mc=$('geCbChg');if(mc)mc.checked=st.manualCharge;apply()}
+ audioStart(c.audio?'five':'none');var t0=performance.now(),last=t0,ft=[],tier0=G?G.hist.length:0,b0=bat?bat.level:null,r0=ring(),Rs=[],settle=null;
+ running=true;var e=$('geCbStep');
+ function fr(ts){if(!running)return;var n=performance.now();ft.push(n-last);last=n;if(ft.length%30===0){var r=ring();if(r.R!=null){Rs.push(r.R)}if(e)e.textContent='Running '+Math.round((n-t0)/1000)+'/60 s · '+cond(c)}
+  if(n-t0<60000)requestAnimationFrame(fr);else done()}
+ function done(){running=null;audioStop();var r1=ring(),dur=(performance.now()-t0)/1000,m=ft.reduce(function(a,b){return a+b},0)/Math.max(1,ft.length);
+  var fin=Rs.length?Rs[Rs.length-1]:null;for(var i=0;i<Rs.length;i++){var ok=true;for(var j=i;j<Rs.length;j++)if(Math.abs(Rs[j]-fin)>0.02){ok=false;break}if(ok){settle=i*0.5;break}}
+  var row=Object.assign({},c,{when:new Date().toISOString(),dur_s:+dur.toFixed(1),frame_ms:+m.toFixed(2),jank:ft.filter(function(x){return x>50}).length,gov_steps:G?G.hist.length-tier0:null,tier:G?G.tier:null,
+   batt_drop_pct_per_h:(b0!=null&&bat)?+(((b0-bat.level)*100)/dur*3600).toFixed(2):null,api_charging:bat?bat.charging:null,radio:conn?(conn.type||'')+'/'+(conn.effectiveType||''):'n/a',
+   lock:r1.lock,plv:r1.plv,R:fin!=null?+fin.toFixed(4):null,psi:r1.psi!=null?+r1.psi.toFixed(5):null,settle_s:settle,ticks:r1.t!=null&&r0.t!=null?r1.t-r0.t:null});
+  st.runs.push(row);st.idx++;save();show();summary()}
+ requestAnimationFrame(fr)}
+function summary(){var e=$('geCbSum');if(!e)return;var rs=st.runs.filter(function(r){return r.dur_s>=30});if(rs.length<2){e.textContent=rs.length+' condition(s) logged. The summary needs at least 2.';return}
+ var M=['frame_ms','gov_steps','batt_drop_pct_per_h','ticks'],lines=[];
+ function mean(a){a=a.filter(function(x){return x!=null&&isFinite(x)});return a.length?a.reduce(function(p,q){return p+q},0)/a.length:null}
+ M.forEach(function(m){var parts=[];FACT.forEach(function(f){var on=mean(rs.filter(function(r){return r[f]}).map(function(r){return r[m]})),off=mean(rs.filter(function(r){return !r[f]}).map(function(r){return r[m]}));if(on!=null&&off!=null)parts.push(f+' '+(on-off>=0?'+':'')+(on-off).toFixed(2))});lines.push(m+' main effects (on−off): '+(parts.join(' · ')||'n/a'))});
+ var ix=function(m){var g=function(c,w){return mean(rs.filter(function(r){return !!r.charging===c&&!!(r.wifi||r.cellular||r.bluetooth)===w}).map(function(r){return r[m]}))},a=g(true,true),b=g(true,false),c=g(false,true),d=g(false,false);return(a!=null&&b!=null&&c!=null&&d!=null)?((a-b)-(c-d)).toFixed(2):'n/a'};
+ lines.push('charging × any-radio interaction · frame_ms '+ix('frame_ms')+' · batt drop '+ix('batt_drop_pct_per_h'));
+ var base=rs.filter(function(r){return r.baseline});if(base.length)lines.push('all-off baseline: frame '+mean(base.map(function(r){return r.frame_ms})).toFixed(2)+' ms');
+ lines.push('UNMEASURED until you run it on the phone. With 10 short runs these are screening numbers, not proof.');e.textContent=lines.join('\n')}
+function csv(){var rs=st.runs;if(!rs.length){$('geCbStep').textContent='Nothing logged yet: run a condition first.';return}var k=Object.keys(rs[rs.length-1]);var t=k.join(',')+'\n'+rs.map(function(r){return k.map(function(x){return r[x]==null?'':String(r[x]).replace(/,/g,';')}).join(',')}).join('\n');
+ var a=D.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='combo_trial_'+Date.now()+'.csv';D.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},3000);$('geCbStep').textContent='CSV saved to Downloads ('+rs.length+' rows).'}
+function build(){var Dr=$('geDrawer');if(!Dr)return false;if($('geCombo'))return true;var d=D.createElement('details');d.id='geCombo';d.className='sec';
+ d.innerHTML='<summary>PHONE HEAT · charging-aware + Combo Trial (V1.5.5)</summary><div style="padding:6px"><div class="sub" id="geCbHud"></div>'+
+ '<label class="sub" style="display:block;margin:6px 0"><input type="checkbox" id="geCbChg"> I\'m charging (use this when the browser can\'t tell)</label>'+
+ '<div class="sub">The Combo Trial runs 10 conditions in random order (8 combos of Bluetooth, Wi-Fi, cellular, charging, audio and brightness, plus the all-off baseline twice). You set the phone, then tap Run. Each condition takes 60 s.</div>'+
+ '<div class="row"><button id="geCbPlan" class="ice">Plan trial</button><button id="geCbRun">Run 60 s</button><button id="geCbStop" class="ice">Stop</button><button id="geCbCsv" class="ice">Export CSV</button></div>'+
+ '<div class="sub" id="geCbStep" aria-live="polite"></div><pre id="geCbSum" style="white-space:pre-wrap;font:10px ui-monospace,Menlo,monospace;color:#fff6e8"></pre></div>';
+ Dr.appendChild(d);var mc=$('geCbChg');mc.checked=!!st.manualCharge;mc.onchange=function(){st.manualCharge=mc.checked;save();apply()};
+ $('geCbPlan').onclick=plan;$('geCbRun').onclick=runCond;$('geCbStop').onclick=function(){if(running){running=null;audioStop();$('geCbStep').textContent='Stopped. This condition was not logged.'}else{audioStop();show()}};$('geCbCsv').onclick=csv;
+ apply();show();summary();return true}
+D.addEventListener('visibilitychange',function(){if(D.hidden&&running){running=null;audioStop();var e=$('geCbStep');if(e)e.textContent='Paused: the tab was hidden, so this condition was not logged. Run it again.'}});
+var n=0;(function t(){if(build()||++n>40)return;setTimeout(t,500)})();
+W.GECOMBO={charging:charging,plan:plan,state:st,apply:apply};
+})();
+
+</script>
+<script>/* ===== GødEngine V1.5.5 · SWEET SPOT HUNTER (Source t1660/t1661/t1662/t1663) =====
+   An endless on-device search that runs in a Web Worker on its OWN practice rings (never the app ring, the 33-ring or the lock).
+   Each candidate is run on 4 seeds plus a shuffled-ω control (seed+1000). Score = lock rate first, then node-ticks to lock (CPU proxy, lower is better).
+   Search: 80% local moves around the best so far, 20% random. Every 5th evaluation re-runs a leader on fresh seeds (replication count).
+   Knobs: Kmax, sigma, dt, rampT, N, recycling a (residual phases from 20 ticks ago fed back, bounded |η|≤0.53, scaled by rev/600),
+   closed loop g·R(t−d)·sin(Φ(t−d)−θ) + noise ν (clipped to |F|≤1).
+   Heat: tier 0 full tilt · tier 1 200 ms rest · tier 2 1 s rest · tier ≥3 paused. Charging counts as +1 tier. Hidden tab pauses. consciousness_claim=none */
+(function(){var W=window,D=document,LB='p4n_v155_hunter';
+var WK=['function mb(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}',
+'function gs(r){var u=r()||1e-12,v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(6.283185307*v)}',
+'function wr(x){x=(x+Math.PI)%(2*Math.PI);if(x<0)x+=2*Math.PI;return x-Math.PI}',
+'function run(p,seed){var N=p.N,r=mb(seed),om=new Float64Array(N),th=new Float64Array(N),i,t,T=2000,run=0,lock=null,hR=[],hP=[],hD=[],nr=mb(seed^77),Rl=0;',
+' for(i=0;i<N;i++){om[i]=i?p.sigma*gs(r):0;th[i]=i?(r()*2-1)*Math.PI:0}',
+' for(t=0;t<T;t++){var K=p.Kmax*Math.min(1,t/p.rampT),zr=0,zi=0;for(i=0;i<N;i++){zr+=Math.cos(th[i]);zi+=Math.sin(th[i])}zr/=N;zi/=N;var R=Math.hypot(zr,zi),P=Math.atan2(zi,zr);Rl=R;',
+'  hR.push(R);hP.push(P);if(hR.length>41){hR.shift();hP.shift()}var j=Math.max(0,hR.length-1-p.d),Rd=hR[j],Pd=hP[j],old=null;',
+'  if(p.a>0){var dl=new Float64Array(N);for(i=0;i<N;i++)dl[i]=wr(th[i]-P);hD.push(dl);if(hD.length>20)old=hD.shift()}',
+'  for(i=1;i<N;i++){var f=om[i]+K*(zi*Math.cos(th[i])-zr*Math.sin(th[i]));if(p.g>0||p.nu>0){var F=p.g*Rd*Math.sin(Pd-th[i])+p.nu*gs(nr);f+=F>1?1:F<-1?-1:F}',
+'   if(old){var e=p.a*old[i];f-=e>0.53?0.53:e<-0.53?-0.53:e}th[i]=th[i]+p.dt*f}',
+'  if(R>=0.8){if(++run>=100){lock=t-99;break}}else run=0}',
+' return{lock:lock,R:Rl}}',
+'function ev(p,seeds){var L=[],c=[],R=0;for(var k=0;k<seeds.length;k++){var a=run(p,seeds[k]),b=run(p,seeds[k]+1000);L.push(a.lock);c.push(b.lock);R+=a.R}',
+' var ok=L.filter(function(x){return x!=null}),okc=c.filter(function(x){return x!=null}),m=ok.length?ok.reduce(function(a,b){return a+b},0)/ok.length:null,mc=okc.length?okc.reduce(function(a,b){return a+b},0)/okc.length:null;',
+' return{rate:ok.length/seeds.length,lockT:m,nodeticks:m!=null?m*p.N:null,ctrlRate:okc.length/seeds.length,ctrlLockT:mc,R:R/seeds.length}}',
+'onmessage=function(e){var t0=Date.now(),r=ev(e.data.p,e.data.seeds);r.ms=Date.now()-t0;postMessage({id:e.data.id,p:e.data.p,r:r,rep:e.data.rep})}'].join('\n');
+var BOUNDS={Kmax:[0.5,4],sigma:[0.05,0.5],dt:[0.01,0.05],rampT:[100,1600],a:[0,0.53],g:[0,1],d:[0,40],nu:[0,0.3]},NS=[33,233,561];
+var DEF={Kmax:2,sigma:0.225,dt:0.02,rampT:800,N:233,a:0,g:0,d:0,nu:0};
+/* search core (pure; validated headless in t1655/hunt_validate.js):
+   adaptive step (success ×1.3, failure ×0.97, 0.01–0.4 of range) · 15% random exploration · restart after 40 evals with no gain ·
+   a new leader is re-run on fresh seeds before it is trusted (noise guard) · every 5th eval re-runs one of the top 3 (replication) ·
+   the board ranks by the mean over all replications */
+var CORE=(function(){
+ function key(p){return [p.Kmax,p.sigma,p.dt,p.rampT,p.N,p.a,p.g,p.d,p.nu].map(function(x){return +(+x).toFixed(3)}).join('|')}
+ function clamp(k,v){var b=BOUNDS[k];return Math.max(b[0],Math.min(b[1],v))}
+ function gs(r){var u=r()||1e-12,v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(6.283185307*v)}
+ function fix(p){p.d=Math.round(p.d);p.rampT=Math.round(p.rampT);return p}
+ function rnd(r){var p={};Object.keys(BOUNDS).forEach(function(k){var b=BOUNDS[k];p[k]=b[0]+r()*(b[1]-b[0])});p.N=NS[Math.floor(r()*NS.length)];return fix(p)}
+ function near(q,r,step){var p=Object.assign({},q),moved=false;Object.keys(BOUNDS).forEach(function(k){if(r()<0.5){var b=BOUNDS[k];p[k]=clamp(k,p[k]+gs(r)*step*(b[1]-b[0]));moved=true}});
+  if(r()<0.08){p.N=NS[Math.floor(r()*NS.length)];moved=true}if(!moved){var ks=Object.keys(BOUNDS),k=ks[Math.floor(r()*ks.length)],bb=BOUNDS[k];p[k]=clamp(k,p[k]+gs(r)*step*(bb[1]-bb[0]))}return fix(p)}
+ function score(rate,nt){return rate<1?1e12-rate*1e9:nt}
+ function init(st){st.board=st.board||[];st.step=st.step||0.2;st.stall=st.stall||0;st.evals=st.evals||0;st.restarts=st.restarts||0;st.pend=st.pend||null;st.anchor=st.anchor||null;return st}
+ function propose(st,r){init(st);
+  if(st.pend){var pp=st.pend;st.pend=null;return{p:pp,rep:true}}
+  if(st.evals%5===4&&st.board.length)return{p:st.board[Math.floor(r()*Math.min(3,st.board.length))].p,rep:true};
+  if(st.stall>=40){st.stall=0;st.step=0.25;st.restarts++;st.anchor=rnd(r);st.anchorS=null;return{p:st.anchor,rep:false}}
+  var base=st.anchor||(st.board[0]&&st.board[0].p);
+  if(!base||r()<0.15)return{p:rnd(r),rep:false};return{p:near(base,r,st.step),rep:false}}
+ function update(st,p,res,rep){init(st);st.evals++;var k=key(p),ex=null,i,best0=st.board.length?st.board[0].s:Infinity,s=score(res.rate,res.nodeticks);
+  for(i=0;i<st.board.length;i++)if(st.board[i].k===k){ex=st.board[i];break}
+  if(ex){ex.reps++;ex.nt=(ex.nt*(ex.reps-1)+(res.nodeticks==null?1e9:res.nodeticks))/ex.reps;ex.rate=(ex.rate*(ex.reps-1)+res.rate)/ex.reps;ex.s=score(ex.rate,ex.nt);ex.ctrl=res.ctrlLockT}
+  else if(res.rate===1){ex={k:k,p:p,reps:1,nt:res.nodeticks,rate:1,lockT:res.lockT,ctrl:res.ctrlLockT,s:s};st.board.push(ex)}
+  st.board.sort(function(a,b){return a.s-b.s});st.board=st.board.slice(0,12);
+  if(!rep){if(st.anchor&&s<(st.anchorS==null?Infinity:st.anchorS)){st.anchor=p;st.anchorS=s}
+   if(res.rate===1&&s<best0){st.pend=p;st.step=Math.min(0.4,st.step*1.3);st.stall=0;st.anchor=null;st.anchorS=null}
+   else{st.step=Math.max(0.01,st.step*0.97);st.stall++}}
+  return st}
+ return{key:key,rnd:rnd,near:near,propose:propose,update:update,score:score,init:init,BOUNDS:BOUNDS,NS:NS,DEF:DEF}})();
+var st={evals:0,board:[],def:null};try{var sv=JSON.parse(localStorage.getItem(LB)||'null');if(sv)st=Object.assign(st,sv)}catch(e){}
+function save(){try{localStorage.setItem(LB,JSON.stringify({evals:st.evals,board:st.board.slice(0,12),def:st.def,step:st.step,stall:st.stall,restarts:st.restarts}))}catch(e){}}
+var wk=null,on=false,busy=false,timer=0,rng=Math.random,seedBase=Math.floor(Math.random()*1e6),cur=null,curRep=false;
+function $(i){return D.getElementById(i)}
+function rev(){var c=W.GESANCT&&GESANCT.cfg;var h=c&&c.tickHz?c.tickHz:60;return Math.min(1,h/600)}
+function heat(){var G=W.GEGOV,t=G?G.tier:0;if(W.GECOMBO&&GECOMBO.charging())t++;return t}
+function next(){if(!on)return;if(D.hidden){msg('Paused: tab hidden.');timer=setTimeout(next,1500);return}var h=heat();if(h>=3){msg('Paused by the heat governor (tier '+h+'). It resumes when the phone cools.');timer=setTimeout(next,5000);return}
+ if(busy)return;busy=true;var pr;if(!st.def){pr={p:Object.assign({},DEF),rep:'def'}}else pr=CORE.propose(st,rng);
+ cur=pr.p;curRep=pr.rep;var pe=Object.assign({},cur);pe.a=cur.a*rev();seedBase+=7;wk.postMessage({id:st.evals,p:pe,seeds:[seedBase,seedBase+1,seedBase+2,seedBase+3],rep:pr.rep})}
+function got(e){busy=false;var r=e.data.r;
+ if(curRep==='def'){st.def={r:r};st.evals++}else CORE.update(st,cur,r,curRep);
+ save();paint(r.ms);var h=heat();timer=setTimeout(next,h>=2?1000:h===1?200:0)}
+function msg(t){var e=$('geHuSt');if(e)e.textContent=t}
+function paint(ms){var e=$('geHuB');if(!e)return;var dn=st.def&&st.def.r&&st.def.r.nodeticks;
+ e.textContent=(st.board.length?st.board.map(function(b,i){var g=dn?((1-b.nt/dn)*100).toFixed(0)+'% vs default':'';return (i+1)+'. N'+b.p.N+' K'+(+b.p.Kmax).toFixed(2)+' σ'+(+b.p.sigma).toFixed(2)+' dt'+(+b.p.dt).toFixed(3)+' ramp'+b.p.rampT+' rec'+(+b.p.a).toFixed(2)+' loop g'+(+b.p.g).toFixed(2)+'/d'+b.p.d+'/ν'+(+b.p.nu).toFixed(2)+' · node-ticks '+Math.round(b.nt)+' · '+g+' · reps '+b.reps+(b.reps>=3?' ✓':'')}).join('\n'):'No leaders yet.');
+ msg((on?'Hunting':'Stopped')+' · '+st.evals+' evaluations · step '+(st.step||0.2).toFixed(3)+' · restarts '+(st.restarts||0)+(ms!=null?' · last '+ms+' ms':'')+' · heat tier '+heat()+(dn?' · default '+Math.round(dn)+' node-ticks':'')+'. ✓ = replicated on 3+ fresh seed sets. Lower node-ticks means less CPU.')}
+function start(){if(on)return;try{wk=wk||new Worker(URL.createObjectURL(new Blob([WK],{type:'text/javascript'})));wk.onmessage=got;wk.onerror=function(e){busy=false;msg('Worker error: '+(e.message||e))}}catch(e){msg('This browser cannot start a worker here: '+e);return}on=true;$('geHuGo').textContent='Stop hunter';next()}
+function stop(){on=false;clearTimeout(timer);if(wk){wk.terminate();wk=null}busy=false;var b=$('geHuGo');if(b)b.textContent='Start hunter';paint()}
+function exp(){var t=JSON.stringify({version:'V1.5.5',exported:new Date().toISOString(),evals:st.evals,default:st.def,board:st.board,consciousness_claim:'none'},null,1);var a=D.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'application/json'}));a.download='sweetspots_'+Date.now()+'.json';D.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},3000);msg('Leaderboard saved to Downloads.')}
+function build(){var Dr=$('geDrawer');if(!Dr)return false;if($('geHunt'))return true;var d=D.createElement('details');d.id='geHunt';d.className='sec';
+ d.innerHTML='<summary>SWEET SPOT HUNTER · endless search (V1.5.5)</summary><div style="padding:6px"><div class="sub">Searches ring settings in the background on separate practice rings: coupling, spread, step, ramp, size, recycling and closed loop. Each try is checked against a shuffled control. It runs at full speed, and the heat governor slows or pauses it. Best results are kept on this phone.</div>'+
+ '<div class="row"><button id="geHuGo">Start hunter</button><button id="geHuX" class="ice">Export leaderboard</button><button id="geHuR" class="ice">Reset board</button></div><div class="sub" id="geHuSt"></div><pre id="geHuB" style="white-space:pre-wrap;font:10px ui-monospace,Menlo,monospace;color:#fff6e8;max-height:200px;overflow:auto"></pre></div>';
+ Dr.appendChild(d);$('geHuGo').onclick=function(){on?stop():start()};$('geHuX').onclick=exp;$('geHuR').onclick=function(){st={evals:0,board:[],def:null};save();paint()};paint();return true}
+D.addEventListener('visibilitychange',function(){if(!D.hidden&&on&&!busy){clearTimeout(timer);next()}});
+var n=0;(function t(){if(build()||++n>40)return;setTimeout(t,500)})();
+W.GEHUNTER={start:start,stop:stop,state:function(){return st},bounds:BOUNDS,core:CORE,workerSrc:WK};
+})();
+
+</script>
+</body></html>
