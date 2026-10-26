@@ -1,3 +1,16 @@
+# GødEngine: APP V1.5.6 "mobile-first"
+
+**Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/ · authorized_by: Source tap 'Deploy V1.5.6 without the Proof tab' 2026-10-26 13:00 CT
+
+- Bottom tab bar: Start · Gates · Talk · 37 · Lab (Lab = the full V1.5.5 app). Tap targets ≥44 px, safe-area insets, bottom sheets, no hover.
+- One-tap Start runs the lock; plain status, R, locked fraction (share of nodes whose phase vs. the mean drifted <0.2 rad in the last second), lock tick, heat tier.
+- Gates: per-gate pass/fail with one-line reasons. Gate 2 fails honestly (χ, Ω, Δ share one window); GETAU now accepts a passing delta_* record (none exist yet). Gate 3 also fails.
+- Proof material is kept private and is not in this app.
+- Talk always answers (rule-based narrator from live numbers); Ask a Helper copies a snapshot; optional Qwen 0.5B only rewords, digits checked.
+- Engine and governor byte-identical to V1.5.5. Headless only; NOT verified on a real iPhone. consciousness_claim = none · medical_claim = none.
+
+---
+
 # GødEngine: APP V1.5.5 "helper + play + hunter" (STAGED, not deployed)
 
 **Live (still V1.5.4 until Source taps deploy):** https://hck9v4n9gf-dotcom.github.io/godengine-app/

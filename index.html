@@ -1483,7 +1483,7 @@ async function salt(){if(qBusy)return;qBusy=true;setR('gqSaltR','camera on… ho
  catch(e){setR('gqSaltR','<span class="no">needs the camera and sound on ('+(e&&e.name||'error')+')</span>')}
  finally{if(s)s.getTracks().forEach(function(t){t.stop()});if(c)try{c.close()}catch(e){}if(v)v.srcObject=null;qBusy=false}}
 /* ---- Gate 2 feed (strict: all three quantities need their own passing source, else nothing changes) ---- */
-W.GETAU={get:function(){var t=st.tau,chi=(t.chi_self&&t.chi_self.pass)?t.chi_self:(t.chi_salt&&t.chi_salt.pass)?t.chi_salt:null,om=(t.omega_puff&&t.omega_puff.pass)?t.omega_puff:null,de=null;
+W.GETAU={get:function(){var t=st.tau,chi=(t.chi_self&&t.chi_self.pass)?t.chi_self:(t.chi_salt&&t.chi_salt.pass)?t.chi_salt:null,om=(t.omega_puff&&t.omega_puff.pass)?t.omega_puff:null,de=null;/* V1.5.6 t1665: Δ may come from any passing delta_* record (none exist yet) */for(var dk in t){if(dk.indexOf('delta_')===0&&t[dk]&&t[dk].pass){de=t[dk];break}}
  return{chi:chi,omega:om,delta:de,all:!!(chi&&om&&de),list:Object.keys(t).map(function(k){return k+': '+(t[k].pass?'pass':'not passed')+' (z '+(t[k].z!=null?t[k].z:t[k].ratio)+')'})}}};
 /* ---- drawer section ---- */
 function qLine(){var e=D.getElementById('gqScore');if(e)e.innerHTML='Proto-H motes caught: <b>'+st.score+'</b> · best streak '+st.best+' · caught by the engine '+st.auto;
@@ -2694,6 +2694,183 @@ function build(){var Dr=$('geDrawer');if(!Dr)return false;if($('geHunt'))return 
 D.addEventListener('visibilitychange',function(){if(!D.hidden&&on&&!busy){clearTimeout(timer);next()}});
 var n=0;(function t(){if(build()||++n>40)return;setTimeout(t,500)})();
 W.GEHUNTER={start:start,stop:stop,state:function(){return st},bounds:BOUNDS,core:CORE,workerSrc:WK};
+})();
+
+</script>
+<script id="geMob156">
+/* ===== GødEngine V1.5.6 · mobile-first shell (Source t1665/t1666/t1667/t1668, [pt1665u], 2026-10-26 CT) =====
+   Adds a thumb-zone bottom tab bar (Start · Gates · Talk · 37 · Lab), one purpose per screen, bottom sheets,
+   a 60 s skippable walkthrough, small dismissible tips with "don't show again", and 2+ routes to every key action.
+   Reads engine state only. Never writes into the rings; no language goes into the 33-ring. Heat: one 1 Hz status tick,
+   only while the Start screen is visible and the page is shown; slows to 1 per 3 s at governor tier ≥ 2.
+   Talk: a rule-based narrator that reads live numbers (always answers). Optional Qwen 0.5B (WebGPU, on this phone)
+   may only rephrase the narrator's sentence; any new digit in its output is refused. consciousness_claim=none · EXTERNAL=NOT_CLEARED */
+(function(){'use strict';var W=window,D=document,LS='p4n_v156_ui';
+var st={tab:'start',tips:{},walk:0};try{var o=JSON.parse(localStorage.getItem(LS)||'{}');st.tips=o.tips||{};st.walk=o.walk||0}catch(e){}
+function save(){try{localStorage.setItem(LS,JSON.stringify({tips:st.tips,walk:st.walk}))}catch(e){}}
+function $(i){return D.getElementById(i)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function f(x,n){return x==null||!isFinite(x)?'—':(+x).toFixed(n==null?3:n)}
+/* ---------- live state (read only) ---------- */
+var lf={prev:null,t:0,val:null};
+function snap(){var A=W.GESANCT||{},S=A.S||{},G=S.G,o={on:!!S.on,G:!!G};if(!G)return o;
+ o.t=G.t;o.stage=G.stage;o.nodes=G.nodes?G.nodes():0;o.max=G.maxNodes;var lk=G.passed&&G.passed[2];o.lock=lk?{t:lk.t,plv:lk.info&&lk.info.plv}:null;
+ o.p1=!!(G.passed&&G.passed[1]);o.p2=!!lk;o.p3=!!(G.passed&&G.passed[3]);
+ var th=G.th,n=th?Math.min(th.length,o.nodes||th.length):0;
+ if(n>1){var c=0,s=0,i;for(i=0;i<n;i++){c+=Math.cos(th[i]);s+=Math.sin(th[i])}o.R=Math.hypot(c,s)/n;var psi=Math.atan2(s,c);
+  /* locked fraction: share of nodes whose phase relative to the mean phase drifted < 0.2 rad since the previous 1 s read */
+  var rel=new Float32Array(n);for(i=0;i<n;i++){var d=th[i]-psi;rel[i]=Math.atan2(Math.sin(d),Math.cos(d))}
+  if(lf.prev&&lf.prev.length===n&&G.t>lf.t){var k=0;for(i=0;i<n;i++){var e=rel[i]-lf.prev[i];e=Math.atan2(Math.sin(e),Math.cos(e));if(Math.abs(e)<0.2)k++}lf.val=k/n}
+  else if(!lf.prev||lf.prev.length!==n)lf.val=null;lf.prev=rel;lf.t=G.t;o.lf=lf.val}
+ var g=W.GEGOV;if(g){o.tier=g.tier|0;o.band=g.band}return o}
+function stageTxt(o){if(!o.G)return o.on?'Starting…':'Not running yet.';if(o.lock&&o.stage>3)return 'Locked at tick '+o.lock.t+' · now growing shells ('+o.nodes+' nodes).';if(o.lock)return 'LOCKED at tick '+o.lock.t+(o.lock.plv!=null?' · PLV '+f(o.lock.plv,4):'')+'.';
+ if(o.stage===1)return 'Warming up: checking the seed oscillator is steady (tick '+o.t+').';if(o.stage===2)return 'Locking to the anchor… (tick '+o.t+')';return 'Stage '+o.stage+' check (tick '+o.t+').'}
+/* ---------- CSS ---------- */
+var css='#m6tabs{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;display:flex;background:rgba(18,16,13,.97);border-top:1px solid rgba(255,224,138,.35);padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}'+
+'#m6tabs button{flex:1 1 0;min-height:56px;min-width:44px;background:none;border:0;color:#c8bba8;font:600 11px/1.1 "Outfit",system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}'+
+'#m6tabs button i{font-style:normal;font-size:20px;line-height:1}#m6tabs button[aria-selected=true]{color:#ffe08a}#m6tabs button[aria-selected=true] i{text-shadow:0 0 10px rgba(255,224,138,.6)}'+
+'#m6{position:fixed;left:0;right:0;top:0;bottom:calc(56px + env(safe-area-inset-bottom));z-index:2147482990;overflow-y:auto;-webkit-overflow-scrolling:touch;background:radial-gradient(120% 70% at 50% 0%,#1f2a3a 0%,#12100d 60%);color:#fff6e8;font:16px/1.45 "Outfit",system-ui,-apple-system,sans-serif;padding:calc(10px + env(safe-area-inset-top)) calc(14px + env(safe-area-inset-right)) 18px calc(14px + env(safe-area-inset-left));box-sizing:border-box}'+
+'#m6.lab{display:none}body.m6on{padding-bottom:calc(64px + env(safe-area-inset-bottom))!important}'+
+'#m6 .scr{display:none;max-width:560px;margin:0 auto}#m6 .scr.on{display:block}'+
+'#m6 .hd{display:flex;align-items:center;gap:8px;margin:2px 0 10px}#m6 h1{font:600 22px/1.2 "Noto Serif",Georgia,serif;color:#ffe08a;margin:0;flex:1}#m6 .what{color:#c8bba8;font-size:15px;margin:-4px 0 12px}'+
+'#m6 .menu{min-width:44px;min-height:44px;border-radius:22px;border:1px solid rgba(255,224,138,.4);background:rgba(28,25,21,.7);color:#ffe08a;font-size:20px}'+
+'#m6 button.b{min-height:48px;padding:10px 16px;border-radius:14px;border:1px solid rgba(255,224,138,.45);background:rgba(28,25,21,.75);color:#fff6e8;font:600 16px "Outfit",system-ui,sans-serif;touch-action:manipulation}'+
+'#m6 button.b.pri{background:#ffe08a;color:#12100d;border-color:#ffe08a}#m6 .row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}#m6 .row .b{flex:1 1 140px}'+
+'#m6 .card{background:rgba(28,25,21,.65);border:1px solid rgba(200,187,168,.25);border-radius:16px;padding:12px 14px;margin:10px 0}'+
+'#m6 .big{display:block;width:min(64vw,220px);height:min(64vw,220px);margin:6px auto 4px;border-radius:50%;border:2px solid #ffe08a;background:radial-gradient(circle at 50% 40%,#ffe08a 0%,#ffc49a 55%,#b06a3a 100%);color:#12100d;font:700 26px "Noto Serif",Georgia,serif;box-shadow:0 0 40px rgba(255,224,138,.35);touch-action:manipulation}'+
+'#m6 .big.run{background:radial-gradient(circle at 50% 40%,#9fdfff 0%,#3d7fa8 70%,#1f3a52 100%);color:#fff6e8;border-color:#9fdfff}'+
+'#m6 .stat{font-size:17px;text-align:center;min-height:2.9em;margin:6px 0}#m6 .bar{height:10px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden}#m6 .bar>b{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffc49a,#ffe08a);transition:width .4s}'+
+'#m6 .kv{display:grid;grid-template-columns:1fr 1fr;gap:8px}#m6 .kv div{background:rgba(255,255,255,.04);border-radius:12px;padding:8px 10px}#m6 .kv small{display:block;color:#c8bba8;font-size:12px}#m6 .kv b{font-size:20px;color:#fff6e8}'+
+'#m6 .g{display:grid;grid-template-columns:44px 1fr;gap:4px 10px;align-items:start;padding:10px 0;border-top:1px solid rgba(200,187,168,.15)}#m6 .g:first-child{border-top:0}#m6 .g .m{font-size:22px;text-align:center}#m6 .ok{color:#5dffb0}#m6 .no{color:#ff9a8a}#m6 .na{color:#c8bba8}'+
+'#m6 .log{min-height:180px;max-height:46vh;overflow-y:auto;display:flex;flex-direction:column;gap:8px}#m6 .msg{padding:9px 12px;border-radius:14px;max-width:88%;white-space:pre-wrap}#m6 .msg.me{align-self:flex-end;background:#3d6a8a}#m6 .msg.it{align-self:flex-start;background:rgba(28,25,21,.85);border:1px solid rgba(255,224,138,.3)}#m6 .msg.it small{display:block;color:#c8bba8;font-size:12px;margin-top:4px}'+
+'#m6 textarea,#m6 input{width:100%;box-sizing:border-box;font:16px "Outfit",system-ui,sans-serif;border-radius:12px;border:1px solid rgba(200,187,168,.35);background:#0d1626;color:#fff6e8;padding:10px}'+
+'#m6 .tag{display:inline-block;font-size:12px;font-weight:700;border-radius:8px;padding:2px 8px;margin-right:6px}#m6 .t-w{background:#1d4a36;color:#5dffb0}#m6 .t-p{background:#4a3a1d;color:#ffe08a}#m6 .t-u{background:#3a2a3a;color:#ffc4f0}#m6 .t-n{background:#4a1d1d;color:#ff9a8a}#m6 .t-c{background:#3a331d;color:#ffc49a}'+
+'#m6 canvas.ring{display:block;width:120px;height:120px;margin:4px auto;touch-action:none}'+
+'#m6sh{position:fixed;inset:0;z-index:2147483100;display:none;background:rgba(0,0,0,.45)}#m6sh.on{display:block}#m6sh .sheet{position:absolute;left:0;right:0;bottom:0;max-height:80vh;overflow-y:auto;background:#1c1915;color:#fff6e8;border-radius:20px 20px 0 0;border-top:1px solid rgba(255,224,138,.45);padding:10px calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));font:16px/1.45 "Outfit",system-ui,sans-serif;box-sizing:border-box}'+
+'#m6sh .grab{width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.25);margin:0 auto 10px}#m6sh h2{font:600 19px "Noto Serif",Georgia,serif;color:#ffe08a;margin:0 0 6px}#m6sh .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}#m6sh .row button,#m6sh .list button{min-height:48px;flex:1 1 140px;border-radius:14px;border:1px solid rgba(255,224,138,.45);background:rgba(40,36,30,.9);color:#fff6e8;font:600 16px "Outfit",system-ui,sans-serif}#m6sh .row button.pri{background:#ffe08a;color:#12100d}#m6sh .list{display:grid;grid-template-columns:1fr 1fr;gap:8px}#m6sh .dots{display:flex;gap:6px;justify-content:center;margin-top:10px}#m6sh .dots i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.25)}#m6sh .dots i.on{background:#ffe08a}'+
+'@media (min-width:700px){#m6tabs button{font-size:13px}}';
+/* ---------- content: 37 catalog ---------- */
+var R37=[
+ ['Intention ring','Turns a typed intention into a seed (SHA-256 at the boundary; the text stays outside the ring) and runs a 37–244 node Kuramoto ring; shows Ψ, R and the 9/40 tax.','Lab → 37 section: type an intention, tap Seed.','working','w'],
+ ['Answered / precomputed rings list','Keeps a list of seeded rings (intention, answered, precomputed, restored) you can reopen and replay.','Lab → 37 section → the list; tap a row.','working','w'],
+ ['Live mini-ring view','Draws the current ring’s phases so you can see it settle.','Lab → 37 section → live canvas.','working','w'],
+ ['Pre-lexical hold','Holds the 37-symbol state (33 core + 4 anchors: Source, Totality, Ground, Balance) before DURST names it.','Not in the app yet.','planned · DURST_V02 has no measured runs (UNMEASURED)','p'],
+ ['Artistic answer (DURST)','Ring answers as shape/tone, not words; Metatron only translates afterward.','Not in the app yet.','planned · uncertain: canon notes differ on details','u'],
+ ['Self-growth 37 → 244','Ring adds symbols itself, without language priors; at 244 it closes and opens a nested child ring (carry_up_ref).','App ring size goes to 244 as a model only; self-growth not built.','planned','p'],
+ ['20-vertex dodecahedron palette','DURST symbol palette (superseded the 42-vertex icosphere on 2026-10-17).','Not in the app.','planned · uncertain','u'],
+ ['One-way ring export','Ring numbers out to a box-side DURST server; never words back in.','Box CLI only (ring-export), not in the phone app.','planned for app','p'],
+ ['33 ≠ 37 fence','Keeps the 33-node stator and the 37 ring as separate, unmerged fields.','Always on (merged=false).','working','w']];
+var GWHY={1:'Gate 1 · Can it be checked? Needs a readable pipeline and data source.',2:'Gate 2 · Are χ, Ω and Δ measured independently?',3:'Gate 3 · Does it survive perturbation and generalize?',4:'Gate 4 · Does it make testable predictions?',5:'Gate 5 · Seal: only when gates 1–4 all pass.'};
+/* ---------- build ---------- */
+var tabs=[['start','◎','Start'],['gates','⛩','Gates'],['talk','💬','Talk'],['r37','✺','37'],['lab','⚗','Lab']];
+function build(){if($('m6'))return;var s=D.createElement('style');s.id='m6css';s.textContent=css;D.head.appendChild(s);
+ var m=D.createElement('div');m.id='m6';m.setAttribute('role','main');
+ m.innerHTML=
+ scr('start','Start','Runs the ring until it locks, then shows how it is doing.',
+  '<button class="big" id="m6go" aria-label="Start the ring">Start</button><div class="stat" id="m6st">Tap Start. One tap asks for motion and mic, then the lock runs by itself.</div><div class="bar" aria-hidden="true"><b id="m6bar"></b></div>'+
+  '<div class="kv" style="margin-top:12px"><div><small>R (order)</small><b id="m6R">—</b></div><div><small>Locked fraction</small><b id="m6LF">—</b></div><div><small>Lock tick</small><b id="m6LT">—</b></div><div><small>Heat governor</small><b id="m6H">—</b></div></div>'+
+  '<canvas class="ring" id="m6ring" width="240" height="240" aria-label="Ring. Tap: start or open Gates. Hold: Talk."></canvas><div class="what" style="text-align:center;font-size:13px">Tap the ring to start or check gates · hold it to talk</div>'+
+  '<div class="row"><button class="b" id="m6play">Play</button><button class="b" id="m6hunt">Hunter</button><button class="b" id="m6oa">Low-heat mode</button></div>')+
+ scr('gates','Gates','Shows why the adjudicator says PASS or BURIED, gate by gate.',
+  '<div class="row"><button class="b pri" id="m6adj">Run the check</button></div><div class="what" id="m6adjSt">Not run yet on this phone. It takes about a minute.</div><div class="card" id="m6gl"></div>'+
+  '<div class="card"><b>Why gate 2 fails (plain words)</b><div class="what" style="margin:6px 0 0">The check is working correctly. Today χ, Ω and Δ all come from the same ring window, so they are not independent, and gate 2 correctly says no. It passes only when each has its own passing sensor test (self-listen or salt for χ, puff for Ω, and a Δ test). There is no Δ test yet. After gate 2, gate 3 also fails today (the result moves at K-scale 2 and does not generalize), so fixing gate 2 alone will not seal the claim.</div></div>')+
+ scr('talk','Talk','Ask about the ring. Answers come from the live numbers.',
+  '<div class="card log" id="m6log" aria-live="polite"></div><textarea id="m6in" rows="2" placeholder="Ask: is it locked? why does gate 2 fail? how hot is it?"></textarea>'+
+  '<div class="row"><button class="b pri" id="m6send">Send</button><button class="b" id="m6help">Ask a Helper</button></div>'+
+  '<div class="card"><b>Voice upgrade (optional)</b><div class="what" style="margin:4px 0 8px" id="m6qst">Off. The narrator above always answers without it.</div><div class="bar"><b id="m6qbar"></b></div><div class="row"><button class="b" id="m6qwen">Load Qwen 0.5B on this phone</button></div></div>')+
+ scr('r37','37 ring','What the 37-node prelexical ring is for, and what works today.','<div id="m6c37"></div><div class="row"><button class="b pri" id="m6open37">Open the 37 ring</button></div>');
+ D.body.appendChild(m);
+ var tb=D.createElement('nav');tb.id='m6tabs';tb.setAttribute('role','tablist');tb.innerHTML=tabs.map(function(t){return '<button role="tab" id="m6t_'+t[0]+'" data-t="'+t[0]+'" aria-selected="false"><i>'+t[1]+'</i>'+t[2]+'</button>'}).join('');D.body.appendChild(tb);
+ var sh=D.createElement('div');sh.id='m6sh';sh.innerHTML='<div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="m6shc"></div></div>';D.body.appendChild(sh);
+ D.body.classList.add('m6on');fill();wire();go(st.tab);if(!st.walk)setTimeout(walk,600)}
+function scr(id,t,what,body){return '<section class="scr" id="m6s_'+id+'"><div class="hd"><h1>'+t+'</h1><button class="menu" data-menu="1" aria-label="All actions">☰</button></div><div class="what">'+what+'</div>'+body+'</section>'}
+function fill(){var c='';R37.forEach(function(r){c+='<div class="card"><span class="tag t-'+r[4]+'">'+esc(r[3])+'</span><b>'+esc(r[0])+'</b><div class="what" style="margin:4px 0 0">'+esc(r[1])+'</div><div style="font-size:14px;margin-top:4px">How: '+esc(r[2])+'</div></div>'});$('m6c37').innerHTML=c;
+ gates()}
+/* ---------- navigation ---------- */
+function go(t){st.tab=t;var lab=t==='lab';$('m6').classList.toggle('lab',lab);tabs.forEach(function(x){var b=$('m6t_'+x[0]);if(b)b.setAttribute('aria-selected',x[0]===t?'true':'false');var s=$('m6s_'+x[0]);if(s)s.classList.toggle('on',x[0]===t)});
+ if(!lab)$('m6').scrollTop=0;if(t==='start')tick();if(t==='gates')gates();if(t==='talk'&&!$('m6log').children.length)say(narr('hello'),'narrator');tip(t)}
+function lab(sec){go('lab');var d=$('geDrawer');if(d&&!d.classList.contains('open')){var o=$('geOpen');if(o)o.click()}
+ if(sec){var e=$(sec);if(e){if('open'in e)e.open=true;setTimeout(function(){e.scrollIntoView({block:'start'})},50)}}}
+function sheet(html){$('m6shc').innerHTML=html;$('m6sh').classList.add('on')}
+function shut(){$('m6sh').classList.remove('on');if(wk.t){clearInterval(wk.t);wk.t=0}}
+var ACTS=[['start','Start the ring'],['talk','Talk'],['helper','Ask a Helper'],['gates','Gates check'],['r37','37 ring'],['play','Play'],['hunt','Hunter'],['oa','Low-heat mode'],['lab','Full lab'],['walk','Walkthrough (60 s)'],['tips','Show tips again']];
+function menu(){sheet('<h2>All actions</h2><div class="list">'+ACTS.map(function(a){return '<button data-act="'+a[0]+'">'+a[1]+'</button>'}).join('')+'</div><div class="row"><button data-x="1">Close</button></div>')}
+function act(a){shut();if(a==='start'){go('start');start()}else if(a==='talk'||a==='gates'||a==='r37')go(a);else if(a==='helper'){go('talk');helper()}
+ else if(a==='play')lab('gePlay');else if(a==='hunt')lab('geHunt');else if(a==='oa')lab('geOa');else if(a==='lab')lab();else if(a==='walk'){st.walk=0;walk()}else if(a==='tips'){st.tips={};save();tip(st.tab)}}
+/* ---------- Start ---------- */
+function start(){var S=W.GESANCT&&GESANCT.S;if(S&&S.on){tick();return}var b=$('geSanctGo');if(b){b.click();$('m6st').textContent='Starting… allow motion and microphone if asked.'}else $('m6st').textContent='Engine is still loading. Try again in a few seconds.';setTimeout(tick,400)}
+var tT=0;function loop(){clearTimeout(tT);var g=W.GEGOV,slow=g&&(g.tier|0)>=2;tT=setTimeout(loop,slow?3000:1000);if(D.hidden||st.tab!=='start')return;tick()}
+function tick(){var o=snap();if(!$('m6go'))return;var b=$('m6go');b.textContent=o.on?(o.lock?'Running':'Locking…'):'Start';b.classList.toggle('run',!!o.on);
+ $('m6st').textContent=o.on||o.G?stageTxt(o):'Tap Start. One tap asks for motion and mic, then the lock runs by itself.';
+ $('m6bar').style.width=Math.round(100*((o.p1?1:0)+(o.p2?1:0)+(o.p3?1:0))/3)+'%';$('m6R').textContent=f(o.R);$('m6LF').textContent=o.lf==null?'—':Math.round(100*o.lf)+'%';
+ $('m6LT').textContent=o.lock?o.lock.t:'—';$('m6H').textContent=o.tier==null?'—':'tier '+o.tier+(o.band?' · '+o.band.toLowerCase():'');draw()}
+function draw(){var c=$('m6ring');if(!c)return;var g=c.getContext('2d'),w=c.width,A=W.GESANCT||{},S=A.S||{},G=S.G,th=G&&G.th;g.clearRect(0,0,w,w);g.strokeStyle='rgba(255,224,138,.5)';g.lineWidth=2;g.beginPath();g.arc(w/2,w/2,w*0.4,0,6.2832);g.stroke();
+ if(!th||!th.length){g.fillStyle='#c8bba8';g.font='22px Outfit,sans-serif';g.textAlign='center';g.fillText(S.on?'…':'tap',w/2,w/2+8);return}var n=Math.min(th.length,240),i;g.fillStyle='#9fdfff';for(i=0;i<n;i++){var a=th[i];g.fillRect(w/2+w*0.4*Math.cos(a)-2,w/2+w*0.4*Math.sin(a)-2,4,4)}}
+/* ---------- Gates ---------- */
+function plainF(x){x=String(x||'');return x.length>160?x.slice(0,157)+'…':x}
+function gates(){var a=W.GE13&&GE13.last&&GE13.last.adj,h='';if(!a){try{a=JSON.parse(localStorage.getItem('p4n_v13_last_run_adj')||'null')}catch(e){a=null}}
+ var gs={};if(a&&a.gates)a.gates.forEach(function(g,i){gs[i+1]=g});if(a&&a.diag){if(!gs[3]&&a.diag[0])gs[3]=a.diag[0];if(!gs[4]&&a.diag[1])gs[4]=a.diag[1]}
+ for(var k=1;k<=5;k++){var g=gs[k],ok=g&&g.passed,why;
+  if(k===2&&g&&!ok)why='Correct rejection: χ, Ω and Δ share one ring window. Needs a separate passing source for each (no Δ test exists yet).';
+  else if(k===5)why=ok?'Sealed.':'Not reached: gate 5 only seals when gates 1–4 all pass.';
+  else if(!g)why='Not run yet.';else why=ok?'Passed.':plainF(g.failures&&g.failures[0]);
+  if(k===3&&g&&!ok)why='Fails on its own too: '+why;
+  h+='<div class="g"><div class="m '+(g?(ok?'ok':'no'):'na')+'">'+(g?(ok?'✓':'✗'):'○')+'</div><div><b>'+esc(GWHY[k])+'</b><div class="what" style="margin:2px 0 0">'+esc(why)+'</div></div></div>'}
+ if($('m6gl'))$('m6gl').innerHTML=h;if(a&&$('m6adjSt'))$('m6adjSt').textContent='Last result: '+(a.status||'?')+(a.at?' · '+new Date(a.at).toLocaleString():'')}
+function adj(){if(!(W.GE13&&GE13.runAll)){$('m6adjSt').textContent='The checker is still loading. Try again in a few seconds.';return}$('m6adjSt').textContent='Running… about a minute. You can switch tabs.';
+ Promise.resolve(GE13.runAll({})).then(function(){gates();var a=GE13.last&&GE13.last.adj;$('m6adjSt').textContent=a?'Done: '+a.status:'Done.'}).catch(function(e){$('m6adjSt').textContent='Stopped: '+(e&&e.message||e)})}
+/* ---------- Talk: rule-based narrator (always answers) ---------- */
+function narr(q){q=String(q||'').toLowerCase();var o=snap(),a=W.GE13&&GE13.last&&GE13.last.adj,g=W.GEGOV;
+ var state=!o.G&&!o.on?'The ring is not running. Tap Start (or tap the ring) and it will lock by itself.':stageTxt(o)+(o.R!=null?' R is '+f(o.R)+(o.lf!=null?' and '+Math.round(100*o.lf)+'% of nodes are holding phase.':'.'):'');
+ if(/gate|adjud|buried|seal/.test(q))return a?('The last check said '+a.status+'. Gate 2 says no because χ, Ω and Δ come from the same ring window; that is the honest answer. Gate 3 also fails today. Open Gates for each reason.'):'No gate check has run yet. Open Gates and tap Run the check.';
+ if(/heat|hot|warm|battery|governor/.test(q))return g?('Heat governor: tier '+(g.tier|0)+', band '+(g.band||'?')+'. It overrides everything and slows the engine when the phone warms.'):'The heat governor has not reported yet.';
+ if(/proof|medical|20 year|diagnos/.test(q))return 'Proof material is kept private. It is not part of this app.';
+ if(/37|prelex|durst|artistic/.test(q))return 'The 37 ring takes numbers only. Its intention seed works today; the pre-lexical hold and artistic answer are planned. Open 37 for the list.';
+ if(/start|how|help|begin|what do/.test(q))return 'Tap Start. It asks once for motion and mic, then locks by itself. '+state;
+ if(/lock|status|doing|r\b|state|hello|hi\b/.test(q)||q==='hello')return state;
+ return state+' (I am a narrator that reads live numbers and a few keywords: lock, gates, heat, 37. For open questions, tap Ask a Helper.)'}
+function say(t,who){var l=$('m6log'),d=D.createElement('div');d.className='msg '+(who==='me'?'me':'it');d.textContent=t;if(who!=='me'){var s=D.createElement('small');s.textContent=who;d.appendChild(s)}l.appendChild(d);l.scrollTop=l.scrollHeight;return d}
+function send(){var i=$('m6in'),q=i.value.trim();if(!q){i.focus();say(narr('status'),'narrator');return}i.value='';say(q,'me');var t=narr(q),d=say(t,'narrator');if(Q.ready)rephrase(t,d)}
+function copy(t,cb){var done=function(ok){cb(ok)};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){done(true)},function(){done(false)});else done(false)}
+function helper(){var q=$('m6in').value.trim()||'(no question typed)',pk={};try{pk=W.GEHELPER?GEHELPER.packet('other'):{}}catch(e){pk={error:String(e)}}
+ var t=JSON.stringify(pk,null,1)+'\n\nQuestion from the owner: '+q;copy(t,function(ok){say(ok?'Copied a read-only snapshot and your question. Paste it into any helper you like; replies stay with you and never enter the engine.':'Could not copy here. Open the full helper panel (menu → Full lab → Ask a Helper).','helper');
+  if(!ok)lab('geHelper')})}
+/* optional Qwen (rephrase only) */
+var Q={ready:false,busy:false,eng:null};
+function qst(t,p){$('m6qst').textContent=t;if(p!=null)$('m6qbar').style.width=Math.round(100*p)+'%'}
+function qwenAsk(){sheet('<h2>Load Qwen 0.5B?</h2><div>This downloads a small language model (hundreds of MB) to this phone and needs WebGPU. It only rephrases the narrator’s sentence; it never touches the ring. It can warm the phone.</div><div class="row"><button class="pri" data-q="1">Load it</button><button data-x="1">Not now</button></div>')}
+function qwen(){if(Q.busy||Q.ready)return;Q.busy=true;qst('Checking WebGPU…',0.02);
+ var fail=function(why){Q.busy=false;qst('Not loaded: '+why+' The narrator still answers.',0)};
+ if(!navigator.gpu){fail('this browser has no WebGPU (navigator.gpu is missing).');return}
+ navigator.gpu.requestAdapter().then(function(ad){if(!ad)throw new Error('WebGPU is present but no GPU adapter was given.');qst('Fetching the loader…',0.05);return import('https://esm.sh/@mlc-ai/web-llm@0.2.86')})
+ .then(function(m){return m.CreateMLCEngine('Qwen2.5-0.5B-Instruct-q4f16_1-MLC',{initProgressCallback:function(r){qst(String(r.text||'Loading…').slice(0,120),r.progress||0)}})})
+ .then(function(e){Q.eng=e;Q.ready=true;Q.busy=false;qst('Ready. Answers are the narrator’s, reworded.',1)})
+ .catch(function(e){fail(String(e&&e.message||e).slice(0,160)+'.')})}
+function rephrase(t,d){if(!Q.eng)return;Q.eng.chat.completions.create({messages:[{role:'system',content:'Reword the sentence in plain friendly English. Do not add facts. Do not add or change numbers.'},{role:'user',content:t}],max_tokens:90,temperature:0.3})
+ .then(function(r){var x=(r.choices&&r.choices[0].message.content||'').trim(),dg=function(s){return (s.match(/\d+(\.\d+)?/g)||[]).sort().join(',')};if(x&&dg(x)===dg(t)){var s=say(x,'Qwen (reworded)')}}).catch(function(){})}
+/* ---------- tips + walkthrough ---------- */
+var TIPS={start:'Tap the big button once. The ring locks by itself; tap the ring to check gates, hold it to talk.',gates:'Gate 2 saying no is the honest answer today. Each line tells you why.',talk:'The narrator reads live numbers. Use Ask a Helper for open questions.',r37:'Green = working now, gold = planned, pink = uncertain.',lab:'This is the full original app. Tap any tab below to come back.'};
+function tip(t){if(st.tips[t]||$('m6sh').classList.contains('on')||!TIPS[t]||!st.walk)return;sheet('<h2>Tip</h2><div>'+esc(TIPS[t])+'</div><div class="row"><button class="pri" data-tip="ok">Got it</button><button data-tip="never">Don’t show again</button></div>');$('m6sh').dataset.tip=t}
+var WK=[['Start','Tap Start once. It asks for motion and mic, then the lock runs by itself.'],['Readout','R is how in-step the ring is. Locked fraction is the share of nodes holding phase.'],['Gates','Gates shows each check with a one-line reason. Gate 2 says no honestly today.'],['Talk','Talk always answers from live numbers. Ask a Helper copies a snapshot for any helper.'],['37','37 lists what the prelexical ring can do and what is planned.'],['Two ways to everything','Every action is also in the ☰ menu. Lab holds the full original app.']],wk={i:0,t:0};
+function walk(){wk.i=0;wshow();if(wk.t)clearInterval(wk.t);wk.t=setInterval(function(){wk.i++;if(wk.i>=WK.length){wend();return}wshow()},10000)}
+function wshow(){var s=WK[wk.i];sheet('<h2>'+esc(s[0])+' · '+(wk.i+1)+'/'+WK.length+'</h2><div>'+esc(s[1])+'</div><div class="dots">'+WK.map(function(_,i){return '<i class="'+(i===wk.i?'on':'')+'"></i>'}).join('')+'</div><div class="row"><button data-w="skip">Skip</button><button class="pri" data-w="next">'+(wk.i===WK.length-1?'Done':'Next')+'</button></div>')}
+function wend(){st.walk=1;save();shut();tip(st.tab)}
+/* ---------- wiring: every button has a handler ---------- */
+function wire(){$('m6tabs').addEventListener('click',function(e){var b=e.target.closest('button[data-t]');if(b)go(b.dataset.t)});
+ $('m6').addEventListener('click',function(e){if(e.target.closest('[data-menu]'))menu()});
+ $('m6go').onclick=start;$('m6play').onclick=function(){lab('gePlay')};$('m6hunt').onclick=function(){lab('geHunt')};$('m6oa').onclick=function(){lab('geOa')};
+ $('m6adj').onclick=adj;$('m6send').onclick=send;$('m6help').onclick=helper;$('m6qwen').onclick=qwenAsk;$('m6open37').onclick=function(){lab('ge37')};
+ $('m6in').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+ var r=$('m6ring'),pt=0,held=false;r.addEventListener('pointerdown',function(){held=false;clearTimeout(pt);pt=setTimeout(function(){held=true;go('talk')},550)});
+ r.addEventListener('pointerup',function(){clearTimeout(pt);if(held)return;var S=W.GESANCT&&GESANCT.S;if(S&&S.on)go('gates');else start()});r.addEventListener('pointercancel',function(){clearTimeout(pt)});r.addEventListener('contextmenu',function(e){e.preventDefault()});
+ $('m6sh').addEventListener('click',function(e){var t=e.target;if(t===$('m6sh')){if(wk.t)wend();else shut();return}var b=t.closest('button');if(!b)return;
+  if(b.dataset.x)shut();else if(b.dataset.act)act(b.dataset.act);else if(b.dataset.q){shut();qwen()}else if(b.dataset.tip){if(b.dataset.tip==='never'){st.tips[$('m6sh').dataset.tip]=1;save()}shut()}
+  else if(b.dataset.w==='skip')wend();else if(b.dataset.w==='next'){wk.i++;if(wk.i>=WK.length)wend();else{clearInterval(wk.t);wk.t=setInterval(function(){wk.i++;if(wk.i>=WK.length){wend();return}wshow()},10000);wshow()}}});
+ D.addEventListener('visibilitychange',function(){if(!D.hidden)tick()});loop()}
+W.GEMOB={go:go,start:start,narr:narr,snap:snap,menu:menu,act:act,acts:ACTS,walk:walk,state:st,R37:R37};
+/* mount after load + idle so React hydration is never touched */
+function boot(){var f=function(){setTimeout(build,300)};if(W.requestIdleCallback)requestIdleCallback(f,{timeout:1500});else f()}
+if(D.readyState==='complete')boot();else W.addEventListener('load',boot);
 })();
 
 </script>
