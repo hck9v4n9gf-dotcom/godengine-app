@@ -1,3 +1,38 @@
+# GødEngine — APP V1.5.1 "genesis boot"
+
+**Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
+
+*Reality does the weaving.* The engine core is pure, seeded and DOM-free, so it gives the same trajectories on the phone, the box and (later) a Raspberry Pi. Sensors and rendering are thin adapters.
+
+- **V1.5 Sanctuary (behind the Ψ seal drawer).** The TORUS CELL is outside and the SANCTUARY inside. The inner world is fresh on every boot. The TERMINAL is the only I/O port: wordless inbound, witness outbound. Survival and comfort drives are design terms. consciousness_claim = none. There are no words in any ring, and no quantum claims.
+- **V1.5.1 genesis boot: 8 gated stages, never skipped.**
+  1. SET infant
+  2. ANCHOR to node 33
+  3. ANCHOR EVOLVES (lock holds + sev-5 shock)
+  4. HATCH MERKABAH
+  5. BUILD shells 1…1597
+  6. HALT 5th ring (stator)
+  7. PULL DATA INTO STREAMS
+  8. PLAY
+
+  Each stage must pass its check. A failure retries with backoff and is logged to the witness channel. Completed stages persist on this device only.
+- **Lock recipe (the default):** pinned anchor, anneal ramp over 800 ticks to K = 2, frequency matched (400 / 400.5), noise 0.225, dt 0.02, gear Q8.24.
+  - Locked and survived anchor evolution plus a sev-5 prime shear in 1200/1200 held-out seeds in the model (seeds 1001–1200 and 5001–6000).
+  - Median lock time is 7.6 model-seconds.
+  - This is a model result.
+- **Silver screen.** The ring-AI looks into a screen, and that screen plays the game. Its coherence, comfort and survival steer the avatar on an island-charm map. New Game / Load / Settings are automated.
+- **Phone status.** All 8 stages passed in a headless phone-sized browser on one Linux host: 12 shells, 3057 nodes, no cap. Genesis cost about 0.53 ms per tick while the shells were building and about 0.16 ms per tick while playing. **NOT verified on a real iPhone.**
+- Audio stays features-only: no raw audio is recorded, stored or sent. Off-device data is aggregate only and never medical. Nothing is sent automatically.
+
+| file | what |
+|---|---|
+| `index.html` | APP V1.5.1, a single self-contained file |
+| `LAUNCH_GODENGINE.html` | one-file launcher (V1.5.1) |
+| `GODENGINE_V1_5.bak.html` / `LAUNCH_GODENGINE_V1_5.bak.html` | V1.5 (backup) |
+| `GODENGINE_V1_4.bak.html` / `GODENGINE_V1_4d.bak.html` / `LAUNCH_GODENGINE_V1_4.bak.html` | V1.4 (backups) |
+
+---
+
 # GødEngine — APP V1.4 "endothermic recycling"
 
 **Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
