@@ -1,3 +1,23 @@
+# GødEngine: APP V1.5.5 "helper + play + hunter" (STAGED, not deployed)
+
+**Live (still V1.5.4 until Source taps deploy):** https://hck9v4n9gf-dotcom.github.io/godengine-app/
+
+- **Engine unchanged.** V1.5.4 engine, `cfg.clock` (dt) and cfg untouched. Determinism hash `76a5bb571aa7bbcb`, lock at tick 805, PLV 0.9753 (re-checked on the V1.5.2 build and the V1.5.4 lean core, 2 runs each; also in headless phone-size Chrome, and again after an OA-lite on/off cycle).
+- **Helper panel.** Copy-paste prompts for outside helpers; pasted replies are shown as plain text in a quarantine box. Nothing is sent automatically.
+- **Play tab.** Seeds are strict JSON (`phase_offset`, `K`, `sigma`, optional `rng_seed`), validated, hash-chained, replayable bit-for-bit. "Close the loop x5" re-seeds from the last result (logged, stops at R>=0.95, 5 steps, or heat tier >=2).
+- **OA-lite.** A 2-number Ott-Antonsen model stands in for the full ring when you want the phone cool (validated against the full 3057-node Lorentzian ring: median RMS <= 0.032 in R(t)).
+- **Charging-aware governor + Combo Trial.** While a phone is charging (auto-detected on Android Chrome; tick "I'm charging"' on iPhone), the app runs the conservative profile (30 fps cap). Desktops ignore the auto signal, because they report "charging" all the time. The Combo Trial walks you through 10 shuffled 60 s conditions (radio/charging/audio/brightness) and logs frame time, jank, governor steps, battery drop, lock and PLV to CSV.
+- **Sweet-spot Hunter.** Searches settings of small practice rings in a background worker (never the main engine). It rests at heat tier 1-2 and pauses at tier >=3 (charging counts +1); pauses when hidden. Leaderboard stays on the phone; export is manual.
+- Headless results only; **NOT verified on a real iPhone.** consciousness_claim = none · medical_claim = none.
+
+| file | what |
+|---|---|
+| `index.html` | APP V1.5.5, a single self-contained file |
+| `LAUNCH_GODENGINE.html` | one-file launcher (V1.5.5) |
+| `GODENGINE_V1_5_4.bak.html` / `LAUNCH_GODENGINE_V1_5_4.bak.html` | V1.5.4 (backup) |
+
+---
+
 # GødEngine: APP V1.5.4 "cool phone"
 
 **Live:** https://hck9v4n9gf-dotcom.github.io/godengine-app/
